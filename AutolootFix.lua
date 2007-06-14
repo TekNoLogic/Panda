@@ -26,7 +26,7 @@ end
 
 local LootOpenedTime = 0
 function Panda:LOOT_OPENED()
-	if (GetTime() - LootOpenedTime) < 1 then return end
+	if not GetAutoLootDefault() or ((GetTime() - LootOpenedTime) < 1) then return end
 	LootOpenedTime = GetTime()
 
 	for slot=1,GetNumLootItems() do if not IsPandaItem(slot) then return end end
