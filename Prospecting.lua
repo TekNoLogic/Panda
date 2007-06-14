@@ -1,6 +1,6 @@
 ﻿
 function Panda:CreateProspectingPanel()
-	local frame = CreateFrame("Frame", "DEAFrameProspecting", OptionHouseOptionsFrame)
+	local frame = CreateFrame("Frame", nil, OptionHouseOptionsFrame)
 	frame:SetWidth(630)
 	frame:SetHeight(305)
 	frame:SetPoint("TOPLEFT", 190, -103)

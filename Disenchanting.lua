@@ -1,12 +1,12 @@
 ﻿
 
-local canDE, canPros
 local tip = DEATinyGratuity
 DEATinyGratuity = nil
 
 
 local NUM_LINES = 11
-local showBOP = false
+local showBOP, frame = false
+
 
 local function IsBound(bag, slot)
 	tip:SetBagItem(bag, slot)
@@ -15,45 +15,43 @@ local function IsBound(bag, slot)
 	end
 end
 
+
 local function DEable(link)
 	local _, _, qual, itemLevel, _, itemType = GetItemInfo(link)
 	if (itemType == "Armor" or itemType == "Weapon") and qual > 1 then return true end
 end
 
-local function SetLine(frame, bag, slot, link)
-	local name, _, _, itemLevel, _, itemType, itemSubType, _, _, texture = GetItemInfo(link)
-	frame:SetAttribute("macrotext", string.format("/cast Disenchant\n/use %s %s", bag, slot))
-	frame.icon:SetTexture(texture)
-	frame.name:SetText(link)
-	frame.type:SetText(itemType)
-	frame:Show()
-end
 
-local function BAG_UPDATE(self)
+function Panda:DisenchantBagUpdate(self)
 	local i = 1
 
 	for bag=0,4 do
 		for slot=1,GetContainerNumSlots(bag) do
 			local link = GetContainerItemLink(bag, slot)
 			if link and DEable(link) and (showBOP or not IsBound(bag, slot)) then
-				SetLine(self.lines[i], bag, slot, link)
+				local name, _, _, itemLevel, _, itemType, itemSubType, _, _, texture = GetItemInfo(link)
+				local l = frame.lines[i]
+				if self.canDisenchant then l:SetAttribute("macrotext", string.format("/cast Disenchant\n/use %s %s", bag, slot)) end
+				l.icon:SetTexture(texture)
+				l.name:SetText(link)
+				l.type:SetText(itemType)
+				l:Show()
+
 				i = i + 1
 				if i > NUM_LINES then return end
 			end
 		end
 	end
 
-	if i == 1 then self.NoItems:Show() else self.NoItems:Hide() end
+	if i == 1 then frame.NoItems:Show() else frame.NoItems:Hide() end
 
-	for j=i,NUM_LINES do
-		self.lines[j]:Hide()
-	end
+	for j=i,NUM_LINES do frame.lines[j]:Hide() end
 end
 
 
 local ICONSIZE = 24
 function Panda:CreateDisenchantingPanel()
-	local frame = CreateFrame("Frame", "DEAFrameDE", OptionHouseOptionsFrame)
+	frame = CreateFrame("Frame", nil, OptionHouseOptionsFrame)
 	frame:SetWidth(630)
 	frame:SetHeight(305)
 	frame:SetPoint("TOPLEFT", 190, -103)
@@ -70,7 +68,7 @@ function Panda:CreateDisenchantingPanel()
 	frame.BOPlabel = frame.BOP:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
 	frame.BOPlabel:SetPoint("LEFT", frame.BOP, "RIGHT", 5, 0)
 	frame.BOPlabel:SetText("Show BoP Items")
-	frame.BOP:SetScript("OnClick", function() showBOP = not showBOP; BAG_UPDATE(frame) end)
+	frame.BOP:SetScript("OnClick", function() showBOP = not showBOP; self:DisenchantBagUpdate(self) end)
 
 	frame.lines = {}
 	for i=1,NUM_LINES do
@@ -78,7 +76,7 @@ function Panda:CreateDisenchantingPanel()
 		f:SetPoint("TOPLEFT", frame, 2, ICONSIZE-i*(ICONSIZE+3)+1)
 		f:SetHeight(ICONSIZE)
 		f:SetWidth(300)
-		f:SetAttribute("type", "macro")
+		if self.canDisenchant then f:SetAttribute("type", "macro") end
 
 		f.icon = f:CreateTexture(nil, "ARTWORK")
 		f.icon:SetPoint("TOPLEFT")
@@ -94,12 +92,14 @@ function Panda:CreateDisenchantingPanel()
 		frame.lines[i] = f
 	end
 
-	BAG_UPDATE(frame)
-	frame:RegisterEvent("BAG_UPDATE")
+	self:RegisterEvent("BAG_UPDATE", "DisenchantBagUpdate")
+	self:DisenchantBagUpdate(self)
 
-	frame:SetScript("OnEvent", BAG_UPDATE)
-	frame:SetScript("OnShow", function(self) self:RegisterEvent("BAG_UPDATE"); BAG_UPDATE(self) end)
-	frame:SetScript("OnHide", function(self) self:UnregisterEvent("BAG_UPDATE") end)
+	frame:SetScript("OnShow", function()
+		self:RegisterEvent("BAG_UPDATE", "DisenchantBagUpdate")
+		self:DisenchantBagUpdate(self)
+	end)
+	frame:SetScript("OnHide", function() self:UnregisterEvent("BAG_UPDATE") end)
 
 	return frame
 end
