@@ -1,0 +1,19 @@
+## Interface: 20100
+
+## Title: Panda
+## Notes: Prospecting and Disenchanting Aide
+## Author: Tekkub Stoutwrithe
+## Version: Alpha
+## X-Website: http://code.google.com/p/tekkub-wow/
+## X-Email: tekkub-wow@googlegroups.com
+## X-Category: Tradeskills
+
+## OptionalDeps: Dongle, OptionHouse
+
+Dongle.lua
+tinyGratuity.lua
+
+Panda.lua
+Disenchanting.lua
+Prospecting.lua
+AutolootFix.lua
