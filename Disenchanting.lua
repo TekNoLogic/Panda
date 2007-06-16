@@ -25,6 +25,7 @@ end
 
 
 local function GS(cash)
+	if not cash then return end
 	local s = floor(cash%100)
 	local g = floor(cash/100)
 	if g > 0 then return string.format("|cffffd700%d.|cffc7c7cf%02d", g, s)
@@ -33,6 +34,7 @@ end
 
 
 local function GSC(cash)
+	if not cash then return end
 	local g, s, c = floor(cash/10000), floor((cash/100)%100), cash%100
 	if g > 0 then return string.format("|cffffd700%d.|cffc7c7cf%02d.|cffeda55f%02d", g, s, c)
 	elseif s > 0 then return string.format("|cffc7c7cf%d.|cffeda55f%02d", s, c)
@@ -90,7 +92,8 @@ function Panda:CreateDisenchantingPanel()
 	frame:SetPoint("TOPLEFT", 190, -103)
 
 	frame.NoItems = frame:CreateFontString(nil, "ARTWORK", "GameFontNormalHuge")
-	frame.NoItems:SetPoint("CENTER", frame)
+--~ 	frame.NoItems:SetPoint("LEFT")
+	frame.NoItems:SetPoint("CENTER")
 	frame.NoItems:SetText("Nothing to disenchant!")
 	frame.NoItems:Hide()
 
