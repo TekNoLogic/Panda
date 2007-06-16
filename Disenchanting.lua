@@ -40,6 +40,8 @@ local function GSC(cash)
 end
 
 
+local gii = GetItemInfo
+local function GetItemInfo(i) if i then return gii(i) end end
 function Panda:DisenchantBagUpdate()
 	local i = 1
 	frame.NoItems:Hide()
@@ -88,7 +90,7 @@ function Panda:CreateDisenchantingPanel()
 	frame:SetPoint("TOPLEFT", 190, -103)
 
 	frame.NoItems = frame:CreateFontString(nil, "ARTWORK", "GameFontNormalHuge")
-	frame.NoItems:SetPoint("CENTER")
+	frame.NoItems:SetPoint("CENTER", frame)
 	frame.NoItems:SetText("Nothing to disenchant!")
 	frame.NoItems:Hide()
 
@@ -135,15 +137,12 @@ function Panda:CreateDisenchantingPanel()
 		local dx = 630-OFFSET*2
 		f.total1 = f:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")
 		f.total1:SetPoint("TOPRIGHT", f, "TOPLEFT", dx, 0)
---~ 		f.total1:SetJustifyH("RIGHT")
 
 		f.total2 = f:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")
 		f.total2:SetPoint("RIGHT", f, "LEFT", dx, 0)
---~ 		f.total2:SetJustifyH("RIGHT")
 
 		f.total3 = f:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")
 		f.total3:SetPoint("BOTTOMRIGHT", f, "BOTTOMLEFT", dx, 0)
---~ 		f.total3:SetJustifyH("RIGHT")
 
 		f.item1 = f:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")
 		f.item1:SetPoint("TOPRIGHT", f, "TOPLEFT", dx-150, 0)
