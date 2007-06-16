@@ -1,6 +1,9 @@
 ﻿
+local OptionHouse = DongleStub("OptionHouse-1.0")
+
 
 Panda = DongleStub("Dongle-1.0"):New("Panda")
+
 
 function Panda:Initialize()
 	local _, title = GetAddOnInfo("Panda")
