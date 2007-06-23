@@ -4,10 +4,13 @@ local tip = DEATinyGratuity
 DEATinyGratuity = nil
 
 
-local ICONSIZE, NUM_LINES = 36, 7
+local ICONSIZE = 32
+local NUM_LINES = math.floor(305/ICONSIZE)
 local OFFSET = math.floor((305 - NUM_LINES*ICONSIZE)/(NUM_LINES+1))
+local BUTTON_WIDTH = math.floor((630 - OFFSET*2-15)/2)
+NUM_LINES = NUM_LINES*2
 
-local showBOP, frame = false
+local showBOP, nocompare, frame = false
 
 
 local function IsBound(bag, slot)
@@ -42,8 +45,59 @@ local function GSC(cash)
 end
 
 
+local function cfs(frame, a1, a2, a3, ...)
+	local fs = frame:CreateFontString(a1, a2, a3)
+	fs:SetPoint(...)
+	return fs
+end
+
+
 local gii = GetItemInfo
-local function GetItemInfo(i) if i then return gii(i) end end
+local function GetItemInfo(i)
+	if i then return gii(i) end
+end
+
+
+local function ShowItemDetails(self)
+	if not (self.bag and self.slot) then return end
+
+	nocompare = true
+	GameTooltip:SetOwner(OptionHouseOptionsFrame, "ANCHOR_NONE")
+	GameTooltip:SetPoint("TOPLEFT", OptionHouseOptionsFrame, "TOPRIGHT", 0, -20)
+	GameTooltip:SetBagItem(self.bag, self.slot)
+
+	local link = GetContainerItemLink(self.bag, self.slot)
+	if not link then return end
+
+	local name, _, _, itemLevel, _, itemType, itemSubType, _, _, texture = GetItemInfo(link)
+	local id1, qty1, prob1, weight1, id2, qty2, prob2, weight2, id3, qty3, prob3, weight3 = Panda:GetPossibleDisenchants(link)
+	local bo1, bo2, bo3 = Panda:GetAHBuyout(id1), Panda:GetAHBuyout(id2), Panda:GetAHBuyout(id3)
+	local _, link1 = GetItemInfo(id1)
+	local _, link2 = GetItemInfo(id2)
+	local _, link3 = GetItemInfo(id3)
+	local val = (id1 and weight1*bo1 or 0) + (id2 and weight2*bo2 or 0) + (id3 and weight3*bo3 or 0)
+
+	frame.item1:SetText(link3); frame.prob1:SetText(prob3); frame.total1:SetText(GS(bo3)); frame.qty1:SetText(qty3)
+	frame.item2:SetText(link2); frame.prob2:SetText(prob2); frame.total2:SetText(GS(bo2)); frame.qty2:SetText(qty2)
+	frame.item3:SetText(link1); frame.prob3:SetText(prob1); frame.total3:SetText(GS(bo1)); frame.qty3:SetText(qty1)
+	frame.estde:SetText(GS(val))
+
+	frame.itemdetails:Show()
+end
+
+
+local function HideItemDetails(self)
+	nocompare = nil
+	GameTooltip:Hide()
+	frame.itemdetails:Hide()
+end
+
+
+local function HideCompareTooltip(self)
+	if nocompare then self:Hide() end
+end
+
+
 function Panda:DisenchantBagUpdate()
 	local i = 1
 	frame.NoItems:Hide()
@@ -54,23 +108,14 @@ function Panda:DisenchantBagUpdate()
 			local bound = IsBound(bag, slot)
 			if link and DEable(link) and (showBOP or not bound) then
 				local name, _, _, itemLevel, _, itemType, itemSubType, _, _, texture = GetItemInfo(link)
-				local id1, qty1, prob1, weight1, id2, qty2, prob2, weight2, id3, qty3, prob3, weight3 = self:GetPossibleDisenchants(link)
-				local bo1, bo2, bo3 = self:GetAHBuyout(id1), self:GetAHBuyout(id2), self:GetAHBuyout(id3)
-				local _, link1 = GetItemInfo(id1)
-				local _, link2 = GetItemInfo(id2)
-				local _, link3 = GetItemInfo(id3)
-				local val = (id1 and weight1*bo1 or 0) + (id2 and weight2*bo2 or 0) + (id3 and weight3*bo3 or 0)
 
 				local l = frame.lines[i]
 				if self.canDisenchant then l:SetAttribute("macrotext", string.format("/cast Disenchant\n/use %s %s", bag, slot)) end
+				l.bag, l.slot = bag, slot
 				l.icon:SetTexture(texture)
 				l.name:SetText(link)
 				l.type:SetText(itemType)
 				l.bind:SetText(bound and "Soulbound" or "Bind on Equip")
-				l.value:SetText(GS(val))
-				l.item1:SetText(link1); l.prob1:SetText(prob1); l.total1:SetText(GS(bo1)); l.qty1:SetText(qty1)
-				l.item2:SetText(link2); l.prob2:SetText(prob2); l.total2:SetText(GS(bo2)); l.qty2:SetText(qty2)
-				l.item3:SetText(link3); l.prob3:SetText(prob3); l.total3:SetText(GS(bo3)); l.qty3:SetText(qty3)
 				l:Show()
 
 				i = i + 1
@@ -91,27 +136,47 @@ function Panda:CreateDisenchantingPanel()
 	frame:SetHeight(305)
 	frame:SetPoint("TOPLEFT", 190, -103)
 
-	frame.NoItems = frame:CreateFontString(nil, "ARTWORK", "GameFontNormalHuge")
---~ 	frame.NoItems:SetPoint("LEFT")
-	frame.NoItems:SetPoint("CENTER")
+	frame.NoItems = cfs(frame, nil, "ARTWORK", "GameFontNormalHuge", "CENTER")
 	frame.NoItems:SetText("Nothing to disenchant!")
-	frame.NoItems:Hide()
 
 	frame.BOP = CreateFrame("CheckButton", "DEAFrameDEShowBOP", frame, "OptionsCheckButtonTemplate")
 	frame.BOP:SetWidth(22)
 	frame.BOP:SetHeight(22)
 	frame.BOP:SetPoint("TOPLEFT", frame, "BOTTOMLEFT", 0, -4)
-	frame.BOPlabel = frame.BOP:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
-	frame.BOPlabel:SetPoint("LEFT", frame.BOP, "RIGHT", 5, 0)
+	frame.BOPlabel = cfs(frame.BOP, nil, "ARTWORK", "GameFontNormalSmall", "LEFT", frame.BOP, "RIGHT", 5, 0)
 	frame.BOPlabel:SetText("Show soulbound items")
 	frame.BOP:SetScript("OnClick", function() showBOP = not showBOP; self:DisenchantBagUpdate(self) end)
+
+	frame.itemdetails = CreateFrame("Frame", nil, frame)
+	frame.itemdetails:SetWidth(630)
+	frame.itemdetails:SetHeight(48)
+	frame.itemdetails:SetPoint("BOTTOMRIGHT", frame, "TOPRIGHT", -3, 8)
+	frame.total1 = cfs(frame.itemdetails, nil, "ARTWORK", "GameFontHighlightSmall", "BOTTOMRIGHT", frame.itemdetails, "BOTTOMRIGHT", 0, 36)
+	frame.total2 = cfs(frame.itemdetails, nil, "ARTWORK", "GameFontHighlightSmall", "BOTTOMRIGHT", frame.itemdetails, "BOTTOMRIGHT", 0, 24)
+	frame.total3 = cfs(frame.itemdetails, nil, "ARTWORK", "GameFontHighlightSmall", "BOTTOMRIGHT", frame.itemdetails, "BOTTOMRIGHT", 0, 12)
+	frame.item1  = cfs(frame.itemdetails, nil, "ARTWORK", "GameFontHighlightSmall", "BOTTOMRIGHT", frame.itemdetails, "BOTTOMRIGHT", -150, 36)
+	frame.item2  = cfs(frame.itemdetails, nil, "ARTWORK", "GameFontHighlightSmall", "BOTTOMRIGHT", frame.itemdetails, "BOTTOMRIGHT", -150, 24)
+	frame.item3  = cfs(frame.itemdetails, nil, "ARTWORK", "GameFontHighlightSmall", "BOTTOMRIGHT", frame.itemdetails, "BOTTOMRIGHT", -150, 12)
+	frame.prob1  = cfs(frame.itemdetails, nil, "ARTWORK", "GameFontHighlightSmall", "BOTTOMRIGHT", frame.itemdetails, "BOTTOMRIGHT", -80, 36)
+	frame.prob2  = cfs(frame.itemdetails, nil, "ARTWORK", "GameFontHighlightSmall", "BOTTOMRIGHT", frame.itemdetails, "BOTTOMRIGHT", -80, 24)
+	frame.prob3  = cfs(frame.itemdetails, nil, "ARTWORK", "GameFontHighlightSmall", "BOTTOMRIGHT", frame.itemdetails, "BOTTOMRIGHT", -80, 12)
+	frame.qty1   = cfs(frame.itemdetails, nil, "ARTWORK", "GameFontHighlightSmall", "BOTTOMRIGHT", frame.itemdetails, "BOTTOMRIGHT", -40, 36)
+	frame.qty2   = cfs(frame.itemdetails, nil, "ARTWORK", "GameFontHighlightSmall", "BOTTOMRIGHT", frame.itemdetails, "BOTTOMRIGHT", -40, 24)
+	frame.qty3   = cfs(frame.itemdetails, nil, "ARTWORK", "GameFontHighlightSmall", "BOTTOMRIGHT", frame.itemdetails, "BOTTOMRIGHT", -40, 12)
+	frame.estde  = cfs(frame.itemdetails, nil, "ARTWORK", "GameFontHighlightSmall", "BOTTOMRIGHT", frame.itemdetails, "BOTTOMRIGHT", 0, 0)
+	frame.elabel = cfs(frame.itemdetails, nil, "ARTWORK", "GameFontNormalSmall",    "BOTTOMRIGHT", frame.itemdetails, "BOTTOMRIGHT", -60, 0)
+	frame.elabel:SetText("Estimated DE Value: ")
+	frame.itemdetails:Hide()
 
 	frame.lines = {}
 	for i=1,NUM_LINES do
 		local f = CreateFrame("CheckButton", "DEADEFrame"..i, frame, "SecureActionButtonTemplate")
-		f:SetPoint("TOPLEFT", frame, OFFSET, ICONSIZE-i*(ICONSIZE+OFFSET))
+		if i <= (NUM_LINES/2) then f:SetPoint("TOPLEFT", frame, OFFSET, ICONSIZE-i*(ICONSIZE+OFFSET))
+		else f:SetPoint("TOPRIGHT", frame, -OFFSET, ICONSIZE-(i-NUM_LINES/2)*(ICONSIZE+OFFSET)) end
 		f:SetHeight(ICONSIZE)
-		f:SetWidth(250)
+		f:SetWidth(BUTTON_WIDTH)
+		f:SetScript("OnEnter", ShowItemDetails)
+		f:SetScript("OnLeave", HideItemDetails)
 		if self.canDisenchant then f:SetAttribute("type", "macro") end
 
 		f.icon = f:CreateTexture(nil, "ARTWORK")
@@ -119,60 +184,9 @@ function Panda:CreateDisenchantingPanel()
 		f.icon:SetWidth(ICONSIZE)
 		f.icon:SetHeight(ICONSIZE)
 
-		f.name = f:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")
-		f.name:SetPoint("TOPLEFT", f.icon, "TOPRIGHT", 5, 0)
-
-		f.type = f:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")
-		f.type:SetPoint("LEFT", f.icon, "RIGHT", 5, 0)
-
-		f.bind = f:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")
-		f.bind:SetPoint("RIGHT", f, "RIGHT", -5, 0)
-		f.bind:SetText("Bind on Equip")
-
-		f.valuelabel = f:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")
-		f.valuelabel:SetPoint("BOTTOMLEFT", f.icon, "BOTTOMRIGHT", 5, 0)
-		f.valuelabel:SetText("Estimated DE value:")
-
-		f.value = f:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")
-		f.value:SetPoint("BOTTOMRIGHT", f, "BOTTOMRIGHT", -5, 0)
-		f.value:SetText("999.99")
-
-		local dx = 630-OFFSET*2
-		f.total1 = f:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")
-		f.total1:SetPoint("TOPRIGHT", f, "TOPLEFT", dx, 0)
-
-		f.total2 = f:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")
-		f.total2:SetPoint("RIGHT", f, "LEFT", dx, 0)
-
-		f.total3 = f:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")
-		f.total3:SetPoint("BOTTOMRIGHT", f, "BOTTOMLEFT", dx, 0)
-
-		f.item1 = f:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")
-		f.item1:SetPoint("TOPRIGHT", f, "TOPLEFT", dx-150, 0)
-
-		f.item2 = f:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")
-		f.item2:SetPoint("RIGHT", f, "LEFT", dx-150, 0)
-
-		f.item3 = f:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")
-		f.item3:SetPoint("BOTTOMRIGHT", f, "BOTTOMLEFT", dx-150, 0)
-
-		f.prob1 = f:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")
-		f.prob1:SetPoint("TOPRIGHT", f, "TOPLEFT", dx-80, 0)
-
-		f.prob2 = f:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")
-		f.prob2:SetPoint("RIGHT", f, "LEFT", dx-80, 0)
-
-		f.prob3 = f:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")
-		f.prob3:SetPoint("BOTTOMRIGHT", f, "BOTTOMLEFT", dx-80, 0)
-
-		f.qty1 = f:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")
-		f.qty1:SetPoint("TOPRIGHT", f, "TOPLEFT", dx-40, 0)
-
-		f.qty2 = f:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")
-		f.qty2:SetPoint("RIGHT", f, "LEFT", dx-40, 0)
-
-		f.qty3 = f:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")
-		f.qty3:SetPoint("BOTTOMRIGHT", f, "BOTTOMLEFT", dx-40, 0)
+		f.name = cfs(f, nil, "ARTWORK", "GameFontHighlightSmall", "TOPLEFT", f.icon, "TOPRIGHT", 5, 0)
+		f.type = cfs(f, nil, "ARTWORK", "GameFontHighlightSmall", "TOPLEFT", f.icon, "TOPRIGHT", 5, -12)
+		f.bind = cfs(f, nil, "ARTWORK", "GameFontHighlightSmall", "TOPRIGHT", f, "TOPRIGHT", -5, -12)
 
 		frame.lines[i] = f
 	end
@@ -185,6 +199,10 @@ function Panda:CreateDisenchantingPanel()
 		self:DisenchantBagUpdate(self)
 	end)
 	frame:SetScript("OnHide", function() self:UnregisterEvent("BAG_UPDATE") end)
+
+	-- Block compare tips when showing tip
+	ShoppingTooltip1:SetScript("OnShow", HideCompareTooltip)
+	ShoppingTooltip2:SetScript("OnShow", HideCompareTooltip)
 
 	return frame
 end
