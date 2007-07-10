@@ -16,5 +16,6 @@ tinyGratuity.lua
 Panda.lua
 Disenchanting.lua
 DisenchantingProb.lua
+DETooltip.lua
 Prospecting.lua
 AutolootFix.lua
