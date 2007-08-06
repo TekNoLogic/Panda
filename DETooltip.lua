@@ -1,4 +1,6 @@
 ﻿
+local Panda = Panda
+
 
 local function GS(cash)
 	if not cash then return end
@@ -18,7 +20,7 @@ local values = setmetatable({}, {
 
 		local name, _, qual, itemLevel, _, itemType, itemSubType, _, _, texture = GetItemInfo(link)
 
-		if not name or (itemType ~= "Armor" and itemType ~= "Weapon") or qual <= 1 then
+		if not name or not Panda:DEable(link) then
 			t[link] = false
 			return
 		end

@@ -11,6 +11,26 @@ local BUTTON_WIDTH = math.floor((630 - OFFSET*2-15)/2)
 NUM_LINES = NUM_LINES*2
 
 local showBOP, nocompare, frame = false
+local notDEable = {
+	["32540"] = true,
+	["32541"] = true,
+	["18665"] = true,
+	["21766"] = true,
+	["5004"] = true,
+	["20408"] = true,
+	["20406"] = true,
+	["20407"] = true,
+	["14812"] = true,
+	["31336"] = true,
+	["32660"] = true,
+	["32662"] = true,
+	["11288"] = true,
+	["11290"] = true,
+	["12772"] = true,
+	["11287"] = true,
+	["11289"] = true,
+	["29378"] = true,
+}
 
 
 local function IsBound(bag, slot)
@@ -21,7 +41,10 @@ local function IsBound(bag, slot)
 end
 
 
-local function DEable(link)
+function Panda:DEable(link)
+	local _, _, id = link:find("item:(%d+):")
+	if id and notDEable[id] then return end
+
 	local _, _, qual, itemLevel, _, itemType = GetItemInfo(link)
 	if (itemType == "Armor" or itemType == "Weapon") and qual > 1 then return true end
 end
@@ -62,8 +85,8 @@ local function ShowItemDetails(self)
 	if not (self.bag and self.slot) then return end
 
 	nocompare = true
-	GameTooltip:SetOwner(OptionHouseOptionsFrame, "ANCHOR_NONE")
-	GameTooltip:SetPoint("TOPLEFT", OptionHouseOptionsFrame, "TOPRIGHT", 0, -20)
+	GameTooltip:SetOwner(frame, "ANCHOR_NONE")
+	GameTooltip:SetPoint("TOPLEFT", frame, "TOPRIGHT", 10, 60)
 	GameTooltip:SetBagItem(self.bag, self.slot)
 
 	local link = GetContainerItemLink(self.bag, self.slot)
@@ -106,7 +129,7 @@ function Panda:DisenchantBagUpdate()
 		for slot=1,GetContainerNumSlots(bag) do
 			local link = GetContainerItemLink(bag, slot)
 			local bound = IsBound(bag, slot)
-			if link and DEable(link) and (showBOP or not bound) then
+			if link and self:DEable(link) and (showBOP or not bound) then
 				local name, _, _, itemLevel, _, itemType, itemSubType, _, _, texture = GetItemInfo(link)
 
 				local l = frame.lines[i]
