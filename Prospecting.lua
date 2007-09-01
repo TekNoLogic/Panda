@@ -13,10 +13,10 @@ end
 
 
 function Panda:CreateProspectingPanel()
-	local frame = CreateFrame("Frame", nil, OptionHouseOptionsFrame)
-	frame:SetWidth(630)
-	frame:SetHeight(305)
-	frame:SetPoint("TOPLEFT", 190, -103)
+	local frame = CreateFrame("Frame", nil, UIParent)
+--~ 	frame:SetWidth(630)
+--~ 	frame:SetHeight(305)
+--~ 	frame:SetPoint("TOPLEFT", 190, -103)
 
 --~ 	frame.BOP = CreateFrame("CheckButton", "DEAFrameDEShowBOP", frame, "OptionsCheckButtonTemplate")
 --~ 	frame.BOP:SetWidth(22)

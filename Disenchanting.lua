@@ -154,10 +154,10 @@ end
 
 
 function Panda:CreateDisenchantingPanel()
-	frame = CreateFrame("Frame", nil, OptionHouseOptionsFrame)
-	frame:SetWidth(630)
-	frame:SetHeight(305)
-	frame:SetPoint("TOPLEFT", 190, -103)
+	frame = CreateFrame("Frame", nil, UIParent)
+--~ 	frame:SetWidth(630)
+--~ 	frame:SetHeight(305)
+--~ 	frame:SetPoint("TOPLEFT", 190, -103)
 
 	frame.NoItems = cfs(frame, nil, "ARTWORK", "GameFontNormalHuge", "CENTER")
 	frame.NoItems:SetText("Nothing to disenchant!")
