@@ -10,6 +10,9 @@
 
 ## OptionalDeps: Dongle, OptionHouse
 
+## LoadManagers: AddonLoader
+## X-LoadOn-Resting: true
+
 Dongle.lua
 tinyGratuity.lua
 
