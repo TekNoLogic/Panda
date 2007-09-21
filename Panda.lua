@@ -26,4 +26,6 @@ function Panda:Enable()
 		if spellname == "Prospect" then self.canProspect = true end
 		i = i + 1
 	until (self.canDisenchant and self.canProspect) or not spellname
+
+	self:RegisterEvent("ADDON_LOADED")
 end

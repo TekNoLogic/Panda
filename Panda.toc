@@ -23,3 +23,4 @@ DETooltip.lua
 Prospecting.lua
 AutolootFix.lua
 PricePanel.lua
+BtmScanner.lua

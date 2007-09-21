@@ -42,7 +42,7 @@ end
 
 
 function Panda:DEable(link)
-	local _, _, id = link:find("item:(%d+):")
+	local id = type(link) == "number" and link or select(3, link:find("item:(%d+):"))
 	if id and notDEable[id] then return end
 
 	local _, _, qual, itemLevel, _, itemType = GetItemInfo(link)
