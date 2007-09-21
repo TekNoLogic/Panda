@@ -4,6 +4,7 @@ local Panda = Panda
 
 local function GS(cash)
 	if not cash then return end
+	cash = cash/100
 	local s = floor(cash%100)
 	local g = floor(cash/100)
 	if g > 0 then return string.format("|cffffd700%d.|cffc7c7cf%02d", g, s)
@@ -25,11 +26,12 @@ local values = setmetatable({}, {
 			return
 		end
 
-		local id1, _, _, weight1, id2, _, _, weight2, id3, _, _, weight3 = Panda:GetPossibleDisenchants(link)
+		local id1, _, _, qty1, weight1, id2, _, _, qty2, weight2, id3, _, _, qty3, weight3 = Panda:GetPossibleDisenchants(link)
 		local bo1, bo2, bo3 = Panda:GetAHBuyout(id1), Panda:GetAHBuyout(id2), Panda:GetAHBuyout(id3)
-		local val = (id1 and weight1*bo1 or 0) + (id2 and weight2*bo2 or 0) + (id3 and weight3*bo3 or 0)
+		local mean = GS((id1 and qty1*weight1*bo1 or 0)+ (id2 and qty2*weight2*bo2 or 0) + (id3 and qty3*weight3*bo3 or 0))
+		local mode = GS(qty1*bo1)
 
-		val = GS(val)
+		val = string.format("%s (%s)", mode, mean)
 		t[link] = val
 		return val
 	end,

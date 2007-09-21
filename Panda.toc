@@ -8,7 +8,7 @@
 ## X-Email: tekkub-wow@googlegroups.com
 ## X-Category: Tradeskills
 
-## OptionalDeps: Dongle, OptionHouse
+## OptionalDeps: Dongle, OptionHouse, tekDebug
 
 ## LoadManagers: AddonLoader
 ## X-LoadOn-Resting: true
@@ -22,3 +22,4 @@ DisenchantingProb.lua
 DETooltip.lua
 Prospecting.lua
 AutolootFix.lua
+PricePanel.lua

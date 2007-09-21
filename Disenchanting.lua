@@ -52,6 +52,7 @@ end
 
 local function GS(cash)
 	if not cash then return end
+	cash = cash/100
 	local s = floor(cash%100)
 	local g = floor(cash/100)
 	if g > 0 then return string.format("|cffffd700%d.|cffc7c7cf%02d", g, s)
@@ -93,16 +94,16 @@ local function ShowItemDetails(self)
 	if not link then return end
 
 	local name, _, _, itemLevel, _, itemType, itemSubType, _, _, texture = GetItemInfo(link)
-	local id1, qty1, prob1, weight1, id2, qty2, prob2, weight2, id3, qty3, prob3, weight3 = Panda:GetPossibleDisenchants(link)
+	local id1, tqty1, prob1, qty1, weight1, id2, tqty2, prob2, qty2, weight2, id3, tqty3, prob3, qty3, weight3 = Panda:GetPossibleDisenchants(link)
 	local bo1, bo2, bo3 = Panda:GetAHBuyout(id1), Panda:GetAHBuyout(id2), Panda:GetAHBuyout(id3)
 	local _, link1 = GetItemInfo(id1)
 	local _, link2 = GetItemInfo(id2)
 	local _, link3 = GetItemInfo(id3)
-	local val = (id1 and weight1*bo1 or 0) + (id2 and weight2*bo2 or 0) + (id3 and weight3*bo3 or 0)
+	local val = (id1 and weight1*qty1*bo1 or 0) + (id2 and weight2*qty2*bo2 or 0) + (id3 and weight3*qty3*bo3 or 0)
 
-	frame.item1:SetText(link3); frame.prob1:SetText(prob3); frame.total1:SetText(GS(bo3)); frame.qty1:SetText(qty3)
-	frame.item2:SetText(link2); frame.prob2:SetText(prob2); frame.total2:SetText(GS(bo2)); frame.qty2:SetText(qty2)
-	frame.item3:SetText(link1); frame.prob3:SetText(prob1); frame.total3:SetText(GS(bo1)); frame.qty3:SetText(qty1)
+	frame.item1:SetText(link3); frame.prob1:SetText(prob3); frame.total1:SetText(GS(bo3)); frame.qty1:SetText(tqty3)
+	frame.item2:SetText(link2); frame.prob2:SetText(prob2); frame.total2:SetText(GS(bo2)); frame.qty2:SetText(tqty2)
+	frame.item3:SetText(link1); frame.prob3:SetText(prob1); frame.total3:SetText(GS(bo1)); frame.qty3:SetText(tqty1)
 	frame.estde:SetText(GS(val))
 
 	frame.itemdetails:Show()

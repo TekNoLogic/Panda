@@ -3,6 +3,7 @@ local OptionHouse = DongleStub("OptionHouse-1.0")
 
 
 Panda = DongleStub("Dongle-1.0"):New("Panda")
+if tekDebug then Panda:EnableDebug(1, tekDebug:GetFrame("Panda")) end
 
 
 function Panda:Initialize()
@@ -11,6 +12,7 @@ function Panda:Initialize()
 	local oh = OptionHouse:RegisterAddOn("Panda", title, author, version)
 	oh:RegisterCategory("Disenchanting", self, "CreateDisenchantingPanel")
 	oh:RegisterCategory("Prospecting", self, "CreateProspectingPanel")
+	oh:RegisterCategory("Prices", self, "CreateDisenchantingPricePanel")
 
 	self:RegisterEvent("LOOT_OPENED")
 end
