@@ -1,6 +1,6 @@
 
 function Panda:ADDON_LOADED(event, addon)
-	if addon ~= "btmscan" then return end
+	if addon ~= "BtmScan" then return end
 
 	local libName = "Panda DE"
 	local lcName = libName:lower()

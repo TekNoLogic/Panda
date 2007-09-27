@@ -86,7 +86,7 @@ end
 
 function Panda:GetAHBuyout(item)
 	if not item then return end
-	local aadvprice = AucAdvanced and AucAdvanced.API and AucAdvanced.API.GetMarketValue and AucAdvanced.API.GetMarketValue(item)
+	local aadvprice = AucAdvanced and AucAdvanced.API.GetMarketValue(item)
 	return aadvprice or buyouts[item]
 end
 
