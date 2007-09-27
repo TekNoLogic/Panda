@@ -155,7 +155,7 @@ end
 ---------------------------------------------------------------------------]]
 
 local major = "Dongle-1.0"
-local minor = tonumber(string.match("$Revision: 371 $", "(%d+)") or 1) + 500
+local minor = tonumber(string.match("$Revision: 612 $", "(%d+)") or 1) + 500
 -- ** IMPORTANT NOTE **
 -- Due to some issues we had previously with Dongle revision numbers
 -- we need to artificially inflate the minor revision number, to ensure
@@ -898,7 +898,7 @@ function Dongle.GetProfiles(db, t)
 end
 
 function Dongle.GetCurrentProfile(db)
-	assert(e, databases[db], string.format(L["MUST_CALLFROM_DBOBJECT"], "GetCurrentProfile"))
+	assert(3, databases[db], string.format(L["MUST_CALLFROM_DBOBJECT"], "GetCurrentProfile"))
 	return db.keys.profile
 end
 
