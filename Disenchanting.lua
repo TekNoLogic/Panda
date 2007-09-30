@@ -46,7 +46,7 @@ function Panda:DEable(link)
 	if id and notDEable[id] then return end
 
 	local _, _, qual, itemLevel, _, itemType = GetItemInfo(link)
-	if (itemType == "Armor" or itemType == "Weapon") and qual > 1 then return true end
+	if (itemType == "Armor" or itemType == "Weapon") and qual > 1 and qual < 5 then return true end
 end
 
 
