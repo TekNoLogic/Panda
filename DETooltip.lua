@@ -38,8 +38,8 @@ local values = setmetatable({}, {
 })
 
 
-local orig1 = GameTooltip:GetScript("OnTooltipSetItem")
-GameTooltip:SetScript("OnTooltipSetItem", function(frame, ...)
+local origs = {}
+local OnTooltipSetItem = function(frame, ...)
 	assert(frame, "arg 1 is nil, someone isn't hooking correctly")
 
 	local _, link = frame:GetItem()
@@ -47,7 +47,11 @@ GameTooltip:SetScript("OnTooltipSetItem", function(frame, ...)
 	if val and val ~= 0 then
 		frame:AddDoubleLine("Estimated DE Value:", val)
 	end
-	if orig1 then return orig1(frame, ...) end
-end)
+	if origs[frame] then return origs[frame](frame, ...) end
+end
 
+for i,frame in pairs{GameTooltip, ItemRefTooltip} do
+	origs[frame] = frame:GetScript("OnTooltipSetItem")
+	frame:SetScript("OnTooltipSetItem", OnTooltipSetItem)
+end
 
