@@ -52,8 +52,8 @@ function Panda:CreateDisenchantingPricePanel()
 		{20725, 22450} -- Crystals
 	}, {
 		{23424, 23425, 24243},
-		{23117, 23077, 23079, 21929, 23112, 23107}, -- BC Greens
-		{23436, 23437, 23438, 23439, 23440, 23441}  -- BC Blues
+		{23077, 21929, 23112, 23079, 23117, 23107}, -- BC Greens
+		{23436, 23439, 23440, 23437, 23438, 23441}  -- BC Blues
 	}
 
 	frame = CreateFrame("Frame", nil, UIParent)
