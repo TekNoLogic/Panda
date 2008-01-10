@@ -1,4 +1,4 @@
-## Interface: 20302
+## Interface: 20300
 
 ## Title: Panda
 ## Notes: Prospecting and Disenchanting Aide
