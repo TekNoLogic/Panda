@@ -12,8 +12,9 @@ local function cfs(frame, a1, a2, a3, ...)
 end
 
 
+local frame
 function Panda:CreateProspectingPanel()
-	local frame = CreateFrame("Frame", nil, UIParent)
+	frame = CreateFrame("Frame", nil, UIParent)
 --~ 	frame:SetWidth(630)
 --~ 	frame:SetHeight(305)
 --~ 	frame:SetPoint("TOPLEFT", 190, -103)
@@ -55,7 +56,6 @@ function Panda:CreateProspectingPanel()
 		f:SetWidth(BUTTON_WIDTH)
 		f:SetScript("OnEnter", ShowItemDetails)
 		f:SetScript("OnLeave", HideItemDetails)
-		if self.canDisenchant then f:SetAttribute("type", "macro") end
 
 		f.icon = f:CreateTexture(nil, "ARTWORK")
 		f.icon:SetPoint("TOPLEFT")
@@ -63,13 +63,18 @@ function Panda:CreateProspectingPanel()
 		f.icon:SetHeight(ICONSIZE)
 
 		f.name = cfs(f, nil, "ARTWORK", "GameFontHighlightSmall", "TOPLEFT", f.icon, "TOPRIGHT", 5, 0)
-		f.type = cfs(f, nil, "ARTWORK", "GameFontHighlightSmall", "TOPLEFT", f.icon, "TOPRIGHT", 5, -12)
-		f.bind = cfs(f, nil, "ARTWORK", "GameFontHighlightSmall", "TOPRIGHT", f, "TOPRIGHT", -5, -12)
+		f.count = cfs(f, nil, "ARTWORK", "GameFontHighlightSmall", "TOPLEFT", f.icon, "TOPRIGHT", 5, -12)
+--~ 		f.bind = cfs(f, nil, "ARTWORK", "GameFontHighlightSmall", "TOPRIGHT", f, "TOPRIGHT", -5, -12)
 
 		local name, _, _, itemLevel, _, itemType, itemSubType, _, _, texture = GetItemInfo(id)
 		f.name:SetText(name)
 		f.icon:SetTexture(texture)
+		if self.canProspect and name then
+			f:SetAttribute("type", "macro")
+			f:SetAttribute("macrotext", "/cast Prospecting\n/use ".. name)
+		end
 
+		f.id = id
 		frame.lines[i] = f
 	end
 
@@ -114,16 +119,23 @@ function Panda:CreateProspectingPanel()
 --~ 		frame.blues[i]:SetText(link)
 --~ 	end
 
---~ 	self:RegisterEvent("BAG_UPDATE", "DisenchantBagUpdate")
---~ 	self:DisenchantBagUpdate(self)
+	self:RegisterEvent("BAG_UPDATE", "ProspectingBagUpdate")
+	self:ProspectingBagUpdate()
 
---~ 	frame:SetScript("OnShow", function()
---~ 		self:RegisterEvent("BAG_UPDATE", "DisenchantBagUpdate")
---~ 		self:DisenchantBagUpdate(self)
---~ 	end)
---~ 	frame:SetScript("OnHide", function() self:UnregisterEvent("BAG_UPDATE") end)
+	frame:SetScript("OnShow", function()
+		self:RegisterEvent("BAG_UPDATE", "ProspectingBagUpdate")
+		self:ProspectingBagUpdate()
+	end)
+	frame:SetScript("OnHide", function() self:UnregisterEvent("BAG_UPDATE") end)
 
 	return frame
 end
 
 
+function Panda:ProspectingBagUpdate()
+	if not frame then return end
+
+	for i,f in pairs(frame.lines) do
+		f.count:SetText(((GetItemCount(f.id) or 0)/5).." prospects")
+	end
+end

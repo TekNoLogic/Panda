@@ -23,9 +23,10 @@ function Panda:Enable()
 	repeat
 		spellname = GetSpellName(i, BOOKTYPE_SPELL)
 		if spellname == "Disenchant" then self.canDisenchant = true end
-		if spellname == "Prospect" then self.canProspect = true end
+		if spellname == "Prospecting" then self.canProspect = true end
 		i = i + 1
 	until (self.canDisenchant and self.canProspect) or not spellname
 
 	self:RegisterEvent("ADDON_LOADED")
 end
+

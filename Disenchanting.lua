@@ -216,11 +216,11 @@ function Panda:CreateDisenchantingPanel()
 	end
 
 	self:RegisterEvent("BAG_UPDATE", "DisenchantBagUpdate")
-	self:DisenchantBagUpdate(self)
+	self:DisenchantBagUpdate()
 
 	frame:SetScript("OnShow", function()
 		self:RegisterEvent("BAG_UPDATE", "DisenchantBagUpdate")
-		self:DisenchantBagUpdate(self)
+		self:DisenchantBagUpdate()
 	end)
 	frame:SetScript("OnHide", function() self:UnregisterEvent("BAG_UPDATE") end)
 
