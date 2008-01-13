@@ -13,6 +13,7 @@ function Panda:Initialize()
 	oh:RegisterCategory("Disenchanting", self, "CreateDisenchantingPanel")
 	oh:RegisterCategory("Prospecting", self, "CreateProspectingPanel")
 	oh:RegisterCategory("Prices", self, "CreateDisenchantingPricePanel")
+	oh:RegisterCategory("Gem Cutting", self, "CreateCutGreenBluePanel")
 
 	self:RegisterEvent("LOOT_OPENED")
 end
@@ -24,10 +25,12 @@ function Panda:Enable()
 		spellname = GetSpellName(i, BOOKTYPE_SPELL)
 		if spellname == "Disenchant" then self.canDisenchant = true end
 		if spellname == "Prospecting" then self.canProspect = true end
+		if spellname == "Jewelcrafting" then self.canJC = true end
 		i = i + 1
-	until (self.canDisenchant and self.canProspect) or not spellname
+	until (self.canDisenchant and self.canProspect and self.canJC) or not spellname
 
 	self:RegisterEvent("ADDON_LOADED")
+	self:RegisterEvent("TRADE_SKILL_SHOW")
 end
 
 
