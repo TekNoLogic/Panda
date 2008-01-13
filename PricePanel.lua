@@ -1,4 +1,11 @@
 ﻿
+------------------------------
+--      Are you local?      --
+------------------------------
+
+local HideTooltip, ShowTooltip, GS = Panda.HideTooltip, Panda.ShowTooltip, Panda.GS
+local frame
+local ores = {2770, 2771, 2772, 3858, 10620, 23424, 23425}
 local deitems = {
 	{10940, 11083, 11137, 11176, 16204, 22445}, -- Dust
 	{10938, 10998, 11134, 11174, 16202, 22447}, -- Lesser Essence
@@ -12,33 +19,12 @@ local prositems = {
 	{23077, 21929, 23112, 23079, 23117, 23107}, -- BC Greens
 	{23436, 23439, 23440, 23437, 23438, 23441}  -- BC Blues
 }
-local ores = {2770, 2771, 2772, 3858, 10620, 23424, 23425}
 
 
 -- Query server, we need these items!
 for i,t in pairs(deitems) do for _,id in pairs(t) do GameTooltip:SetHyperlink("item:"..id) end end
 for i,t in pairs(prositems) do for _,id in pairs(t) do GameTooltip:SetHyperlink("item:"..id) end end
 for _,id in pairs(ores) do GameTooltip:SetHyperlink("item:"..id) end
-
-
-local function HideTooltip(self) GameTooltip:Hide() end
-local function ShowTooltip(self)
-	if not self.link then return end
-
-	GameTooltip:SetOwner(frame, "ANCHOR_NONE")
-	GameTooltip:SetPoint("TOPLEFT", frame, "TOPRIGHT", 10, 60)
-	GameTooltip:SetHyperlink(self.link)
-
-end
-
-local function GS(cash)
-	if not cash then return end
-	cash = cash/100
-	local s = floor(cash%100)
-	local g = floor(cash/100)
-	if g > 0 then return string.format("|cffffd700%d.|cffc7c7cf%02d", g, s)
-	else return string.format("|cffc7c7cf%d", s) end
-end
 
 
 function Panda:CreateDisenchantingPricePanel()
@@ -116,5 +102,3 @@ function Panda:CreateDisenchantingPricePanel()
 
 	return frame
 end
-
-

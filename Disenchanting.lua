@@ -32,7 +32,7 @@ local notDEable = {
 	["29378"] = true,
 }
 
-
+local GS = Panda.GS
 local function IsBound(bag, slot)
 	tip:SetBagItem(bag, slot)
 	for i=1,30 do
@@ -47,16 +47,6 @@ function Panda:DEable(link)
 
 	local _, _, qual, itemLevel, _, itemType = GetItemInfo(link)
 	if (itemType == "Armor" or itemType == "Weapon") and qual > 1 and qual < 5 then return true end
-end
-
-
-local function GS(cash)
-	if not cash then return end
-	cash = cash/100
-	local s = floor(cash%100)
-	local g = floor(cash/100)
-	if g > 0 then return string.format("|cffffd700%d.|cffc7c7cf%02d", g, s)
-	else return string.format("|cffc7c7cf%d", s) end
 end
 
 

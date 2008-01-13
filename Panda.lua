@@ -30,3 +30,22 @@ function Panda:Enable()
 	self:RegisterEvent("ADDON_LOADED")
 end
 
+
+function Panda:HideTooltip() GameTooltip:Hide() end
+function Panda:ShowTooltip()
+	if not self.link then return end
+
+	GameTooltip:SetOwner(self, "ANCHOR_NONE")
+	GameTooltip:SetPoint("TOPLEFT", self, "TOPRIGHT")
+	GameTooltip:SetHyperlink(self.link)
+end
+
+
+function Panda.GS(cash)
+	if not cash then return end
+	cash = cash/100
+	local s = floor(cash%100)
+	local g = floor(cash/100)
+	if g > 0 then return string.format("|cffffd700%d.|cffc7c7cf%02d", g, s)
+	else return string.format("|cffc7c7cf%d", s) end
+end
