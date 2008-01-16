@@ -100,5 +100,6 @@ function Panda:CreateDisenchantingPricePanel()
 	text1:SetText(string.format("Fel Iron crush value: %.1f%% (%.1f%%)", fi*100, fi2*100))
 	text2:SetText(string.format("Adamantite crush value: %.1f%% (%.1f%%)", adam*100, adam2*100))
 
+	self.CreateDisenchantingPricePanel = nil -- Don't need this function anymore!
 	return frame
 end

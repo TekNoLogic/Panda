@@ -211,6 +211,7 @@ function Panda:CreateDisenchantingPanel()
 	frame:SetScript("OnShow", function()
 		self:RegisterEvent("BAG_UPDATE", "DisenchantBagUpdate")
 		self:DisenchantBagUpdate()
+		OpenBackpack()
 	end)
 	frame:SetScript("OnHide", function() self:UnregisterEvent("BAG_UPDATE") end)
 

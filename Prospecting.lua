@@ -125,6 +125,7 @@ function Panda:CreateProspectingPanel()
 	frame:SetScript("OnShow", function()
 		self:RegisterEvent("BAG_UPDATE", "ProspectingBagUpdate")
 		self:ProspectingBagUpdate()
+		OpenBackpack()
 	end)
 	frame:SetScript("OnHide", function() self:UnregisterEvent("BAG_UPDATE") end)
 

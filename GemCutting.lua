@@ -108,6 +108,9 @@ function Panda:CreateCutGreenBluePanel()
 		b:SetAttribute("macrotext", "/run CloseTradeSkill()\n/cast Jewelcrafting\n/run CloseTradeSkill()")
 	end
 
+	frame:SetScript("OnShow", function() OpenBackpack() end)
+
+	self.CreateCutGreenBluePanel = nil -- Don't need this function anymore!
 	return frame
 end
 
