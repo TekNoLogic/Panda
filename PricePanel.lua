@@ -16,8 +16,8 @@ local deitems = {
 }
 local prositems = {
 	{23424, 23425, 24243},
-	{23077, 21929, 23112, 23079, 23117, 23107}, -- BC Greens
-	{23436, 23439, 23440, 23437, 23438, 23441}  -- BC Blues
+	Panda.BC_GREEN_GEMS,
+	Panda.BC_BLUE_GEMS,
 }
 
 

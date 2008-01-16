@@ -3,39 +3,20 @@
 --      Are you local?      --
 ------------------------------
 
+local BC_GREEN_GEMS, BC_BLUE_GEMS, CUTS = Panda.BC_GREEN_GEMS, Panda.BC_BLUE_GEMS, Panda.CUTS
 local HideTooltip, ShowTooltip, GS = Panda.HideTooltip, Panda.ShowTooltip, Panda.GS
 local frame
-local basegems = {
-	{23077, 21929, 23112, 23079, 23117, 23107}, -- BC Greens
-	{23436, 23439, 23440, 23437, 23438, 23441},  -- BC Blues
-}
-local cuts = {
-	[23077] = {23094, 23095, 23097, 23096, 28595},
-	[21929] = {23098, 23099, 23100, 23101, 31866, 31869},
-	[23112] = {23113, 23114, 23115, 23116, 28290, 31860},
-	[23079] = {23103, 23104, 23105, 23106},
-	[23117] = {23118, 23119, 23120, 23121},
-	[23107] = {23108, 23109, 23110, 23111, 31862, 31864},
-	[23436] = {24027, 24028, 24029, 24030, 24031, 24032, 24036},
-	[23439] = {24058, 24059, 24060, 24061, 31867, 31868},
-	[23440] = {24047, 24048, 24050, 24051, 24052, 24053, 31861},
-	[23437] = {24062, 24065, 24066, 24067, 33782},
-	[23438] = {24033, 24035, 24037, 24039},
-	[23441] = {24054, 24055, 24056, 24057, 31863, 31865},
-}
 
 
 -- Query server, we need these items!
-for i,t in pairs(cuts) do for _,id in pairs(t) do GameTooltip:SetHyperlink("item:"..id) end end
+for i,t in pairs(CUTS) do for _,id in pairs(t) do GameTooltip:SetHyperlink("item:"..id) end end
 
 
 local cutframes, knowncombines, frame = {}, {}
 function Panda:CreateCutGreenBluePanel()
 	local function SetupFrame(f, id, secure)
 		local name, link, _, _, _, _, _, _, _, texture = GetItemInfo(id)
-		f.link = link
-		f.id = id
-		f.name = name
+		f.link, f.id, f.name = link, id, name
 
 		f:SetHeight(32)
 		f:SetWidth(32)
@@ -65,7 +46,7 @@ function Panda:CreateCutGreenBluePanel()
 
 	local HGAP, VGAP = 5, -18
 	local rowanchor, lastframe
-	for i,rawid in ipairs(basegems[1]) do
+	for i,rawid in ipairs(BC_GREEN_GEMS) do
 		local f = CreateFrame("Frame", nil, frame)
 		if i == 1 then
 			f:SetPoint("TOPLEFT", frame, "TOPLEFT", HGAP, -HGAP)
@@ -75,7 +56,7 @@ function Panda:CreateCutGreenBluePanel()
 		rowanchor = f
 		lastframe = SetupFrame(f, rawid)
 
-		for j,id in ipairs(cuts[rawid]) do
+		for j,id in ipairs(CUTS[rawid]) do
 			local f = CreateFrame("CheckButton", nil, frame, "SecureActionButtonTemplate")
 			f:SetPoint("LEFT", lastframe, "RIGHT", HGAP, 0)
 			lastframe = SetupFrame(f, id, true)
@@ -83,7 +64,7 @@ function Panda:CreateCutGreenBluePanel()
 		end
 	end
 
-	for i,rawid in ipairs(basegems[2]) do
+	for i,rawid in ipairs(BC_BLUE_GEMS) do
 		local f = CreateFrame("Frame", nil, frame)
 		if i == 1 then
 			f:SetPoint("TOPLEFT", frame, "TOPLEFT", HGAP*8 + 32*8, -HGAP)
@@ -93,7 +74,7 @@ function Panda:CreateCutGreenBluePanel()
 		rowanchor = f
 		lastframe = SetupFrame(f, rawid)
 
-		for j,id in ipairs(cuts[rawid]) do
+		for j,id in ipairs(CUTS[rawid]) do
 			local f = CreateFrame("CheckButton", nil, frame, "SecureActionButtonTemplate")
 			f:SetPoint("LEFT", lastframe, "RIGHT", HGAP, 0)
 			lastframe = SetupFrame(f, id, true)
