@@ -76,8 +76,8 @@ local function ShowItemDetails(self)
 	if not (self.bag and self.slot) then return end
 
 	nocompare = true
-	GameTooltip:SetOwner(frame, "ANCHOR_NONE")
-	GameTooltip:SetPoint("TOPLEFT", frame, "TOPRIGHT", 10, 60)
+	GameTooltip:SetOwner(self, "ANCHOR_NONE")
+	GameTooltip:SetPoint("TOPLEFT", self, "TOPRIGHT")
 	GameTooltip:SetBagItem(self.bag, self.slot)
 
 	local link = GetContainerItemLink(self.bag, self.slot)
