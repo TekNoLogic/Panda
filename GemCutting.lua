@@ -12,7 +12,7 @@ local frame
 for i,t in pairs(CUTS) do for _,id in pairs(t) do GameTooltip:SetHyperlink("item:"..id) end end
 
 
-local cutframes, knowncombines, frame = {}, {}
+local rawframes, cutframes, knowncombines, frame = {}, {}, {}
 function Panda:CreateCutGreenBluePanel()
 	local function SetupFrame(f, id, secure)
 		local name, link, _, _, _, _, _, _, _, texture = GetItemInfo(id)
@@ -32,6 +32,10 @@ function Panda:CreateCutGreenBluePanel()
 		text:SetPoint("TOP", icon, "BOTTOM")
 		local price = Panda:GetAHBuyout(id)
 		text:SetText(GS(price))
+
+		local count = f:CreateFontString(nil, "ARTWORK", "NumberFontNormalSmall")
+		count:SetPoint("BOTTOMRIGHT", icon, "BOTTOMRIGHT", -2, 2)
+		f.count = count
 
 		if secure and self.canJC then
 			f:SetAlpha(knowncombines[f.name] and 1 or 0.25)
@@ -55,6 +59,7 @@ function Panda:CreateCutGreenBluePanel()
 		end
 		rowanchor = f
 		lastframe = SetupFrame(f, rawid)
+		rawframes[rawid] = f
 
 		for j,id in ipairs(CUTS[rawid]) do
 			local f = CreateFrame("CheckButton", nil, frame, "SecureActionButtonTemplate")
@@ -73,6 +78,7 @@ function Panda:CreateCutGreenBluePanel()
 		end
 		rowanchor = f
 		lastframe = SetupFrame(f, rawid)
+		rawframes[rawid] = f
 
 		for j,id in ipairs(CUTS[rawid]) do
 			local f = CreateFrame("CheckButton", nil, frame, "SecureActionButtonTemplate")
@@ -108,7 +114,16 @@ function Panda:CreateCutGreenBluePanel()
 		b:SetAttribute("macrotext", "/run CloseTradeSkill()\n/cast Jewelcrafting\n/run CloseTradeSkill()")
 	end
 
-	frame:SetScript("OnShow", function() OpenBackpack() end)
+	frame:SetScript("OnShow", function()
+		OpenBackpack()
+		self:RegisterEvent("BAG_UPDATE", "GemCutBagUpdate")
+		self:GemCutBagUpdate()
+	end)
+	frame:SetScript("OnHide", function() self:UnregisterEvent("BAG_UPDATE") end)
+
+	OpenBackpack()
+	self:RegisterEvent("BAG_UPDATE", "GemCutBagUpdate")
+	self:GemCutBagUpdate()
 
 	self.CreateCutGreenBluePanel = nil -- Don't need this function anymore!
 	return frame
@@ -121,4 +136,17 @@ function Panda:TRADE_SKILL_SHOW()
 		if rowtype ~= "header" then knowncombines[name] = true end
 	end
 	for id,f in pairs(cutframes) do f:SetAlpha((not self.canJC or knowncombines[f.name]) and 1 or 0.25) end
+end
+
+
+function Panda:GemCutBagUpdate()
+	for id,f in pairs(cutframes) do
+		local count = GetItemCount(id)
+		f.count:SetText(count > 0 and count or "")
+	end
+
+	for id,f in pairs(rawframes) do
+		local count = GetItemCount(id)
+		f.count:SetText(count > 0 and count or "")
+	end
 end
