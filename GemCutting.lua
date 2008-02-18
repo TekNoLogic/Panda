@@ -114,6 +114,7 @@ function Panda:CreateCutGreenBluePanel()
 		b:SetAttribute("macrotext", "/run CloseTradeSkill()\n/cast Jewelcrafting\n/run CloseTradeSkill()")
 	end
 
+	frame:Hide()
 	frame:SetScript("OnShow", function()
 		OpenBackpack()
 		self:RegisterEvent("BAG_UPDATE", "GemCutBagUpdate")
@@ -121,9 +122,9 @@ function Panda:CreateCutGreenBluePanel()
 	end)
 	frame:SetScript("OnHide", function() self:UnregisterEvent("BAG_UPDATE") end)
 
-	OpenBackpack()
-	self:RegisterEvent("BAG_UPDATE", "GemCutBagUpdate")
-	self:GemCutBagUpdate()
+--~ 	OpenBackpack()
+--~ 	self:RegisterEvent("BAG_UPDATE", "GemCutBagUpdate")
+--~ 	self:GemCutBagUpdate()
 
 	self.CreateCutGreenBluePanel = nil -- Don't need this function anymore!
 	return frame
