@@ -23,6 +23,7 @@ DisenchantingProb.lua
 DETooltip.lua
 Prospecting.lua
 GemCutting.lua
+GemTooltip.lua
 AutolootFix.lua
 PricePanel.lua
 BtmScanner.lua
