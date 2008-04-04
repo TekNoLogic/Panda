@@ -3,18 +3,18 @@
 --      Are you local?      --
 ------------------------------
 
-local BC_GREEN_GEMS, BC_BLUE_GEMS, CUTS = Panda.BC_GREEN_GEMS, Panda.BC_BLUE_GEMS, Panda.CUTS
-local HideTooltip, ShowTooltip, GS = Panda.HideTooltip, Panda.ShowTooltip, Panda.GS
-local frame
+local BC_GREEN_GEMS, BC_BLUE_GEMS, BC_EPIC_GEMS, CUTS = Panda.BC_GREEN_GEMS, Panda.BC_BLUE_GEMS, Panda.BC_EPIC_GEMS, Panda.CUTS
+local HideTooltip, ShowTooltip, GS, G = Panda.HideTooltip, Panda.ShowTooltip, Panda.GS, Panda.G
+local frame, epicframe
 
 
 -- Query server, we need these items!
-for i,t in pairs(CUTS) do for _,id in pairs(t) do GameTooltip:SetHyperlink("item:"..id) end end
+for i,t in pairs(CUTS) do GameTooltip:SetHyperlink("item:"..i); for _,id in pairs(t) do GameTooltip:SetHyperlink("item:"..id) end end
 
 
 local rawframes, cutframes, knowncombines, frame = {}, {}, {}
 function Panda:CreateCutGreenBluePanel()
-	local function SetupFrame(f, id, secure)
+	local function SetupFrame(f, id, secure, notext)
 		local name, link, _, _, _, _, _, _, _, texture = GetItemInfo(id)
 		f.link, f.id, f.name = link, id, name
 
@@ -28,10 +28,12 @@ function Panda:CreateCutGreenBluePanel()
 		icon:SetAllPoints(f)
 		icon:SetTexture(texture)
 
-		local text = f:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
-		text:SetPoint("TOP", icon, "BOTTOM")
-		local price = Panda:GetAHBuyout(id)
-		text:SetText(GS(price))
+		if not notext then
+			local text = f:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
+			text:SetPoint("TOP", icon, "BOTTOM")
+			local price = Panda:GetAHBuyout(id)
+			text:SetText(GS(price))
+		end
 
 		local count = f:CreateFontString(nil, "ARTWORK", "NumberFontNormalSmall")
 		count:SetPoint("BOTTOMRIGHT", icon, "BOTTOMRIGHT", -2, 2)
@@ -73,6 +75,11 @@ function Panda:CreateCutGreenBluePanel()
 		local f = CreateFrame("Frame", nil, frame)
 		if i == 1 then
 			f:SetPoint("TOPLEFT", frame, "TOPLEFT", HGAP*8 + 32*8, -HGAP)
+
+			local f2 = CreateFrame("CheckButton", nil, frame, "SecureActionButtonTemplate")
+			f2:SetPoint("BOTTOMLEFT", f, "TOPLEFT", 0, -VGAP)
+			SetupFrame(f2, 35945, true, true)
+			cutframes[35945] = f2
 		else
 			f:SetPoint("TOPLEFT", rowanchor, "BOTTOMLEFT", 0, VGAP)
 		end
@@ -128,6 +135,105 @@ function Panda:CreateCutGreenBluePanel()
 
 	self.CreateCutGreenBluePanel = nil -- Don't need this function anymore!
 	return frame
+end
+
+
+function Panda:CreateCutPurplePanel()
+	local function SetupFrame(f, id, secure)
+		local name, link, _, _, _, _, _, _, _, texture = GetItemInfo(id)
+		f.link, f.id, f.name = link, id, name
+
+		f:SetHeight(32)
+		f:SetWidth(32)
+		if not secure then f:EnableMouse() end
+		f:SetScript("OnEnter", ShowTooltip)
+		f:SetScript("OnLeave", HideTooltip)
+
+		local icon = f:CreateTexture(nil, "ARTWORK")
+		icon:SetAllPoints(f)
+		icon:SetTexture(texture)
+
+		local text = f:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
+		text:SetPoint("TOP", icon, "BOTTOM")
+		local price = Panda:GetAHBuyout(id)
+		text:SetText(G(price))
+
+		local count = f:CreateFontString(nil, "ARTWORK", "NumberFontNormalSmall")
+		count:SetPoint("BOTTOMRIGHT", icon, "BOTTOMRIGHT", -2, 2)
+		f.count = count
+
+		if secure and self.canJC then
+			f:SetAlpha(knowncombines[f.name] and 1 or 0.25)
+			f:SetAttribute("type", "macro")
+			f:SetAttribute("macrotext", "/run CloseTradeSkill()\n/cast Jewelcrafting\n/run for i=1,GetNumTradeSkills() do if GetTradeSkillInfo(i) == '"..name.."' then DoTradeSkill(i) end end\n/run CloseTradeSkill()")
+		end
+
+		return f
+	end
+
+	epicframe = CreateFrame("Frame", nil, UIParent)
+
+	local HGAP, VGAP = 5, -18
+	local rowanchor, lastframe
+	for i,rawid in ipairs(BC_EPIC_GEMS) do
+		local f = CreateFrame("Frame", nil, epicframe)
+		if i == 1 then
+			f:SetPoint("TOPLEFT", epicframe, "TOPLEFT", HGAP, -HGAP)
+		else
+			f:SetPoint("TOPLEFT", rowanchor, "BOTTOMLEFT", 0, VGAP)
+		end
+		rowanchor = f
+		lastframe = SetupFrame(f, rawid)
+		rawframes[rawid] = f
+
+		for j,id in ipairs(CUTS[rawid]) do
+			local f = CreateFrame("CheckButton", nil, epicframe, "SecureActionButtonTemplate")
+			f:SetPoint("LEFT", lastframe, "RIGHT", HGAP, 0)
+			lastframe = SetupFrame(f, id, true)
+			cutframes[id] = f
+		end
+	end
+
+	if self.canJC then
+		local b = CreateFrame("Button", nil, epicframe, "SecureActionButtonTemplate")
+		b:SetPoint("TOPRIGHT", epicframe, "BOTTOMRIGHT", 4, -3)
+		b:SetWidth(80) b:SetHeight(22)
+
+		-- Fonts --
+		b:SetDisabledFontObject(GameFontDisable)
+		b:SetHighlightFontObject(GameFontHighlight)
+		b:SetTextFontObject(GameFontNormal)
+
+		-- Textures --
+		b:SetNormalTexture("Interface\\Buttons\\UI-Panel-Button-Up")
+		b:SetPushedTexture("Interface\\Buttons\\UI-Panel-Button-Down")
+		b:SetHighlightTexture("Interface\\Buttons\\UI-Panel-Button-Highlight")
+		b:SetDisabledTexture("Interface\\Buttons\\UI-Panel-Button-Disabled")
+		b:GetNormalTexture():SetTexCoord(0, 0.625, 0, 0.6875)
+		b:GetPushedTexture():SetTexCoord(0, 0.625, 0, 0.6875)
+		b:GetHighlightTexture():SetTexCoord(0, 0.625, 0, 0.6875)
+		b:GetDisabledTexture():SetTexCoord(0, 0.625, 0, 0.6875)
+		b:GetHighlightTexture():SetBlendMode("ADD")
+
+		b:SetText("Refresh")
+		b:SetAttribute("type", "macro")
+		b:SetAttribute("macrotext", "/run CloseTradeSkill()\n/cast Jewelcrafting\n/run CloseTradeSkill()")
+	end
+
+	epicframe:Hide()
+	epicframe:SetScript("OnShow", function()
+		OpenBackpack()
+		self:RegisterEvent("BAG_UPDATE", "GemCutBagUpdate")
+		self:GemCutBagUpdate()
+	end)
+	epicframe:SetScript("OnHide", function() self:UnregisterEvent("BAG_UPDATE") end)
+
+--~ 	OpenBackpack()
+--~ 	self:RegisterEvent("BAG_UPDATE", "GemCutBagUpdate")
+--~ 	self:GemCutBagUpdate()
+
+	self.CreateCutGreenBluePanel = nil -- Don't need this function anymore!
+	return epicframe
 end
 
 
