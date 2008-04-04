@@ -11,7 +11,7 @@ local values = setmetatable({}, {
 		if not id or not CUTS[id] then return end
 
 		local val = 0
-		for _,cutid in pairs(CUTS[id]) do val = val + Panda:GetAHBuyout(cutid) end
+		for _,cutid in pairs(CUTS[id]) do val = val + (Panda:GetAHBuyout(cutid) or 0) end
 		val = string.format("%s (%.2f%% profit)", GS(val/#CUTS[id]), ((val/#CUTS[id])/Panda:GetAHBuyout(id) - 1) * 100)
 		t[link] = val
 		return val
