@@ -8,7 +8,7 @@ local values = setmetatable({}, {
 	__index = function(t, link)
 		if not link then return end
 		local id = tonumber((link:match("item:(%d+):")))
-		if not id or not CUTS[id] then return end
+		if not id or not CUTS[id] or not Panda:GetAHBuyout(id) then return end
 
 		local val = 0
 		for _,cutid in pairs(CUTS[id]) do val = val + (Panda:GetAHBuyout(cutid) or 0) end
