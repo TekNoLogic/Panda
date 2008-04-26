@@ -17,6 +17,7 @@ function Panda:Initialize()
 	oh:RegisterCategory("Prospecting", self, "CreateProspectingPanel")
 	oh:RegisterCategory("Prices", self, "CreateDisenchantingPricePanel")
 	oh:RegisterCategory("Gem Cutting", self, "CreateCutGreenBluePanel")
+	oh:RegisterCategory("Gem Cutting (Meta)", self, "CreateCutMetaPanel")
 	oh:RegisterCategory("Gem Cutting (Epic)", self, "CreateCutPurplePanel")
 
 	self:RegisterEvent("LOOT_OPENED")
@@ -75,6 +76,7 @@ end
 Panda.BC_GREEN_GEMS = {23077, 21929, 23112, 23079, 23117, 23107}
 Panda.BC_BLUE_GEMS = {23436, 23439, 23440, 23437, 23438, 23441}
 Panda.BC_EPIC_GEMS = {32227, 32231, 32229, 32249, 32228, 32230}
+Panda.BC_META_GEMS = {25867, 25868}
 Panda.CUTS = {
 	[23077] = {23094, 23095, 23097, 23096, 28595},
 	[21929] = {23098, 23099, 23100, 23101, 31866, 31869},
@@ -88,6 +90,8 @@ Panda.CUTS = {
 	[23437] = {24062, 24065, 24066, 24067, 33782, 35318},
 	[23438] = {24033, 24035, 24037, 24039},
 	[23441] = {24054, 24055, 24056, 24057, 31863, 31865, 35707},
+	[25867] = {25896, 25897, 25898, 25899, 25901, 32409, 35501},
+	[25868] = {25890, 25893, 25894, 25895, 32410, 34220, 35503},
 	[32227] = {32193, 32194, 32195, 32196, 32197, 32198, 32199},
 	[32231] = {32217, 32218, 32219, 32220, 32221, 32222, 35760},
 	[32229] = {32204, 32205, 32206, 32207, 32208, 32209, 32210, 35761},
