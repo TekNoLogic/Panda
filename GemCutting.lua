@@ -129,10 +129,6 @@ function Panda:CreateCutGreenBluePanel()
 	end)
 	frame:SetScript("OnHide", function() self:UnregisterEvent("BAG_UPDATE") end)
 
---~ 	OpenBackpack()
---~ 	self:RegisterEvent("BAG_UPDATE", "GemCutBagUpdate")
---~ 	self:GemCutBagUpdate()
-
 	self.CreateCutGreenBluePanel = nil -- Don't need this function anymore!
 	return frame
 end
@@ -323,11 +319,7 @@ function Panda:CreateCutPurplePanel()
 	end)
 	epicframe:SetScript("OnHide", function() self:UnregisterEvent("BAG_UPDATE") end)
 
---~ 	OpenBackpack()
---~ 	self:RegisterEvent("BAG_UPDATE", "GemCutBagUpdate")
---~ 	self:GemCutBagUpdate()
-
-	self.CreateCutGreenBluePanel = nil -- Don't need this function anymore!
+	self.CreateCutPurplePanel = nil -- Don't need this function anymore!
 	return epicframe
 end
 
