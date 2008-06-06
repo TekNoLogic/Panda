@@ -1,0 +1,11 @@
+Panda is a simple mod designed (initially) to speed up mass-disenchanting.
+This functionality was expanded to include prospecting, gem cutting, and quick viewing of AuctioneerAdvanced prices for gems, dust and other materials.
+Panda will also add price information to item tooltips where applicable.
+
+Panda includes an auto-loot fix for prospecting and DE, since Blizzard has not fixed the longstanding issues with autoloot and crushing.
+
+h2. Links
+
+<b>Visit "my site":http://www.tekkub.net/addons/Panda for more info.<br>
+Please report all bugs and feature requests to my "Google Code":http://code.google.com/p/tekkub-wow/issues/list?can=1&q=addon:Panda&sort=status+milestone&colspec=ID%20Type%20Status%20Addon%20Milestone%20Summary tracker<br>
+Please direct all feedback and questions to my "Google Groups":http://groups-beta.google.com/group/tekkub-wow mailinglist</b>

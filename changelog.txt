@@ -1,0 +1,25 @@
+2.4.1.5-Beta
+    Fix epic panel deleting green/blue panel generator if opened before green/blue panel
+    Add meta cutting panel
+
+2.4.1.4-Beta
+    Fix gem tooltip error when raw gem has no Auc price
+
+2.4.1.3-Beta
+    Add epic cutting panel, Brilliant Glass, new Rare cuts
+    Fix issue with unknown prices and tooltips
+    Add gem cut price info to raw gem toolips
+    Updating TOC to 20400
+
+2.3.3.2-Beta
+    Fix GemCutting panel not registering events on first show
+
+2.3.3.1-Beta
+    Add bag item counts to GemCutting frame
+    Open backback when panels are shown, nil out frame factories when they aren't needed anymore
+    Common constants across the addon (save a smidge of memory)
+    Fix tip anchor in DE frame
+    Add Gem cutting (green and blue) panel
+    Move common util functions into the addon's table
+    Added click-prospecting and prospect counts to the prospecting panel
+    Add server query to ensure our items are cached if possible, fixes issue #208
