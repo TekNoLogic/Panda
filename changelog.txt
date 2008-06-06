@@ -1,3 +1,6 @@
+2.4.2.6-Beta
+    Don't nil out our constants, we don't really need to and it's causing issues
+
 2.4.1.5-Beta
     Fix epic panel deleting green/blue panel generator if opened before green/blue panel
     Add meta cutting panel
