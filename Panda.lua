@@ -8,8 +8,6 @@ if tekDebug then Panda:EnableDebug(1, tekDebug:GetFrame("Panda")) end
 
 
 function Panda:Initialize()
-	self.BC_GREEN_GEMS, self.BC_BLUE_GEMS, self.CUTS = nil -- Don't hold on to the constants, we might want them to GC later
-
 	local _, title = GetAddOnInfo("Panda")
 	local author, version = GetAddOnMetadata("Panda", "Author"), GetAddOnMetadata("Panda", "Version")
 	local oh = LibStub("OptionHouse-1.1"):RegisterAddOn("Panda", title, author, version)
