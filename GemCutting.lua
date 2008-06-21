@@ -29,10 +29,8 @@ function Panda:CreateCutGreenBluePanel()
 		icon:SetTexture(texture)
 
 		if not notext then
-			local text = f:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
-			text:SetPoint("TOP", icon, "BOTTOM")
-			local price = Panda:GetAHBuyout(id)
-			text:SetText(GS(price))
+			f.text = f:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
+			f.text:SetPoint("TOP", icon, "BOTTOM")
 		end
 
 		local count = f:CreateFontString(nil, "ARTWORK", "NumberFontNormalSmall")
@@ -149,10 +147,8 @@ function Panda:CreateCutMetaPanel()
 		icon:SetAllPoints(f)
 		icon:SetTexture(texture)
 
-		local text = f:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
-		text:SetPoint("TOP", icon, "BOTTOM")
-		local price = Panda:GetAHBuyout(id)
-		text:SetText(G(price))
+		f.text = f:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
+		f.text:SetPoint("TOP", icon, "BOTTOM")
 
 		local count = f:CreateFontString(nil, "ARTWORK", "NumberFontNormalSmall")
 		count:SetPoint("BOTTOMRIGHT", icon, "BOTTOMRIGHT", -2, 2)
@@ -244,10 +240,8 @@ function Panda:CreateCutPurplePanel()
 		icon:SetAllPoints(f)
 		icon:SetTexture(texture)
 
-		local text = f:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
-		text:SetPoint("TOP", icon, "BOTTOM")
-		local price = Panda:GetAHBuyout(id)
-		text:SetText(G(price))
+		f.text = f:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
+		f.text:SetPoint("TOP", icon, "BOTTOM")
 
 		local count = f:CreateFontString(nil, "ARTWORK", "NumberFontNormalSmall")
 		count:SetPoint("BOTTOMRIGHT", icon, "BOTTOMRIGHT", -2, 2)
@@ -337,10 +331,18 @@ function Panda:GemCutBagUpdate()
 	for id,f in pairs(cutframes) do
 		local count = GetItemCount(id)
 		f.count:SetText(count > 0 and count or "")
+		if f.text then
+			local price = Panda:GetAHBuyout(id)
+			f.text:SetText(GS(price))
+		end
 	end
 
 	for id,f in pairs(rawframes) do
 		local count = GetItemCount(id)
 		f.count:SetText(count > 0 and count or "")
+		if f.text then
+			local price = Panda:GetAHBuyout(id)
+			f.text:SetText(GS(price))
+		end
 	end
 end

@@ -53,6 +53,8 @@ end
 
 function Panda.GS(cash)
 	if not cash then return end
+	if cash > 999999 then return "|cffffd700".. floor(cash/10000) end
+
 	cash = cash/100
 	local s = floor(cash%100)
 	local g = floor(cash/100)
