@@ -55,7 +55,7 @@ function Panda:CreateCutGreenBluePanel()
 	for i,rawid in ipairs(BC_GREEN_GEMS) do
 		local f = CreateFrame("Frame", nil, frame)
 		if i == 1 then
-			f:SetPoint("TOPLEFT", frame, "TOPLEFT", HGAP, -HGAP)
+			f:SetPoint("BOTTOMLEFT", frame, "TOPLEFT", 0, -HGAP-VGAP)
 		else
 			f:SetPoint("TOPLEFT", rowanchor, "BOTTOMLEFT", 0, VGAP)
 		end
@@ -74,10 +74,10 @@ function Panda:CreateCutGreenBluePanel()
 	for i,rawid in ipairs(BC_BLUE_GEMS) do
 		local f = CreateFrame("Frame", nil, frame)
 		if i == 1 then
-			f:SetPoint("TOPLEFT", frame, "TOPLEFT", HGAP*8 + 32*8, -HGAP)
+			f:SetPoint("BOTTOMLEFT", frame, "TOPLEFT", HGAP*8 + 32*8, -HGAP-VGAP)
 
 			local f2 = CreateFrame("CheckButton", nil, frame, "SecureActionButtonTemplate")
-			f2:SetPoint("BOTTOMLEFT", f, "TOPLEFT", 0, -VGAP)
+			f2:SetPoint("TOPRIGHT", f, "TOPLEFT", -HGAP*2, 0)
 			SetupFrame(f2, 35945, true, true)
 			cutframes[35945] = f2
 		else
