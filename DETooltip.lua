@@ -25,7 +25,7 @@ local values = setmetatable({}, {
 		results[link] = qtytxt1.." "..select(2, GetItemInfo(id1))
 		probs[link] = perctxt1
 
-		val = string.format("%s (%s)", mode, mean)
+		val = string.format("%s (%s \206\188)", mode, mean)
 		t[link] = val
 		return val
 	end,
