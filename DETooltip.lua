@@ -32,6 +32,10 @@ local values = setmetatable({}, {
 })
 
 
+local f = CreateFrame("Frame")
+f:RegisterEvent("AUCTION_ITEM_LIST_UPDATE")
+f:SetScript("OnEvent", function() for i in pairs(values) do values[i] = nil end end)
+
 local origs = {}
 local OnTooltipSetItem = function(frame, ...)
 	assert(frame, "arg 1 is nil, someone isn't hooking correctly")
