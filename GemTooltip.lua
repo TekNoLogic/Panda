@@ -34,3 +34,9 @@ for i,frame in pairs{GameTooltip, ItemRefTooltip} do
 	frame:SetScript("OnTooltipSetItem", OnTooltipSetItem)
 end
 
+
+local f = CreateFrame("Frame")
+f:RegisterEvent("AUCTION_ITEM_LIST_UPDATE")
+f:SetScript("OnEvent", function() for i in pairs(values) do values[i] = nil end end)
+
+
