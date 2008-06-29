@@ -27,3 +27,4 @@ GemTooltip.lua
 AutolootFix.lua
 PricePanel.lua
 BtmScanner.lua
+OreTooltip.lua

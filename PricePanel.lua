@@ -84,22 +84,6 @@ function Panda:CreateDisenchantingPricePanel()
 		end
 	end
 
-	local text2 = frame:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
-	text2:SetPoint("BOTTOMLEFT", frame, "TOPLEFT", HGAP*7 + 32*7, 8)
-	local text1 = frame:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
-	text1:SetPoint("BOTTOMLEFT", text2, "TOPLEFT", 0, 8)
-
-	local FIGREENRATE, FIBLUERATE, ADAMGREENRATE, ADAMBLUERATE = 1.027, 0.06, 1.1, .195
-	local greensum, bluesum = 0, 0
-	for _,id in pairs(prositems[2]) do greensum = greensum + Panda:GetAHBuyout(id)/6 end
-	for _,id in pairs(prositems[3]) do bluesum = bluesum + Panda:GetAHBuyout(id)/6 end
-	local fi = (1500 + greensum * FIGREENRATE + bluesum * FIBLUERATE) / Panda:GetAHBuyout(23424) / 5
-	local fi2 = (1500 + 2500 * FIGREENRATE + bluesum * FIBLUERATE) / Panda:GetAHBuyout(23424) / 5
-	local adam = (Panda:GetAHBuyout(24243) + greensum * ADAMGREENRATE + bluesum * ADAMBLUERATE) / Panda:GetAHBuyout(23425) / 5
-	local adam2 = (Panda:GetAHBuyout(24243) + 2500 * ADAMGREENRATE + bluesum * ADAMBLUERATE) / Panda:GetAHBuyout(23425) / 5
-	text1:SetText(string.format("Fel Iron crush value: %.1f%% (%.1f%%)", fi*100, fi2*100))
-	text2:SetText(string.format("Adamantite crush value: %.1f%% (%.1f%%)", adam*100, adam2*100))
-
 	self.CreateDisenchantingPricePanel = nil -- Don't need this function anymore!
 	return frame
 end
