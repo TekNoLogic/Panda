@@ -30,7 +30,7 @@ for _,id in pairs(ores) do GameTooltip:SetHyperlink("item:"..id) end
 function Panda:CreateDisenchantingPricePanel()
 	local function SetupFrame(f, id)
 		local name, link, _, _, _, _, _, _, _, texture = GetItemInfo(id)
-		f.link = link
+		f.id, f.link = id, link
 
 		f:SetHeight(32)
 		f:SetWidth(32)
@@ -42,10 +42,8 @@ function Panda:CreateDisenchantingPricePanel()
 		icon:SetAllPoints(f)
 		icon:SetTexture(texture)
 
-		local text = f:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
-		text:SetPoint("TOP", icon, "BOTTOM")
-		local price = Panda:GetAHBuyout(id)
-		text:SetText(GS(price))
+		f.text = f:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
+		f.text:SetPoint("TOP", icon, "BOTTOM")
 
 		return f
 	end
@@ -53,6 +51,7 @@ function Panda:CreateDisenchantingPricePanel()
 	frame = CreateFrame("Frame", nil, UIParent)
 
 	local HGAP, VGAP = 5, -18
+	local frames = {}
 	local rowanchor, lastframe
 	for i,ids in ipairs(deitems) do
 		for j,id in ipairs(ids) do
@@ -66,6 +65,7 @@ function Panda:CreateDisenchantingPricePanel()
 			else f:SetPoint("LEFT", lastframe, "RIGHT", HGAP, 0) end
 
 			lastframe = SetupFrame(f, id)
+			frames[f] = true
 		end
 	end
 
@@ -81,8 +81,17 @@ function Panda:CreateDisenchantingPricePanel()
 			else f:SetPoint("LEFT", lastframe, "RIGHT", HGAP, 0) end
 
 			lastframe = SetupFrame(f, id)
+			frames[f] = true
 		end
 	end
+
+	frame:SetScript("OnShow", function()
+		for f in pairs(frames) do
+			local price = Panda:GetAHBuyout(f.id)
+			f.text:SetText(GS(price))
+		end
+	end)
+	frame:GetScript("OnShow")()
 
 	self.CreateDisenchantingPricePanel = nil -- Don't need this function anymore!
 	return frame
