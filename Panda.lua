@@ -42,9 +42,7 @@ end
 ----------------------------
 
 local ldb = LibStub:GetLibrary("LibDataBroker-1.1")
-local dataobj = ldb:GetDataObjectByName("Panda") or ldb:NewDataObject("Panda")
-dataobj.launcher = true
-dataobj.icon = "Interface\\AddOns\\Panda\\icon"
+local dataobj = ldb:GetDataObjectByName("Panda") or ldb:NewDataObject("Panda", {launcher = true, icon = "Interface\\AddOns\\Panda\\icon"})
 dataobj.OnClick = function() LibStub("OptionHouse-1.1"):Open("Panda", GetSpellInfo("Enchanting") and "Disenchanting" or "Gem Cutting") end
 
 
