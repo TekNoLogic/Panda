@@ -21,13 +21,16 @@ local OnTooltipSetItem = function(frame, ...)
 	assert(frame, "arg 1 is nil, someone isn't hooking correctly")
 
 	local _, link = frame:GetItem()
-	local id = tonumber((link:match("item:(%d+):")))
+	if link then
+		local id = tonumber((link:match("item:(%d+):")))
 
-	local val = 0
-	if     id == 23424 then val = (1500 + gemavg(BC_GREEN_GEMS) * 1.027 + gemavg(BC_BLUE_GEMS) * 0.060) * 4
-	elseif id == 23425 then val = (2250 + gemavg(BC_GREEN_GEMS) * 1.100 + gemavg(BC_BLUE_GEMS) * 0.195) * 4 end
+		local val = 0
+		if     id == 23424 then val = (1500 + gemavg(BC_GREEN_GEMS) * 1.027 + gemavg(BC_BLUE_GEMS) * 0.060) * 4
+		elseif id == 23425 then val = (2250 + gemavg(BC_GREEN_GEMS) * 1.100 + gemavg(BC_BLUE_GEMS) * 0.195) * 4 end
 
-	if val and val ~= 0 then frame:AddDoubleLine("Average crush value:", GS(val)) end
+		if val and val ~= 0 then frame:AddDoubleLine("Average crush value:", GS(val)) end
+	end
+
 	if origs[frame] then return origs[frame](frame, ...) end
 end
 
