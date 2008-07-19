@@ -1,3 +1,11 @@
+2.4.2.8-Beta
+    God damn OnTooltipSetItem calls with nil items...
+    Add LDB launcher, kickass panda icon
+    Fix ore tip formatting
+    Make price panel refresh prices OnShow
+    Add crush values to FI and Adaman Ore tooltips
+    Make gemtooltip cache clear also
+
 2.4.2.7-Beta
     Clear the DE tip cache whenever the AH refreshes, so that we get updated prices
     Add mu symbol so I can remember which number is the mean
