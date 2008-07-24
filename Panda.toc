@@ -12,6 +12,7 @@
 
 ## LoadManagers: AddonLoader
 ## X-LoadOn-Resting: true
+## X-LoadOn-LDB-Launcher: Interface\AddOns\Panda\icon
 
 Dongle.lua
 OptionHouse.lua
