@@ -1,3 +1,7 @@
+2.4.3.9-Beta
+    Add AddonLoader LDB launcher field
+    Tweak launcher declaration to match the updated spec
+
 2.4.2.8-Beta
     God damn OnTooltipSetItem calls with nil items...
     Add LDB launcher, kickass panda icon
