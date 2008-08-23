@@ -155,7 +155,7 @@ end
 ---------------------------------------------------------------------------]]
 
 local major = "Dongle-1.0"
-local minor = tonumber(string.match("$Revision: 612 $", "(%d+)") or 1) + 500
+local minor = tonumber(string.match("$Revision: 646 $", "(%d+)") or 1) + 500
 -- ** IMPORTANT NOTE **
 -- Due to some issues we had previously with Dongle revision numbers
 -- we need to artificially inflate the minor revision number, to ensure
@@ -884,17 +884,30 @@ function Dongle.SetProfile(db, name)
 	Dongle:TriggerMessage("DONGLE_PROFILE_CHANGED", db, db.parent, db.sv_name, db.keys.profile)
 end
 
-function Dongle.GetProfiles(db, t)
+function Dongle.GetProfiles(db, tbl)
 	assert(3, databases[db], string.format(L["MUST_CALLFROM_DBOBJECT"], "GetProfiles"))
 	argcheck(t, 2, "table", "nil")
 
-	t = t or {}
-	local i = 1
-	for profileKey in pairs(db.sv.profiles) do
-		t[i] = profileKey
-		i = i + 1
+	-- Clear the container table
+	if tbl then
+		for k,v in pairs(tbl) do tbl[k] = nil end
+	else
+		tbl = {}
 	end
-	return t, i - 1
+
+	local i = 0
+	for profileKey in pairs(db.profiles) do
+		i = i + 1
+		tbl[i] = profileKey
+	end
+
+	-- Add the current profile, if it hasn't been created yet
+	if rawget(db, "profile") == nil then
+		i = i + 1
+		tbl[i] = db.keys.profile
+	end
+	
+	return tbl, i
 end
 
 function Dongle.GetCurrentProfile(db)
@@ -966,8 +979,8 @@ end
 
 function Dongle.RegisterNamespace(db, name, defaults)
 	assert(3, databases[db], string.format(L["MUST_CALLFROM_DBOBJECT"], "RegisterNamespace"))
-		argcheck(name, 2, "string")
-	argcheck(defaults, 3, "nil", "string")
+	argcheck(name, 2, "string")
+	argcheck(defaults, 3, "nil", "table")
 
 	local sv = db.sv
 	if not sv.namespaces then sv.namespaces = {} end
@@ -1147,44 +1160,41 @@ local function PLAYER_LOGOUT(event)
 	end
 end
 
-local function PLAYER_LOGIN()
-	Dongle.initialized = true
-	for i=1, #loadorder do
-		local obj = loadorder[i]
-		if type(obj.Enable) == "function" then
-			safecall(obj.Enable, obj)
+local PLAYER_LOGIN
+do
+	local lockPlayerLogin = false
+
+	function PLAYER_LOGIN()
+		if lockPlayerLogin then return end
+		
+		lockPlayerLogin = true
+		
+		local obj = table.remove(loadorder, 1)
+		while obj do
+			if type(obj.Enable) == "function" then
+				safecall(obj.Enable, obj)
+			end
+			obj = table.remove(loadorder, 1)
 		end
-		loadorder[i] = nil
+		
+		lockPlayerLogin = false
 	end
 end
 
 local function ADDON_LOADED(event, ...)
-	for i=1, #loadqueue do
-		local obj = loadqueue[i]
+	local obj = table.remove(loadqueue, 1)
+	while obj do
 		table.insert(loadorder, obj)
-
+		
 		if type(obj.Initialize) == "function" then
 			safecall(obj.Initialize, obj)
 		end
-		loadqueue[i] = nil
+
+		obj = table.remove(loadqueue, 1)
 	end
 
-	if not Dongle.initialized then
-		if type(IsLoggedIn) == "function" then
-			Dongle.initialized = IsLoggedIn()
-		else
-			Dongle.initialized = ChatFrame1.defaultLanguage
-		end
-	end
-
-	if Dongle.initialized then
-		for i=1, #loadorder do
-			local obj = loadorder[i]
-			if type(obj.Enable) == "function" then
-				safecall(obj.Enable, obj)
-			end
-			loadorder[i] = nil
-		end
+	if IsLoggedIn() then
+		PLAYER_LOGIN()
 	end
 end
 
