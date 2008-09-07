@@ -1,6 +1,6 @@
 ## Interface: 20400
 
-## Title: Panda
+## Title: Sadpanda
 ## Notes: Prospecting and Disenchanting Aide
 ## Author: Tekkub Stoutwrithe
 ## Version: Alpha
@@ -12,7 +12,7 @@
 
 ## LoadManagers: AddonLoader
 ## X-LoadOn-Resting: true
-## X-LoadOn-LDB-Launcher: Interface\AddOns\Panda\icon
+## X-LoadOn-LDB-Launcher: Interface\AddOns\Sadpanda\icon
 
 Dongle.lua
 OptionHouse.lua
@@ -22,7 +22,7 @@ LibStub.lua
 CallbackHandler-1.0.lua
 LibDataBroker-1.1\LibDataBroker-1.1.lua
 
-Panda.lua
+Sadpanda.lua
 Disenchanting.lua
 DisenchantingProb.lua
 DETooltip.lua
