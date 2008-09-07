@@ -26,4 +26,3 @@ tekPanelAuction.lua
 
 Sadpanda.lua
 GemCutting.lua
-GemTooltip.lua
