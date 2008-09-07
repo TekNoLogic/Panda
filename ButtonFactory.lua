@@ -57,3 +57,32 @@ function Sadpanda.ButtonFactory(parent, inherit, id, secure, notext, ...)
 
 	return f
 end
+
+
+function Sadpanda.RefreshButtonFactory(parent, tradeskill, ...)
+	local b = CreateFrame("Button", nil, parent, "SecureActionButtonTemplate")
+	b:SetPoint(...)
+	b:SetWidth(80) b:SetHeight(22)
+
+	-- Fonts --
+	b:SetDisabledFontObject(GameFontDisable)
+	b:SetHighlightFontObject(GameFontHighlight)
+	b:SetTextFontObject(GameFontNormal)
+
+	-- Textures --
+	b:SetNormalTexture("Interface\\Buttons\\UI-Panel-Button-Up")
+	b:SetPushedTexture("Interface\\Buttons\\UI-Panel-Button-Down")
+	b:SetHighlightTexture("Interface\\Buttons\\UI-Panel-Button-Highlight")
+	b:SetDisabledTexture("Interface\\Buttons\\UI-Panel-Button-Disabled")
+	b:GetNormalTexture():SetTexCoord(0, 0.625, 0, 0.6875)
+	b:GetPushedTexture():SetTexCoord(0, 0.625, 0, 0.6875)
+	b:GetHighlightTexture():SetTexCoord(0, 0.625, 0, 0.6875)
+	b:GetDisabledTexture():SetTexCoord(0, 0.625, 0, 0.6875)
+	b:GetHighlightTexture():SetBlendMode("ADD")
+
+	b:SetText("Refresh")
+	b:SetAttribute("type", "macro")
+	b:SetAttribute("macrotext", "/run CloseTradeSkill()\n/cast "..tradeskill.."\n/run CloseTradeSkill()")
+
+	return b
+end

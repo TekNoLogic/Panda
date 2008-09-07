@@ -44,7 +44,6 @@ for i,t in pairs(CUTS) do GameTooltip:SetHyperlink("item:"..i); for _,id in pair
 
 
 local knowncombines = {}
-local auc = LibStub("tekAucQuery")
 
 
 local frame = CreateFrame("Frame", nil, UIParent)
@@ -52,6 +51,7 @@ frame:Hide()
 Sadpanda.panel:RegisterFrame("Gem Cutting", frame)
 
 frame:SetScript("OnShow", function(frame)
+	local canJC = GetSpellInfo((GetSpellInfo(25229)))
 	local HGAP, VGAP = 5, -18
 	local rowanchor, lastframe
 	for i,rawid in ipairs(BC_GREEN_GEMS) do
@@ -67,31 +67,7 @@ frame:SetScript("OnShow", function(frame)
 		for j,id in ipairs(CUTS[rawid]) do lastframe = factory(frame, "SecureActionButtonTemplate", id, true, nil, "LEFT", lastframe, "RIGHT", HGAP, 0) end
 	end
 
---~ 	if self.canJC then
---~ 		local b = CreateFrame("Button", nil, frame, "SecureActionButtonTemplate")
---~ 		b:SetPoint("TOPRIGHT", frame, "BOTTOMRIGHT", 4, -3)
---~ 		b:SetWidth(80) b:SetHeight(22)
-
---~ 		-- Fonts --
---~ 		b:SetDisabledFontObject(GameFontDisable)
---~ 		b:SetHighlightFontObject(GameFontHighlight)
---~ 		b:SetTextFontObject(GameFontNormal)
-
---~ 		-- Textures --
---~ 		b:SetNormalTexture("Interface\\Buttons\\UI-Panel-Button-Up")
---~ 		b:SetPushedTexture("Interface\\Buttons\\UI-Panel-Button-Down")
---~ 		b:SetHighlightTexture("Interface\\Buttons\\UI-Panel-Button-Highlight")
---~ 		b:SetDisabledTexture("Interface\\Buttons\\UI-Panel-Button-Disabled")
---~ 		b:GetNormalTexture():SetTexCoord(0, 0.625, 0, 0.6875)
---~ 		b:GetPushedTexture():SetTexCoord(0, 0.625, 0, 0.6875)
---~ 		b:GetHighlightTexture():SetTexCoord(0, 0.625, 0, 0.6875)
---~ 		b:GetDisabledTexture():SetTexCoord(0, 0.625, 0, 0.6875)
---~ 		b:GetHighlightTexture():SetBlendMode("ADD")
-
---~ 		b:SetText("Refresh")
---~ 		b:SetAttribute("type", "macro")
---~ 		b:SetAttribute("macrotext", "/run CloseTradeSkill()\n/cast Jewelcrafting\n/run CloseTradeSkill()")
---~ 	end
+	if canJC then Sadpanda.RefreshButtonFactory(frame, "Jewelcrafting", "TOPRIGHT", frame, "BOTTOMRIGHT", 4, -3) end
 
 	frame:SetScript("OnShow", OpenBackpack)
 	OpenBackpack()
