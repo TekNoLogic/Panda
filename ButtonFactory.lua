@@ -21,8 +21,8 @@ local function OnShow(self)
 end
 
 
-function Sadpanda.ButtonFactory(parent, inherit, id, secure, notext, ...)
-	local f = CreateFrame(secure and "CheckButton" or "Frame", nil, parent, inherit)
+function Sadpanda.ButtonFactory(parent, id, secure, notext, ...)
+	local f = CreateFrame(secure and "CheckButton" or "Frame", nil, parent, secure and "SecureActionButtonTemplate")
 	local name, link, _, _, _, _, _, _, _, texture = GetItemInfo(id)
 	f.link, f.id, f.name = link, id, name
 
