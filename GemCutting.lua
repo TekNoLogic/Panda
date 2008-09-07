@@ -55,13 +55,13 @@ frame:SetScript("OnShow", function(frame)
 	local HGAP, VGAP = 5, -18
 	local rowanchor, lastframe
 	for i,rawid in ipairs(BC_GREEN_GEMS) do
-		local f = i == 1 and factory(frame, nil, rawid, nil, nil, "BOTTOMLEFT", frame, "TOPLEFT", 0, -HGAP-VGAP) or factory(frame, nil, rawid, nil, nil, "TOPLEFT", rowanchor, "BOTTOMLEFT", 0, VGAP)
+		local f = i == 1 and factory(frame, rawid, nil, nil, "BOTTOMLEFT", frame, "TOPLEFT", 0, -HGAP-VGAP) or factory(frame, rawid, nil, nil, "TOPLEFT", rowanchor, "BOTTOMLEFT", 0, VGAP)
 		lastframe, rowanchor = f, f
 		for j,id in ipairs(CUTS[rawid]) do lastframe = factory(frame, id, canJC, nil, "LEFT", lastframe, "RIGHT", HGAP, 0) end
 	end
 
 	for i,rawid in ipairs(BC_BLUE_GEMS) do
-		local f = i == 1 and factory(frame, nil, rawid, nil, nil, "BOTTOMLEFT", frame, "TOPLEFT", HGAP*8 + 32*8, -HGAP-VGAP) or factory(frame, nil, rawid, nil, nil, "TOPLEFT", rowanchor, "BOTTOMLEFT", 0, VGAP)
+		local f = i == 1 and factory(frame, rawid, nil, nil, "BOTTOMLEFT", frame, "TOPLEFT", HGAP*8 + 32*8, -HGAP-VGAP) or factory(frame, rawid, nil, nil, "TOPLEFT", rowanchor, "BOTTOMLEFT", 0, VGAP)
 		if i == 1 then factory(frame, 35945, canJC, true, "TOPRIGHT", f, "TOPLEFT", -HGAP*2, 0) end
 		lastframe, rowanchor = f, f
 		for j,id in ipairs(CUTS[rawid]) do lastframe = factory(frame, id, canJC, nil, "LEFT", lastframe, "RIGHT", HGAP, 0) end
