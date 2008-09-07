@@ -67,7 +67,7 @@ frame:SetScript("OnShow", function(frame)
 		for j,id in ipairs(CUTS[rawid]) do lastframe = factory(frame, id, canJC, nil, "LEFT", lastframe, "RIGHT", HGAP, 0) end
 	end
 
-	if canJC then Sadpanda.RefreshButtonFactory(frame, "Jewelcrafting", "TOPRIGHT", frame, "BOTTOMRIGHT", 4, -3) end
+	if canJC then Sadpanda.RefreshButtonFactory(frame, canJC, "TOPRIGHT", frame, "BOTTOMRIGHT", 4, -3) end
 
 	frame:SetScript("OnShow", OpenBackpack)
 	OpenBackpack()
