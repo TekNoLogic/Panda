@@ -5,6 +5,7 @@
 
 --~ local BC_GREEN_GEMS, BC_BLUE_GEMS, BC_EPIC_GEMS, BC_META_GEMS, CUTS = Panda.BC_GREEN_GEMS, Panda.BC_BLUE_GEMS, Panda.BC_EPIC_GEMS, Panda.BC_META_GEMS, Panda.CUTS
 local HideTooltip, ShowTooltip, GS, G = Sadpanda.HideTooltip, Sadpanda.ShowTooltip, Sadpanda.GS, Sadpanda.G
+local factory = Sadpanda.ButtonFactory
 local frame, epicframe, metaframe
 
 
@@ -42,113 +43,28 @@ local CUTS = {
 for i,t in pairs(CUTS) do GameTooltip:SetHyperlink("item:"..i); for _,id in pairs(t) do GameTooltip:SetHyperlink("item:"..id) end end
 
 
-local rawframes, cutframes, knowncombines, frame = {}, {}, {}
+local knowncombines = {}
 local auc = LibStub("tekAucQuery")
-
-local function BagUpdate()
-	for id,f in pairs(cutframes) do
-		local count = GetItemCount(id)
-		f.count:SetText(count > 0 and count or "")
-		if f.text then
-			local price = auc[id]
-			f.text:SetText(price)
-			f.text:SetText(GS(price))
-		end
-	end
-
-	for id,f in pairs(rawframes) do
-		local count = GetItemCount(id)
-		f.count:SetText(count > 0 and count or "")
-		if f.text then
-			local price = auc[id]
-			f.text:SetText(price)
-			f.text:SetText(GS(price))
-		end
-	end
-end
 
 
 local frame = CreateFrame("Frame", nil, UIParent)
 frame:Hide()
 Sadpanda.panel:RegisterFrame("Gem Cutting", frame)
+
 frame:SetScript("OnShow", function(frame)
-	local function SetupFrame(f, id, secure, notext)
-		local name, link, _, _, _, _, _, _, _, texture = GetItemInfo(id)
-		f.link, f.id, f.name = link, id, name
-
-		f:SetHeight(32)
-		f:SetWidth(32)
-		if not secure then f:EnableMouse() end
-		f:SetScript("OnEnter", ShowTooltip)
-		f:SetScript("OnLeave", HideTooltip)
-
-		local icon = f:CreateTexture(nil, "ARTWORK")
-		icon:SetAllPoints(f)
-		icon:SetTexture(texture)
-
-		if not notext then
-			f.text = f:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
-			f.text:SetPoint("TOP", icon, "BOTTOM")
-		end
-
-		local count = f:CreateFontString(nil, "ARTWORK", "NumberFontNormalSmall")
-		count:SetPoint("BOTTOMRIGHT", icon, "BOTTOMRIGHT", -2, 2)
-		f.count = count
-
---~ 		if secure and self.canJC then
---~ 			f:SetAlpha(knowncombines[f.name] and 1 or 0.25)
---~ 			f:SetAttribute("type", "macro")
---~ 			f:SetAttribute("macrotext", "/run CloseTradeSkill()\n/cast Jewelcrafting\n/run for i=1,GetNumTradeSkills() do if GetTradeSkillInfo(i) == '"..name.."' then DoTradeSkill(i) end end\n/run CloseTradeSkill()")
---~ 		end
-
-		return f
-	end
-
---~ 	frame = CreateFrame("Frame", nil, UIParent)
-
 	local HGAP, VGAP = 5, -18
 	local rowanchor, lastframe
 	for i,rawid in ipairs(BC_GREEN_GEMS) do
-		local f = CreateFrame("Frame", nil, frame)
-		if i == 1 then
-			f:SetPoint("BOTTOMLEFT", frame, "TOPLEFT", 0, -HGAP-VGAP)
-		else
-			f:SetPoint("TOPLEFT", rowanchor, "BOTTOMLEFT", 0, VGAP)
-		end
-		rowanchor = f
-		lastframe = SetupFrame(f, rawid)
-		rawframes[rawid] = f
-
-		for j,id in ipairs(CUTS[rawid]) do
-			local f = CreateFrame("CheckButton", nil, frame, "SecureActionButtonTemplate")
-			f:SetPoint("LEFT", lastframe, "RIGHT", HGAP, 0)
-			lastframe = SetupFrame(f, id, true)
-			cutframes[id] = f
-		end
+		local f = i == 1 and factory(frame, nil, rawid, nil, nil, "BOTTOMLEFT", frame, "TOPLEFT", 0, -HGAP-VGAP) or factory(frame, nil, rawid, nil, nil, "TOPLEFT", rowanchor, "BOTTOMLEFT", 0, VGAP)
+		lastframe, rowanchor = f, f
+		for j,id in ipairs(CUTS[rawid]) do lastframe = factory(frame, "SecureActionButtonTemplate", id, true, nil, "LEFT", lastframe, "RIGHT", HGAP, 0) end
 	end
 
 	for i,rawid in ipairs(BC_BLUE_GEMS) do
-		local f = CreateFrame("Frame", nil, frame)
-		if i == 1 then
-			f:SetPoint("BOTTOMLEFT", frame, "TOPLEFT", HGAP*8 + 32*8, -HGAP-VGAP)
-
-			local f2 = CreateFrame("CheckButton", nil, frame, "SecureActionButtonTemplate")
-			f2:SetPoint("TOPRIGHT", f, "TOPLEFT", -HGAP*2, 0)
-			SetupFrame(f2, 35945, true, true)
-			cutframes[35945] = f2
-		else
-			f:SetPoint("TOPLEFT", rowanchor, "BOTTOMLEFT", 0, VGAP)
-		end
-		rowanchor = f
-		lastframe = SetupFrame(f, rawid)
-		rawframes[rawid] = f
-
-		for j,id in ipairs(CUTS[rawid]) do
-			local f = CreateFrame("CheckButton", nil, frame, "SecureActionButtonTemplate")
-			f:SetPoint("LEFT", lastframe, "RIGHT", HGAP, 0)
-			lastframe = SetupFrame(f, id, true)
-			cutframes[id] = f
-		end
+		local f = i == 1 and factory(frame, nil, rawid, nil, nil, "BOTTOMLEFT", frame, "TOPLEFT", HGAP*8 + 32*8, -HGAP-VGAP) or factory(frame, nil, rawid, nil, nil, "TOPLEFT", rowanchor, "BOTTOMLEFT", 0, VGAP)
+		if i == 1 then factory(frame, "SecureActionButtonTemplate", 35945, true, true, "TOPRIGHT", f, "TOPLEFT", -HGAP*2, 0) end
+		lastframe, rowanchor = f, f
+		for j,id in ipairs(CUTS[rawid]) do lastframe = factory(frame, "SecureActionButtonTemplate", id, true, nil, "LEFT", lastframe, "RIGHT", HGAP, 0) end
 	end
 
 --~ 	if self.canJC then
@@ -177,16 +93,8 @@ frame:SetScript("OnShow", function(frame)
 --~ 		b:SetAttribute("macrotext", "/run CloseTradeSkill()\n/cast Jewelcrafting\n/run CloseTradeSkill()")
 --~ 	end
 
---~ 	frame:Hide()
-	local function refresh(self)
-		OpenBackpack()
-		self:RegisterEvent("BAG_UPDATE")
-		BagUpdate()
-	end
-	frame:SetScript("OnEvent", BagUpdate)
-	frame:SetScript("OnShow", refresh)
-	frame:SetScript("OnHide", function(self) self:UnregisterEvent("BAG_UPDATE") end)
-	refresh(frame)
+	frame:SetScript("OnShow", OpenBackpack)
+	OpenBackpack()
 end)
 
 
