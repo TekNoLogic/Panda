@@ -23,13 +23,5 @@ CallbackHandler-1.0.lua
 LibDataBroker-1.1\LibDataBroker-1.1.lua
 
 Sadpanda.lua
-Disenchanting.lua
-DisenchantingProb.lua
-DETooltip.lua
-Prospecting.lua
 GemCutting.lua
 GemTooltip.lua
-AutolootFix.lua
-PricePanel.lua
-BtmScanner.lua
-OreTooltip.lua
