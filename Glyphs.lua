@@ -49,6 +49,8 @@ frame:SetScript("OnShow", function(frame)
 
 	if canScribe then Sadpanda.RefreshButtonFactory(frame, canScribe, "TOPRIGHT", frame, "BOTTOMRIGHT", 4, -3) end
 
+	frame:SetScale(.95)
+
 	frame:SetScript("OnShow", OpenBackpack)
 	OpenBackpack()
 end)
