@@ -48,7 +48,7 @@ local knowncombines = {}
 
 local frame = CreateFrame("Frame", nil, UIParent)
 frame:Hide()
-Sadpanda.panel:RegisterFrame("Gem Cutting", frame)
+Sadpanda.panel:RegisterFrame("Gem Cutting (BC Unc/Rare)", frame)
 
 frame:SetScript("OnShow", function(frame)
 	local canJC = GetSpellInfo((GetSpellInfo(25229)))

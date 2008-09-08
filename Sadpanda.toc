@@ -26,5 +26,5 @@ tekPanelAuction.lua
 
 Sadpanda.lua
 ButtonFactory.lua
-GemCutting.lua
+GemCuttingBC.lua
 Glyphs.lua
