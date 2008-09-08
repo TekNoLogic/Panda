@@ -71,6 +71,10 @@ function lib.new(name, titletext, splitstyle)
 	close:SetScript("OnClick", function() HideUIPanel(frame) end)
 
 	if splitstyle then
+		local subpanel = CreateFrame("Frame", nil, frame)
+		subpanel:SetPoint("TOPLEFT", 190, -103)
+		subpanel:SetPoint("BOTTOMRIGHT", -12, 39)
+
 		local frames, names, refresh = {}, {}
 
 		function frame:RegisterFrame(name, newframe)
@@ -94,10 +98,8 @@ function lib.new(name, titletext, splitstyle)
 					for _,f in pairs(frames) do f:Hide() end
 					for _,f in pairs(buttons) do f:UnlockHighlight() end
 
-					frame:SetParent(panel)
-					frame:ClearAllPoints()
-					frame:SetPoint("TOPLEFT", 190, -103)
-					frame:SetWidth(630) frame:SetHeight(305)
+					frame:SetParent(subpanel)
+					frame:SetAllPoints(subpanel)
 					frame:SetFrameStrata("DIALOG")
 					frame:Show()
 
