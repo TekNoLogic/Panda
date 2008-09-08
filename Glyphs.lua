@@ -26,13 +26,32 @@ local GLYPHS = {
 for i,t in pairs(GLYPHS) do GameTooltip:SetHyperlink("item:"..INKS[i]); for _,id in pairs(t) do GameTooltip:SetHyperlink("item:"..id) end end
 
 
+local scroll = CreateFrame("ScrollFrame", nil, UIParent)
 local frame = CreateFrame("Frame", nil, UIParent)
-frame:Hide()
-Sadpanda.panel:RegisterFrame("Glyphs", frame)
+scroll:SetScrollChild(frame)
+scroll:Hide()
+Sadpanda.panel:RegisterFrame("Glyphs", scroll)
 
 frame:SetScript("OnShow", function(frame)
-	local canScribe = GetSpellInfo((GetSpellInfo(45357)))
 	local HGAP, VGAP = 5, -18
+	local LINEHEIGHT = VGAP - 32
+	local MAXOFFSET = LINEHEIGHT*3
+
+	frame:SetPoint("TOP")
+	frame:SetPoint("LEFT")
+	frame:SetPoint("RIGHT")
+	frame:SetHeight(1000)
+
+	local offset = 0
+	scroll:UpdateScrollChildRect()
+	scroll:EnableMouseWheel(true)
+	scroll:SetScript("OnMouseWheel", function(self, val)
+		offset = math.max(math.min(offset - val*LINEHEIGHT, 0), MAXOFFSET)
+		scroll:SetVerticalScroll(-offset)
+		frame:SetPoint("TOP", 0, offset)
+	end)
+
+	local canScribe = GetSpellInfo((GetSpellInfo(45357)))
 	local rowanchor, lastframe
 	for i,inkid in ipairs(INKS) do
 		local f = i == 1 and factory(frame, inkid, nil, nil, "TOPLEFT", frame, "TOPLEFT", 0, -HGAP) or factory(frame, inkid, nil, nil, "TOPLEFT", rowanchor, "BOTTOMLEFT", 0, VGAP)
