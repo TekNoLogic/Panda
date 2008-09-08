@@ -49,6 +49,18 @@ function Sadpanda.ButtonFactory(parent, id, secure, notext, ...)
 	count:SetPoint("BOTTOMRIGHT", icon, "BOTTOMRIGHT", -2, 2)
 	f.count = count
 
+	-- Thanks to oglow for this method
+	local border = f:CreateTexture(nil, "OVERLAY")
+	border:SetTexture("Interface\\Buttons\\UI-ActionButton-Border")
+	border:SetBlendMode("ADD")
+	border:SetAlpha(.5)
+	border:Hide()
+
+	border:SetPoint('CENTER', f, 'CENTER', 0, 1)
+	border:SetWidth(f:GetWidth() * 2 - 5)
+	border:SetHeight(f:GetHeight() * 2 - 5)
+	f.border = border
+
 	if secure then
 --~ 			f:SetAlpha(knowncombines[f.name] and 1 or 0.25)
 		f:SetAttribute("type", "macro")
