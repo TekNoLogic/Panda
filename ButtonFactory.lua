@@ -3,6 +3,9 @@ local HideTooltip, ShowTooltip, GS, G = Sadpanda.HideTooltip, Sadpanda.ShowToolt
 local auc = LibStub("tekAucQuery")
 
 
+local UNK = "Interface\\Icons\\INV_Misc_QuestionMark"
+
+
 local function OnEvent(self)
 	local count = GetItemCount(self.id)
 	self.count:SetText(count > 0 and count or "")
@@ -24,7 +27,7 @@ end
 function Sadpanda.ButtonFactory(parent, id, secure, notext, ...)
 	local f = CreateFrame(secure and "CheckButton" or "Frame", nil, parent, secure and "SecureActionButtonTemplate")
 	local name, link, _, _, _, _, _, _, _, texture = GetItemInfo(id)
-	f.link, f.id, f.name = link, id, name
+	f.link, f.id, f.name = link, id, name or ""
 
 	f:SetHeight(32)
 	f:SetWidth(32)
@@ -38,7 +41,7 @@ function Sadpanda.ButtonFactory(parent, id, secure, notext, ...)
 
 	local icon = f:CreateTexture(nil, "ARTWORK")
 	icon:SetAllPoints(f)
-	icon:SetTexture(texture)
+	icon:SetTexture(texture or UNK)
 
 	if not notext then
 		f.text = f:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")

@@ -22,10 +22,6 @@ local GLYPHS = {
 }
 
 
--- Query server, we need these items!
-for i,t in pairs(GLYPHS) do GameTooltip:SetHyperlink("item:"..INKS[i]); for _,id in pairs(t) do GameTooltip:SetHyperlink("item:"..id) end end
-
-
 local scroll = CreateFrame("ScrollFrame", nil, UIParent)
 local frame = CreateFrame("Frame", nil, UIParent)
 scroll:SetScrollChild(frame)

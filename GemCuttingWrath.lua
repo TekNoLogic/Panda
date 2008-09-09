@@ -22,10 +22,6 @@ local CUTS = {
 }
 
 
--- Query server, we need these items!
-for i,t in pairs(CUTS) do GameTooltip:SetHyperlink("item:"..i); for _,id in pairs(t) do GameTooltip:SetHyperlink("item:"..id) end end
-
-
 local knowncombines = {}
 
 

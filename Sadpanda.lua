@@ -46,11 +46,22 @@ Sadpanda = {panel = panel}
 
 function Sadpanda:HideTooltip() GameTooltip:Hide() end
 function Sadpanda:ShowTooltip()
-	if not self.link then return end
-
-	GameTooltip:SetOwner(self, "ANCHOR_NONE")
-	GameTooltip:SetPoint("TOPLEFT", self, "TOPRIGHT")
-	GameTooltip:SetHyperlink(self.link)
+	if self.link then
+		GameTooltip:SetOwner(self, "ANCHOR_NONE")
+		GameTooltip:SetPoint("TOPLEFT", self, "TOPRIGHT")
+		GameTooltip:SetHyperlink(self.link)
+	elseif IsShiftKeyDown() and self.id then
+		GameTooltip:SetOwner(self, "ANCHOR_NONE")
+		GameTooltip:SetPoint("TOPLEFT", self, "TOPRIGHT")
+		GameTooltip:SetHyperlink("item:"..self.id)
+	elseif self.id then
+		GameTooltip:SetOwner(self, "ANCHOR_NONE")
+		GameTooltip:SetPoint("TOPLEFT", self, "TOPRIGHT")
+		GameTooltip:AddLine("Hold shift to force a server query for this tooltip.")
+		GameTooltip:AddLine("This may cause the server to disconnect you!")
+		GameTooltip:AddLine("Use with caution.")
+		GameTooltip:Show()
+	end
 end
 
 
