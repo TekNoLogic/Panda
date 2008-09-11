@@ -48,22 +48,32 @@ Sadpanda.panel:RegisterFrame("Gem Cutting (BC Unc/Rare)", frame)
 
 frame:SetScript("OnShow", function(frame)
 	local canJC = GetSpellInfo((GetSpellInfo(25229)))
+	local uncached = {}
 	local HGAP, VGAP = 5, -18
 	local rowanchor, lastframe
 	for i,rawid in ipairs(BC_GREEN_GEMS) do
 		local f = i == 1 and factory(frame, rawid, nil, nil, "BOTTOMLEFT", frame, "TOPLEFT", 0, -HGAP-VGAP) or factory(frame, rawid, nil, nil, "TOPLEFT", rowanchor, "BOTTOMLEFT", 0, VGAP)
+		if not GetItemInfo(rawid) then uncached[f] = true end
 		lastframe, rowanchor = f, f
-		for j,id in ipairs(CUTS[rawid]) do lastframe = factory(frame, id, canJC, nil, "LEFT", lastframe, "RIGHT", HGAP, 0) end
+		for j,id in ipairs(CUTS[rawid]) do
+			lastframe = factory(frame, id, canJC, nil, "LEFT", lastframe, "RIGHT", HGAP, 0)
+			if not GetItemInfo(id) then uncached[lastframe] = true end
+		end
 	end
 
 	for i,rawid in ipairs(BC_BLUE_GEMS) do
 		local f = i == 1 and factory(frame, rawid, nil, nil, "BOTTOMLEFT", frame, "TOPLEFT", HGAP*8 + 32*8, -HGAP-VGAP) or factory(frame, rawid, nil, nil, "TOPLEFT", rowanchor, "BOTTOMLEFT", 0, VGAP)
 		if i == 1 then factory(frame, 35945, canJC, true, "TOPRIGHT", f, "TOPLEFT", -HGAP*2, 0) end
+		if not GetItemInfo(rawid) then uncached[f] = true end
 		lastframe, rowanchor = f, f
-		for j,id in ipairs(CUTS[rawid]) do lastframe = factory(frame, id, canJC, nil, "LEFT", lastframe, "RIGHT", HGAP, 0) end
+		for j,id in ipairs(CUTS[rawid]) do
+			lastframe = factory(frame, id, canJC, nil, "LEFT", lastframe, "RIGHT", HGAP, 0)
+			if not GetItemInfo(id) then uncached[lastframe] = true end
+		end
 	end
 
 	if canJC then Sadpanda.RefreshButtonFactory(frame, canJC, "TOPRIGHT", frame, "BOTTOMRIGHT", 4, -3) end
+	if next(uncached) then Sadpanda.CacheButtonFactory(frame, uncached) end
 
 	frame:SetScript("OnShow", OpenBackpack)
 	OpenBackpack()

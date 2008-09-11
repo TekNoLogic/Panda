@@ -42,15 +42,21 @@ Sadpanda.panel:RegisterFrame("Gem Cutting (Wrath Green)", frame)
 
 frame:SetScript("OnShow", function(frame)
 	local canJC = GetSpellInfo((GetSpellInfo(25229)))
+	local uncached = {}
 	local HGAP, VGAP = 5, -18
 	local rowanchor, lastframe
 	for i,rawid in ipairs(WRATH_GREEN_GEMS) do
 		local f = i == 1 and factory(frame, rawid, nil, nil, "TOPLEFT", frame, "TOPLEFT", 0, -HGAP) or factory(frame, rawid, nil, nil, "TOPLEFT", rowanchor, "BOTTOMLEFT", 0, VGAP)
+		if not GetItemInfo(rawid) then uncached[f] = true end
 		lastframe, rowanchor = f, f
-		for j,id in ipairs(CUTS[rawid]) do lastframe = factory(frame, id, canJC, nil, "LEFT", lastframe, "RIGHT", HGAP, 0) end
+		for j,id in ipairs(CUTS[rawid]) do
+			lastframe = factory(frame, id, canJC, nil, "LEFT", lastframe, "RIGHT", HGAP, 0)
+			if not GetItemInfo(id) then uncached[lastframe] = true end
+		end
 	end
 
 	if canJC then Sadpanda.RefreshButtonFactory(frame, canJC, "TOPRIGHT", frame, "BOTTOMRIGHT", 4, -3) end
+	if next(uncached) then Sadpanda.CacheButtonFactory(frame, uncached) end
 
 	frame:SetScript("OnShow", OpenBackpack)
 	OpenBackpack()
@@ -67,15 +73,21 @@ Sadpanda.panel:RegisterFrame("Gem Cutting (Wrath Blue)", frame)
 
 frame:SetScript("OnShow", function(frame)
 	local canJC = GetSpellInfo((GetSpellInfo(25229)))
+	local uncached = {}
 	local HGAP, VGAP = 5, -18
 	local rowanchor, lastframe
 	for i,rawid in ipairs(WRATH_BLUE_GEMS) do
 		local f = i == 1 and factory(frame, rawid, nil, nil, "TOPLEFT", frame, "TOPLEFT", 0, -HGAP) or factory(frame, rawid, nil, nil, "TOPLEFT", rowanchor, "BOTTOMLEFT", 0, VGAP)
+		if not GetItemInfo(rawid) then uncached[f] = true end
 		lastframe, rowanchor = f, f
-		for j,id in ipairs(CUTS[rawid]) do lastframe = factory(frame, id, canJC, nil, "LEFT", lastframe, "RIGHT", HGAP, 0) end
+		for j,id in ipairs(CUTS[rawid]) do
+			lastframe = factory(frame, id, canJC, nil, "LEFT", lastframe, "RIGHT", HGAP, 0)
+			if not GetItemInfo(id) then uncached[lastframe] = true end
+		end
 	end
 
 	if canJC then Sadpanda.RefreshButtonFactory(frame, canJC, "TOPRIGHT", frame, "BOTTOMRIGHT", 4, -3) end
+	if next(uncached) then Sadpanda.CacheButtonFactory(frame, uncached) end
 
 	frame:SetScript("OnShow", OpenBackpack)
 	OpenBackpack()

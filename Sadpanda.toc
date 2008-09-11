@@ -23,6 +23,7 @@ CallbackHandler-1.0.lua
 LibDataBroker-1.1\LibDataBroker-1.1.lua
 tekAucQuery.lua
 tekPanelAuction.lua
+tekKonfigButton.lua
 
 Sadpanda.lua
 ButtonFactory.lua
