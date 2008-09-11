@@ -102,32 +102,3 @@ function Sadpanda.RefreshButtonFactory(parent, tradeskill, ...)
 
 	return b
 end
-
-
-function Sadpanda.CacheButtonFactory(parent, buttons, ...)
-	if next(buttons) then
-		local b = LibStub("tekKonfig-Button").new(parent, "TOPRIGHT", parent, "BOTTOMRIGHT", -155, -3)
-		b:SetText("Cache")
-		b.tiptext = "Click to quesry server for missing item data.  This could potentially disconnect you from the server, use with care."
-		b:SetScript("OnClick", function(self)
-			GameTooltip:Hide()
-			for button in pairs(buttons) do GameTooltip:SetHyperlink("item:"..button.id) end
-
-			local elapsed = 0
-			self:SetScript("OnUpdate", function(self, elap)
-				elapsed = elapsed + elap
-				if elapsed < 2 then return end
-
-				for button in pairs(buttons) do
-					local name, link, _, _, _, _, _, _, _, texture = GetItemInfo(button.id)
-					if not name then elapsed = 0; return end
-
-					button.icon:SetTexture(texture)
-					button.link, button.name = link, name or ""
-				end
-				self:SetScript("OnUpdate", nil)
-				self:Hide()
-			end)
-		end)
-	end
-end

@@ -23,6 +23,6 @@ tekKonfigButton.lua
 
 Sadpanda.lua
 ButtonFactory.lua
-GemCuttingBC.lua
-GemCuttingWrath.lua
+PanelFactory.lua
+GemCutting.lua
 Glyphs.lua
