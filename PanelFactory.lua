@@ -25,7 +25,7 @@ function Sadpanda.PanelFactory(name, spellid, itemids)
 			for id in ids:gmatch("%d+") do
 				gap = gap + (lastframe and HGAP or 0)
 				id = tonumber(id)
-				if id == 0 then gap = gap + 32
+				if id == 0 then gap = gap + 32 + (not lastframe and HGAP or 0)
 				else
 					lastframe = factory(self, id, canCraft, nil, "TOPLEFT", lastframe or row, lastframe and "TOPRIGHT" or "TOPLEFT", gap, 0)
 					if not GetItemInfo(id) then uncached[lastframe] = true end
