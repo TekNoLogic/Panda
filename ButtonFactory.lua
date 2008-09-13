@@ -65,8 +65,7 @@ function Sadpanda.ButtonFactory(parent, id, secure, notext, ...)
 	border:SetHeight(f:GetHeight() * 2 - 5)
 	f.border = border
 
-	if secure then
---~ 			f:SetAlpha(knowncombines[f.name] and 1 or 0.25)
+	if secure and name then
 		f:SetAttribute("type", "macro")
 		f:SetAttribute("macrotext", "/run CloseTradeSkill()\n/cast "..secure.."\n/run for i=1,GetNumTradeSkills() do if GetTradeSkillInfo(i) == '"..name.."' then DoTradeSkill(i) end end\n/run CloseTradeSkill()")
 	end
