@@ -1,4 +1,6 @@
 ﻿
+local knowncombines, unknown, tracker = {}, {}
+
 function Sadpanda.PanelFactory(name, spellid, itemids)
 	local factory = Sadpanda.ButtonFactory
 
@@ -8,6 +10,7 @@ function Sadpanda.PanelFactory(name, spellid, itemids)
 
 	frame:SetScript("OnShow", function(self)
 		local canCraft = spellid and GetSpellInfo((GetSpellInfo(spellid)))
+
 		local uncached = {}
 		local HGAP, VGAP = 5, -18
 		local rowanchor, lastrow
@@ -26,6 +29,10 @@ function Sadpanda.PanelFactory(name, spellid, itemids)
 				else
 					lastframe = factory(self, id, canCraft, nil, "TOPLEFT", lastframe or row, lastframe and "TOPRIGHT" or "TOPLEFT", gap, 0)
 					if not GetItemInfo(id) then uncached[lastframe] = true end
+					if canCraft and not knowncombines[lastframe.name] then
+						lastframe:SetAlpha(.25)
+						unknown[lastframe] = true
+					end
 					gap = 0
 				end
 			end
@@ -56,6 +63,18 @@ function Sadpanda.PanelFactory(name, spellid, itemids)
 					self:Hide()
 				end)
 			end)
+		end
+
+		if canCraft and not tracker and next(unknown) then
+			self:SetScript("OnEvent", function()
+				for i=1,GetNumTradeSkills() do
+					local name, rowtype = GetTradeSkillInfo(i)
+					if rowtype ~= "header" then knowncombines[name] = true end
+				end
+				for f in pairs(unknown) do f:SetAlpha(knowncombines[f.name] and 1 or 0.25) end
+			end)
+			self:RegisterEvent("TRADE_SKILL_SHOW")
+			tracker = true
 		end
 
 		self:SetScript("OnShow", OpenBackpack)
