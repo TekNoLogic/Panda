@@ -4,18 +4,21 @@ local knowncombines, unknown, tracker = {}, {}
 function Sadpanda.PanelFactory(name, spellid, itemids, func)
 	local factory = Sadpanda.ButtonFactory
 
+	local scroll = CreateFrame("ScrollFrame", nil, UIParent)
 	local frame = CreateFrame("Frame", nil, UIParent)
-	frame:Hide()
-	Sadpanda.panel:RegisterFrame(name, frame)
+	scroll:SetScrollChild(frame)
+	scroll:Hide()
+	Sadpanda.panel:RegisterFrame(name, scroll)
 
 	frame:SetScript("OnShow", function(self)
 		local canCraft = spellid and GetSpellInfo((GetSpellInfo(spellid)))
 
 		local uncached = {}
 		local HGAP, VGAP = 5, -18
-		local rowanchor, lastrow
+		local numrows, rowanchor, lastrow = 0
 
 		for ids in itemids:gmatch("[^\n]+") do
+			numrows = numrows + 1
 			local row = CreateFrame("Frame", nil, self)
 			row:SetHeight(32) row:SetWidth(1)
 			row:SetPoint("TOPLEFT", lastrow or self, lastrow and "BOTTOMLEFT" or "TOPLEFT", 0, lastrow and VGAP or -HGAP)
@@ -39,9 +42,25 @@ function Sadpanda.PanelFactory(name, spellid, itemids, func)
 			end
 		end
 
-		if canCraft then Sadpanda.RefreshButtonFactory(self, canCraft, "TOPRIGHT", self, "BOTTOMRIGHT", 4, -3) end
+		frame:SetPoint("TOP")
+		frame:SetPoint("LEFT")
+		frame:SetPoint("RIGHT")
+		frame:SetHeight(1000)
+
+		local LINEHEIGHT = VGAP - 32
+		local MAXOFFSET = min(0, (numrows - 6)*LINEHEIGHT)
+		local offset = 0
+		scroll:UpdateScrollChildRect()
+		scroll:EnableMouseWheel(true)
+		scroll:SetScript("OnMouseWheel", function(self, val)
+			offset = math.max(math.min(offset - val*LINEHEIGHT, 0), MAXOFFSET)
+			scroll:SetVerticalScroll(-offset)
+			frame:SetPoint("TOP", 0, offset)
+		end)
+
+		if canCraft then Sadpanda.RefreshButtonFactory(scroll, canCraft, "TOPRIGHT", scroll, "BOTTOMRIGHT", 4, -3) end
 		if next(uncached) then
-			local b = LibStub("tekKonfig-Button").new(self, "TOPRIGHT", self, "BOTTOMRIGHT", -155, -3)
+			local b = LibStub("tekKonfig-Button").new(scroll, "TOPRIGHT", scroll, "BOTTOMRIGHT", -155, -3)
 			b:SetText("Cache")
 			b.tiptext = "Click to query server for missing item data.  This could potentially disconnect you from the server, use with care."
 			b:SetScript("OnClick", function(self)
