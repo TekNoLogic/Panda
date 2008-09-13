@@ -1,71 +1,31 @@
 ﻿
-------------------------------
---      Are you local?      --
-------------------------------
-
-local HideTooltip, ShowTooltip, GS, G = Sadpanda.HideTooltip, Sadpanda.ShowTooltip, Sadpanda.GS, Sadpanda.G
-local factory = Sadpanda.ButtonFactory
-local frame, epicframe, metaframe
-
-
-local INKS = {39774, 43116, 43118, 43120, 43122, 43124, 43126, 43126, 43126}
-local GLYPHS = {
-	{41096, 41095, 42743, 42741, 42960, 42956, 41531, 41537, 42410, 42408, 42455, 42462, 42912, 42907, 40897, 40922, 40913},
-	{41106, 41092, 42734, 42735, 42961, 42962, 41530, 41532, 42398, 42400, 42461, 42458, 42898, 42900, 40924, 40914},
-	{41108, 41100, 42737, 42738, 42964, 42966, 41536, 41540, 42402, 42411, 42465, 42467, 42908, 42910, 40923, 40919},
-	{41104, 41099, 42746, 42747, 42970, 42972, 41547, 41533, 42415, 42416, 42473, 42466, 42897, 42903, 40909, 40902},
-	{41098, 41103, 42744, 42750, 42973, 42974, 41535, 41541, 42397, 42399, 42470, 42468, 42904, 42905, 40916, 40901},
-	{41105, 41094, 42749, 42736, 42963, 42955, 41527, 41542, 42401, 42406, 42471, 42453, 42911, 40903, 40896, 40906},
-	{41102, 41110, 42754, 42745, 42958, 42957, 41518, 41517, 42407, 42405, 42460, 42454, 42899, 42902, 40920, 40908},
-	{41109, 41101, 42748, 42751, 42965, 42969, 41538, 41539, 42409, 42412, 42463, 42469, 42915, 42916, 40906},
-	{41107, 42740, 42739, 42742, 42954, 42959, 41524, 41526, 41529, 42396, 42456, 42457, 42459, 42901, 40899},
-}
-
-
-local scroll = CreateFrame("ScrollFrame", nil, UIParent)
-local frame = CreateFrame("Frame", nil, UIParent)
-scroll:SetScrollChild(frame)
-scroll:Hide()
-Sadpanda.panel:RegisterFrame("Glyphs", scroll)
-
-frame:SetScript("OnShow", function(frame)
-	local HGAP, VGAP = 5, -18
-	local LINEHEIGHT = VGAP - 32
-	local MAXOFFSET = LINEHEIGHT*3
-
-	frame:SetPoint("TOP")
-	frame:SetPoint("LEFT")
-	frame:SetPoint("RIGHT")
-	frame:SetHeight(1000)
-
-	local offset = 0
-	scroll:UpdateScrollChildRect()
-	scroll:EnableMouseWheel(true)
-	scroll:SetScript("OnMouseWheel", function(self, val)
-		offset = math.max(math.min(offset - val*LINEHEIGHT, 0), MAXOFFSET)
-		scroll:SetVerticalScroll(-offset)
-		frame:SetPoint("TOP", 0, offset)
-	end)
-
-	local canScribe = GetSpellInfo((GetSpellInfo(45357)))
-	local rowanchor, lastframe
-	for i,inkid in ipairs(INKS) do
-		local f = i == 1 and factory(frame, inkid, nil, nil, "TOPLEFT", frame, "TOPLEFT", 0, -HGAP) or factory(frame, inkid, nil, nil, "TOPLEFT", rowanchor, "BOTTOMLEFT", 0, VGAP)
-		lastframe, rowanchor = f, f
-		for j,id in ipairs(GLYPHS[i]) do
-			lastframe = factory(frame, id, canScribe, nil, "LEFT", lastframe, "RIGHT", HGAP, 0)
-			local _, _, _, _, _, _, subtype = GetItemInfo(id)
-			local c = subtype and RAID_CLASS_COLORS[subtype:upper()]
-			lastframe.border:SetVertexColor(c and c.r or 0, c and c.g or 0, c and c.b or 0)
-			lastframe.border:SetAlpha(.8)
-			lastframe.border:Show()
-		end
-	end
-
-	if canScribe then Sadpanda.RefreshButtonFactory(frame, canScribe, "TOPRIGHT", frame, "BOTTOMRIGHT", 4, -3) end
-
-	frame:SetScale(.95)
-
-	frame:SetScript("OnShow", OpenBackpack)
-	OpenBackpack()
+Sadpanda.PanelFactory("Glyphs", 45357,
+[[39774 41096 42743 42960 41531 42410 42455 42912 40897 40922
+    0   41095 42741 42956 41537 42408 42462 42907 40913
+  43116 41106 42734 42961 41530 42398 42461 42898 40924
+    0   41092 42735 42962 41532 42400 42458 42900 40914
+  43118 41108 42737 42964 41536 42402 42465 42908 40923
+	  0   41100 42738 42966 41540 42411 42467 42910 40919
+  43120 41104 42746 42970 41547 42415 42473 42897 40909
+	  0   41099 42747 42972 41533 42416 42466 42903 40902
+  43122 41098 42744 42973 41535 42397 42470 42904 40916
+	  0   41103 42750 42974 41541 42399 42468 42905 40901
+  43124 41105 42749 42963 41527 42401 42471 42911 40903
+	  0   41094 42736 42955 41542 42406 42453 42906 40896
+  43126 41102 42754 42958 41518 42407 42460 42899 40920
+    0   41110 42745 42957 41517 42405 42454 42902 40908
+		0   41109 42748 42965 41538 42409 42463 42915 40900
+		0     0   42751 42969 41539 42412 42469 42916 40906
+		0   41101 42740 42954 41524 42396 42456 42901 40899
+	  0   41107 42739 42959 41526 42403 42457 42909 40915
+		0   41097 42742 42967 41529 42404 42459 42913 40912
+		0     0   42752 42968 41534 42414 42464 42914 40921
+		0     0   42753 42971 41552 42417 42472
+]],
+function(id, frame)
+	local _, _, _, _, _, _, subtype = GetItemInfo(id)
+	local c = subtype and RAID_CLASS_COLORS[subtype:upper()]
+	frame.border:SetVertexColor(c and c.r or 0, c and c.g or 0, c and c.b or 0)
+	frame.border:SetAlpha(.8)
+	frame.border:Show()
 end)

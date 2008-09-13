@@ -1,7 +1,7 @@
 ﻿
 local knowncombines, unknown, tracker = {}, {}
 
-function Sadpanda.PanelFactory(name, spellid, itemids)
+function Sadpanda.PanelFactory(name, spellid, itemids, func)
 	local factory = Sadpanda.ButtonFactory
 
 	local frame = CreateFrame("Frame", nil, UIParent)
@@ -28,6 +28,7 @@ function Sadpanda.PanelFactory(name, spellid, itemids)
 				if id == 0 then gap = gap + 32 + (not lastframe and HGAP or 0)
 				else
 					lastframe = factory(self, id, canCraft, nil, "TOPLEFT", lastframe or row, lastframe and "TOPRIGHT" or "TOPLEFT", gap, 0)
+					if func then func(id, lastframe) end
 					if not GetItemInfo(id) then uncached[lastframe] = true end
 					if canCraft and not knowncombines[lastframe.name] then
 						lastframe:SetAlpha(.25)
