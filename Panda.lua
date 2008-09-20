@@ -4,11 +4,11 @@
 -------------------------------
 
 --~ Panda = DongleStub("Dongle-1.0"):New("Panda")
---~ if tekDebug then Panda:EnableDebug(1, tekDebug:GetFrame("Sadpanda")) end
+--~ if tekDebug then Panda:EnableDebug(1, tekDebug:GetFrame("Panda")) end
 
 
-local panel = LibStub("tekPanel-Auction").new("SadpandaPanel", "Sadpanda", true)
-Sadpanda = {panel = panel}
+local panel = LibStub("tekPanel-Auction").new("PandaPanel", "Panda", true)
+Panda = {panel = panel}
 
 --~ function Panda:Initialize()
 --~ 	local _, title = GetAddOnInfo("Panda")
@@ -44,8 +44,8 @@ Sadpanda = {panel = panel}
 --      Util functions      --
 ------------------------------
 
-function Sadpanda:HideTooltip() GameTooltip:Hide() end
-function Sadpanda:ShowTooltip()
+function Panda:HideTooltip() GameTooltip:Hide() end
+function Panda:ShowTooltip()
 	if self.link then
 		GameTooltip:SetOwner(self, "ANCHOR_NONE")
 		GameTooltip:SetPoint("TOPLEFT", self, "TOPRIGHT")
@@ -65,7 +65,7 @@ function Sadpanda:ShowTooltip()
 end
 
 
-function Sadpanda.GS(cash)
+function Panda.GS(cash)
 	if not cash then return end
 	if cash > 999999 then return "|cffffd700".. floor(cash/10000) end
 
@@ -77,7 +77,7 @@ function Sadpanda.GS(cash)
 end
 
 
-function Sadpanda.G(cash)
+function Panda.G(cash)
 	if not cash then return end
 	return "|cffffd700".. floor(cash/10000)
 end
@@ -120,8 +120,7 @@ end
 --      Slash Handler      --
 -----------------------------
 
-SLASH_SADPANDA1 = "/sadpanda"
---~ SLASH_SADPANDA2 = "/tekdebug"
+SLASH_SADPANDA1 = "/panda"
 function SlashCmdList.SADPANDA() ShowUIPanel(panel) end
 
 
@@ -130,5 +129,5 @@ function SlashCmdList.SADPANDA() ShowUIPanel(panel) end
 ----------------------------------------
 
 local ldb = LibStub:GetLibrary("LibDataBroker-1.1")
-local dataobj = ldb:GetDataObjectByName("Sadpanda") or ldb:NewDataObject("Panda", {type = "launcher", icon = "Interface\\AddOns\\Sadpanda\\icon"})
+local dataobj = ldb:GetDataObjectByName("Panda") or ldb:NewDataObject("Panda", {type = "launcher", icon = "Interface\\AddOns\\Panda\\icon"})
 dataobj.OnClick = function() ShowUIPanel(panel) end

@@ -1,14 +1,14 @@
 ﻿
 local knowncombines, unknown, tracker = {}, {}
 
-function Sadpanda.PanelFactory(name, spellid, itemids, func)
-	local factory = Sadpanda.ButtonFactory
+function Panda.PanelFactory(name, spellid, itemids, func)
+	local factory = Panda.ButtonFactory
 
 	local scroll = CreateFrame("ScrollFrame", nil, UIParent)
 	local frame = CreateFrame("Frame", nil, UIParent)
 	scroll:SetScrollChild(frame)
 	scroll:Hide()
-	Sadpanda.panel:RegisterFrame(name, scroll)
+	Panda.panel:RegisterFrame(name, scroll)
 
 	frame:SetScript("OnShow", function(self)
 		local canCraft = spellid and GetSpellInfo((GetSpellInfo(spellid)))
@@ -58,7 +58,7 @@ function Sadpanda.PanelFactory(name, spellid, itemids, func)
 			frame:SetPoint("TOP", 0, offset)
 		end)
 
-		if canCraft then Sadpanda.RefreshButtonFactory(scroll, canCraft, "TOPRIGHT", scroll, "BOTTOMRIGHT", 4, -3) end
+		if canCraft then Panda.RefreshButtonFactory(scroll, canCraft, "TOPRIGHT", scroll, "BOTTOMRIGHT", 4, -3) end
 		if next(uncached) then
 			local b = LibStub("tekKonfig-Button").new(scroll, "TOPRIGHT", scroll, "BOTTOMRIGHT", -155, -3)
 			b:SetText("Cache")

@@ -1,5 +1,5 @@
 ﻿
-local HideTooltip, ShowTooltip, GS, G = Sadpanda.HideTooltip, Sadpanda.ShowTooltip, Sadpanda.GS, Sadpanda.G
+local HideTooltip, ShowTooltip, GS, G = Panda.HideTooltip, Panda.ShowTooltip, Panda.GS, Panda.G
 local auc = LibStub("tekAucQuery")
 
 
@@ -24,7 +24,7 @@ local function OnShow(self)
 end
 
 
-function Sadpanda.ButtonFactory(parent, id, secure, notext, ...)
+function Panda.ButtonFactory(parent, id, secure, notext, ...)
 	local f = CreateFrame(secure and "CheckButton" or "Frame", nil, parent, secure and "SecureActionButtonTemplate")
 	local name, link, _, _, _, _, _, _, _, texture = GetItemInfo(id)
 	f.link, f.id, f.name = link, id, name or ""
@@ -74,7 +74,7 @@ function Sadpanda.ButtonFactory(parent, id, secure, notext, ...)
 end
 
 
-function Sadpanda.RefreshButtonFactory(parent, tradeskill, ...)
+function Panda.RefreshButtonFactory(parent, tradeskill, ...)
 	local b = CreateFrame("Button", nil, parent, "SecureActionButtonTemplate")
 	b:SetPoint(...)
 	b:SetWidth(80) b:SetHeight(22)
