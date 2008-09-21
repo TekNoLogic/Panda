@@ -76,7 +76,7 @@ local function ShowItemDetails(self)
 
 	nocompare = true
 	GameTooltip:SetOwner(self, "ANCHOR_NONE")
-	GameTooltip:SetPoint("TOPLEFT", self, "TOPRIGHT")
+	GameTooltip:SetPoint("TOPLEFT", self.icon, "TOPRIGHT")
 	GameTooltip:SetBagItem(self.bag, self.slot)
 end
 
