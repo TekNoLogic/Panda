@@ -20,9 +20,13 @@ LibDataBroker-1.1\LibDataBroker-1.1.lua
 tekAucQuery.lua
 tekPanelAuction.lua
 tekKonfigButton.lua
+tinyGratuity.lua
 
 Panda.lua
 ButtonFactory.lua
 PanelFactory.lua
+
+Disenchanting.lua
+DisenchantingProb.lua
 GemCutting.lua
 Glyphs.lua
