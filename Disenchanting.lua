@@ -8,7 +8,6 @@ local ICONSIZE = 32
 local NUM_LINES = math.floor(305/ICONSIZE)
 local OFFSET = math.floor((305 - NUM_LINES*ICONSIZE)/(NUM_LINES+1))
 local BUTTON_WIDTH = math.floor((630 - OFFSET*2-15)/2)
-NUM_LINES = NUM_LINES*2
 
 local showBOP, nocompare = false
 local notDEable = {
@@ -99,19 +98,20 @@ Panda.panel:RegisterFrame("Disenchanting", frame)
 frame:Hide()
 
 frame:SetScript("OnShow", function(self)
-	self.NoItems = cfs(self, nil, "ARTWORK", "GameFontNormalHuge", "CENTER")
-	self.NoItems:SetText("Nothing to disenchant!")
+	local canDE = GetSpellInfo(GetSpellInfo(13262))
+
+	local NoItems = cfs(self, nil, "ARTWORK", "GameFontNormalHuge", "CENTER")
+	NoItems:SetText("Nothing to disenchant!")
 
 	self.lines = {}
 	for i=1,NUM_LINES do
 		local f = CreateFrame("CheckButton", "DEADEFrame"..i, self, "SecureActionButtonTemplate")
-		if i <= (NUM_LINES/2) then f:SetPoint("TOPLEFT", self, OFFSET, ICONSIZE-i*(ICONSIZE+OFFSET))
-		else f:SetPoint("TOPRIGHT", self, -OFFSET, ICONSIZE-(i-NUM_LINES/2)*(ICONSIZE+OFFSET)) end
+		f:SetPoint("TOPLEFT", self, OFFSET, ICONSIZE-i*(ICONSIZE+OFFSET))
 		f:SetHeight(ICONSIZE)
 		f:SetWidth(BUTTON_WIDTH)
 		f:SetScript("OnEnter", ShowItemDetails)
 		f:SetScript("OnLeave", HideItemDetails)
-		if Panda.canDisenchant then f:SetAttribute("type", "macro") end
+		if canDE then f:SetAttribute("type", "macro") end
 
 		f.icon = f:CreateTexture(nil, "ARTWORK")
 		f.icon:SetPoint("TOPLEFT")
@@ -127,6 +127,7 @@ frame:SetScript("OnShow", function(self)
 
 	local function OnEvent(self)
 		local i = 1
+		NoItems:Hide()
 
 		for bag=0,4 do
 			for slot=1,GetContainerNumSlots(bag) do
@@ -136,7 +137,7 @@ frame:SetScript("OnShow", function(self)
 					local name, _, _, itemLevel, _, itemType, itemSubType, _, _, texture = GetItemInfo(link)
 
 					local l = frame.lines[i]
-					if self.canDisenchant then l:SetAttribute("macrotext", string.format("/cast Disenchant\n/use %s %s", bag, slot)) end
+					if canDE then l:SetAttribute("macrotext", string.format("/cast Disenchant\n/use %s %s", bag, slot)) end
 					l.bag, l.slot = bag, slot
 					l.icon:SetTexture(texture)
 					l.name:SetText(link)
@@ -150,7 +151,7 @@ frame:SetScript("OnShow", function(self)
 			end
 		end
 
-		if i == 1 then frame.NoItems:Show() else frame.NoItems:Hide() end
+		if i == 1 then NoItems:Show() end
 		for j=i,NUM_LINES do frame.lines[j]:Hide() end
 	end
 
