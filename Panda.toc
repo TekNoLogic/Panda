@@ -28,5 +28,6 @@ PanelFactory.lua
 
 Disenchanting.lua
 DisenchantingProb.lua
+Prospecting.lua
 GemCutting.lua
 Glyphs.lua
