@@ -182,7 +182,7 @@ frame:SetScript("OnShow", function(self)
 
 	-- Set up price panel
 	local frame = CreateFrame("Frame", nil, self)
-	frame:SetPoint("TOPLEFT", self, "TOP")
+	frame:SetPoint("TOPLEFT", self, "TOP", 20, 0)
 	frame:SetPoint("BOTTOMRIGHT")
 	frame.itemids = [[10940 11083 11137 11176 16204 22445 34054
 	                  10938 10998 11134 11174 16202 22447 34056
