@@ -100,7 +100,7 @@ frame:Hide()
 frame:SetScript("OnShow", function(self)
 	local canDE = GetSpellInfo(GetSpellInfo(13262))
 
-	local NoItems = cfs(self, nil, "ARTWORK", "GameFontNormalHuge", "CENTER")
+	local NoItems = cfs(self, nil, "ARTWORK", "GameFontNormalHuge", "CENTER", -self:GetWidth()/4, 0)
 	NoItems:SetText("Nothing to disenchant!")
 
 	self.lines = {}
@@ -179,4 +179,16 @@ frame:SetScript("OnShow", function(self)
 	-- Block compare tips when showing tip
 	ShoppingTooltip1:SetScript("OnShow", HideCompareTooltip)
 	ShoppingTooltip2:SetScript("OnShow", HideCompareTooltip)
+
+	-- Set up price panel
+	local frame = CreateFrame("Frame", nil, self)
+	frame:SetPoint("TOPLEFT", self, "TOP")
+	frame:SetPoint("BOTTOMRIGHT")
+	frame.itemids = [[10940 11083 11137 11176 16204 22445 34054
+	                  10938 10998 11134 11174 16202 22447 34056
+	                  10939 11082 11135 11175 16203 22446 34055
+	                    0   10978 11138 11177 14343 22448 34053
+	                    0   11084 11139 11178 14344 22449 34052
+	                    0     0     0     0   20725 22450 34057]]
+	Panda.PanelFiller(frame)
 end)
