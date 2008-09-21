@@ -39,8 +39,6 @@ function Panda.ButtonFactory(parent, id, secure, notext, ...)
 	f:SetScript("OnHide", OnHide)
 	f:SetScript("OnEvent", OnEvent)
 
-	if f:IsVisible() then OnShow(f) end
-
 	local icon = f:CreateTexture(nil, "ARTWORK")
 	icon:SetAllPoints(f)
 	icon:SetTexture(texture or UNK)
@@ -71,6 +69,8 @@ function Panda.ButtonFactory(parent, id, secure, notext, ...)
 		f:SetAttribute("type", "macro")
 		f:SetAttribute("macrotext", "/run CloseTradeSkill()\n/cast "..secure.."\n/run for i=1,GetNumTradeSkills() do if GetTradeSkillInfo(i) == '"..name.."' then DoTradeSkill(i) end end\n/run CloseTradeSkill()")
 	end
+
+	if f:IsVisible() then OnShow(f) end
 
 	return f
 end

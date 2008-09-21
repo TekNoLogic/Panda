@@ -44,17 +44,17 @@ function Panda:PanelFiller()
 	local offset = 0
 
 	if scroll then
-		frame:SetPoint("TOP")
-		frame:SetPoint("LEFT")
-		frame:SetPoint("RIGHT")
-		frame:SetHeight(1000)
+		self:SetPoint("TOP")
+		self:SetPoint("LEFT")
+		self:SetPoint("RIGHT")
+		self:SetHeight(1000)
 
 		scroll:UpdateScrollChildRect()
 		scroll:EnableMouseWheel(true)
-		scroll:SetScript("OnMouseWheel", function(self, val)
+		scroll:SetScript("OnMouseWheel", function(scroll, val)
 			offset = math.max(math.min(offset - val*LINEHEIGHT, 0), MAXOFFSET)
 			scroll:SetVerticalScroll(-offset)
-			frame:SetPoint("TOP", 0, offset)
+			self:SetPoint("TOP", 0, offset)
 		end)
 	end
 
