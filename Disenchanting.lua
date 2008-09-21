@@ -9,7 +9,7 @@ local NUM_LINES = math.floor(305/ICONSIZE)
 local OFFSET = math.floor((305 - NUM_LINES*ICONSIZE)/(NUM_LINES+1))
 local BUTTON_WIDTH = math.floor((630 - OFFSET*2-15)/2)
 
-local showBOP, nocompare = false
+local showBOP, nocompare, buttons = false
 local notDEable = {
 	["32540"] = true,
 	["32541"] = true,
@@ -78,12 +78,24 @@ local function ShowItemDetails(self)
 	GameTooltip:SetOwner(self, "ANCHOR_NONE")
 	GameTooltip:SetPoint("TOPLEFT", self.icon, "TOPRIGHT")
 	GameTooltip:SetBagItem(self.bag, self.slot)
+
+	local link = GetContainerItemLink(self.bag, self.slot)
+	if not link then return end
+
+	local id1, _, _, _, perc1, id2, _, _, _, perc2, id3, _, _, _, perc3 = Panda:GetPossibleDisenchants(link)
+	if id1 then
+		for i,f in pairs(buttons) do f:SetAlpha(.1) end
+		if buttons[id1] then buttons[id1]:SetAlpha(.5 + perc1/2) end
+		if id2 and buttons[id2] then buttons[id2]:SetAlpha(.5 + perc2/2) end
+		if id3 and buttons[id3] then buttons[id3]:SetAlpha(.5 + perc3/2) end
+	end
 end
 
 
 local function HideItemDetails(self)
 	nocompare = nil
 	GameTooltip:Hide()
+	for i,f in pairs(buttons) do f:SetAlpha(1) end
 end
 
 
@@ -190,5 +202,5 @@ frame:SetScript("OnShow", function(self)
 	                    0   10978 11138 11177 14343 22448 34053
 	                    0   11084 11139 11178 14344 22449 34052
 	                    0     0     0     0   20725 22450 34057]]
-	Panda.PanelFiller(frame)
+	buttons = Panda.PanelFiller(frame)
 end)

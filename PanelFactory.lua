@@ -4,6 +4,7 @@ local nocombine = "39334 39338 39339 39340 39341 39342 39343"
 
 
 function Panda:PanelFiller()
+	local buttons = {}
 	local factory = Panda.ButtonFactory
 	local scroll, func = self.scroll, self.func
 
@@ -28,6 +29,7 @@ function Panda:PanelFiller()
 			if id == 0 then gap = gap + 32 + (not lastframe and HGAP or 0)
 			else
 				lastframe = factory(self, id, craftable and canCraft, nil, "TOPLEFT", lastframe or row, lastframe and "TOPRIGHT" or "TOPLEFT", gap, 0)
+				buttons[id] = lastframe
 				if func then func(id, lastframe) end
 				if not GetItemInfo(id) then uncached[lastframe] = true end
 				if craftable and canCraft and not knowncombines[lastframe.name] then
@@ -99,6 +101,8 @@ function Panda:PanelFiller()
 
 	self:SetScript("OnShow", OpenBackpack)
 	OpenBackpack()
+
+	return buttons
 end
 
 function Panda.PanelFactory(name, spellid, itemids, func)
