@@ -1,5 +1,7 @@
 ﻿
 local knowncombines, unknown, tracker = {}, {}
+local nocombine = "39334 39338 39339 39340 39341 39342 39343"
+
 
 function Panda.PanelFactory(name, spellid, itemids, func)
 	local factory = Panda.ButtonFactory
@@ -26,14 +28,15 @@ function Panda.PanelFactory(name, spellid, itemids, func)
 
 			local gap, lastframe = 0
 			for id in ids:gmatch("%d+") do
+				local craftable = not nocombine:match(id)
 				gap = gap + (lastframe and HGAP or 0)
 				id = tonumber(id)
 				if id == 0 then gap = gap + 32 + (not lastframe and HGAP or 0)
 				else
-					lastframe = factory(self, id, canCraft, nil, "TOPLEFT", lastframe or row, lastframe and "TOPRIGHT" or "TOPLEFT", gap, 0)
+					lastframe = factory(self, id, craftable and canCraft, nil, "TOPLEFT", lastframe or row, lastframe and "TOPRIGHT" or "TOPLEFT", gap, 0)
 					if func then func(id, lastframe) end
 					if not GetItemInfo(id) then uncached[lastframe] = true end
-					if canCraft and not knowncombines[lastframe.name] then
+					if craftable and canCraft and not knowncombines[lastframe.name] then
 						lastframe:SetAlpha(.25)
 						unknown[lastframe] = true
 					end
