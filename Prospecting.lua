@@ -64,4 +64,16 @@ frame:SetScript("OnShow", function(self)
 
 	self:SetScript("OnShow", OpenBackpack)
 	OpenBackpack()
+
+	-- Set up price panel
+	local frame = CreateFrame("Frame", nil, self)
+	frame:SetPoint("TOPLEFT", self, "TOP", 20, 0)
+	frame:SetPoint("BOTTOMRIGHT")
+	frame.itemids = [[818   774  1210  1206  1705 3864  1529  7909
+	                 7910 12799 12800 12364 12361
+									23077 21929 23112 23079 23117 23107
+	                23436 23439 23440 23437 23438 23441
+	                36917 36929 36920 36932 36923 36926
+	                36918 36930 36921 36933 36924 36927]]
+	buttons = Panda.PanelFiller(frame)
 end)
