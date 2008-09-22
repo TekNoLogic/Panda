@@ -117,7 +117,7 @@ frame:SetScript("OnShow", function(self)
 
 	self.lines = {}
 	for i=1,NUM_LINES do
-		local f = CreateFrame("CheckButton", "DEADEFrame"..i, self, "SecureActionButtonTemplate")
+		local f = CreateFrame("CheckButton", "PandaDEFrame"..i, self, "SecureActionButtonTemplate")
 		f:SetPoint("TOPLEFT", self, OFFSET, ICONSIZE-i*(ICONSIZE+OFFSET))
 		f:SetHeight(ICONSIZE)
 		f:SetWidth(BUTTON_WIDTH)
