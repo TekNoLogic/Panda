@@ -1,14 +1,23 @@
 ﻿
 local knowncombines, unknown, tracker = {}, {}
-local nocombine = "39334 39338 39339 39340 39341 39342 39343"
+local nocombine = [[39334 39338 39339 39340 39341 39342 39343
+39151  2447   765  2449   785
+43103  2450  2452  3820  2453
+43104  3369  3355  3356  3357
+43105  3818  3821  3358  3819
+43106  4625  8831  8836  8838  8845  8839 8846
+43107 13464 13463 13465 13466 13467
+43108 22786 22785 22789 22787 22791 22793
+43109 36901 36904]]
 
 
 function Panda:PanelFiller()
 	local buttons = {}
 	local factory = Panda.ButtonFactory
-	local scroll, func = self.scroll, self.func
+	local scroll, func, securefunc = self.scroll, self.func, self.securefunc
 
 	local canCraft = self.spellid and GetSpellInfo((GetSpellInfo(self.spellid)))
+	local craftDetail = canCraft and (securefunc or canCraft)
 
 	local uncached = {}
 	local HGAP, VGAP = 5, -18
@@ -28,7 +37,7 @@ function Panda:PanelFiller()
 			id = tonumber(id)
 			if id == 0 then gap = gap + 32 + (not lastframe and HGAP or 0)
 			else
-				lastframe = factory(self, id, craftable and canCraft, nil, "TOPLEFT", lastframe or row, lastframe and "TOPRIGHT" or "TOPLEFT", gap, 0)
+				lastframe = factory(self, id, craftable and craftDetail, nil, "TOPLEFT", lastframe or row, lastframe and "TOPRIGHT" or "TOPLEFT", gap, 0)
 				buttons[id] = lastframe
 				if func then func(id, lastframe) end
 				if not GetItemInfo(id) then uncached[lastframe] = true end
@@ -105,13 +114,13 @@ function Panda:PanelFiller()
 	return buttons
 end
 
-function Panda.PanelFactory(name, spellid, itemids, func)
+function Panda.PanelFactory(name, spellid, itemids, func, securefunc)
 	local scroll = CreateFrame("ScrollFrame", nil, UIParent)
 	local frame = CreateFrame("Frame", nil, UIParent)
 	scroll:SetScrollChild(frame)
 	scroll:Hide()
 	Panda.panel:RegisterFrame(name, scroll)
-	frame.scroll, frame.spellid, frame.itemids, frame.func = scroll, spellid, itemids, func
+	frame.scroll, frame.spellid, frame.itemids, frame.func, frame.securefunc = scroll, spellid, itemids, func, securefunc
 
 	frame:SetScript("OnShow", Panda.PanelFiller)
 end

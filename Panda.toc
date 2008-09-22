@@ -30,4 +30,5 @@ Disenchanting.lua
 DisenchantingProb.lua
 Prospecting.lua
 GemCutting.lua
+Milling.lua
 Glyphs.lua

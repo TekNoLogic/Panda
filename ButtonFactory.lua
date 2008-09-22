@@ -66,8 +66,12 @@ function Panda.ButtonFactory(parent, id, secure, notext, ...)
 	f.border = border
 
 	if secure and name then
-		f:SetAttribute("type", "macro")
-		f:SetAttribute("macrotext", "/run CloseTradeSkill()\n/cast "..secure.."\n/run for i=1,GetNumTradeSkills() do if GetTradeSkillInfo(i) == '"..name.."' then DoTradeSkill(i) end end\n/run CloseTradeSkill()")
+		if type(secure) == "function" then
+			secure(f)
+		else
+			f:SetAttribute("type", "macro")
+			f:SetAttribute("macrotext", "/run CloseTradeSkill()\n/cast "..secure.."\n/run for i=1,GetNumTradeSkills() do if GetTradeSkillInfo(i) == '"..name.."' then DoTradeSkill(i) end end\n/run CloseTradeSkill()")
+		end
 	end
 
 	if f:IsVisible() then OnShow(f) end
