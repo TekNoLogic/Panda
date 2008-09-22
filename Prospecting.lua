@@ -4,6 +4,8 @@ Panda.panel:RegisterFrame("Prospecting", frame)
 frame:Hide()
 
 frame:SetScript("OnShow", function(self)
+	local canProspect = GetSpellInfo(GetSpellInfo(31252))
+
 	local ORES = {2770, 2771, 2772, 3858, 10620, 23424, 23425, 36909, 36912}
 	local ICONSIZE, NUM_LINES = 32, #ORES
 	local OFFSET = math.floor((305 - NUM_LINES*ICONSIZE)/(NUM_LINES+1))
@@ -48,7 +50,7 @@ frame:SetScript("OnShow", function(self)
 		f.count = f:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")
 		f.count:SetPoint("TOPLEFT", icon, "TOPRIGHT", 5, -12)
 
-		if self.canProspect and itemname then
+		if canProspect and itemname then
 			f:SetAttribute("type", "macro")
 			f:SetAttribute("macrotext", "/cast Prospecting\n/use ".. itemname)
 		end
