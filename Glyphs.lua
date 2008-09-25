@@ -26,7 +26,7 @@ function(id, frame)
 	local _, _, _, _, _, _, subtype = GetItemInfo(id)
 	local c = subtype and RAID_CLASS_COLORS[subtype:gsub(" ", ""):upper()]
 	frame.border:SetVertexColor(c and c.r or 0, c and c.g or 0, c and c.b or 0)
-	frame.border:SetAlpha(.8)
+	frame.border:SetAlpha(1)
 	frame.border:Show()
 end)
 
