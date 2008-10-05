@@ -71,10 +71,12 @@ local function GetItemInfo(i)
 end
 
 
+local tipinframe
 local function ShowItemDetails(self)
 	if not (self.bag and self.slot) then return end
 
 	nocompare = true
+	tipinframe = self
 	GameTooltip:SetOwner(self, "ANCHOR_NONE")
 	GameTooltip:SetPoint("TOPLEFT", self.icon, "TOPRIGHT")
 	GameTooltip:SetBagItem(self.bag, self.slot)
@@ -93,7 +95,7 @@ end
 
 
 local function HideItemDetails(self)
-	nocompare = nil
+	nocompare, tipinframe = nil
 	GameTooltip:Hide()
 	for i,f in pairs(buttons) do f:SetAlpha(1) end
 end
@@ -156,6 +158,8 @@ frame:SetScript("OnShow", function(self)
 					l.type:SetText(itemType)
 					l.bind:SetText(bound and "Soulbound" or "Bind on Equip")
 					l:Show()
+
+					if l == tipinframe then ShowItemDetails(tipinframe) end
 
 					i = i + 1
 					if i > NUM_LINES then return end
