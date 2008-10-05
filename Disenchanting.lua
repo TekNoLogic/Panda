@@ -78,7 +78,7 @@ local function ShowItemDetails(self)
 	nocompare = true
 	tipinframe = self
 	GameTooltip:SetOwner(self, "ANCHOR_NONE")
-	GameTooltip:SetPoint("TOPLEFT", self.icon, "TOPRIGHT")
+	GameTooltip:SetPoint("TOPLEFT", self.icon, "BOTTOMRIGHT")
 	GameTooltip:SetBagItem(self.bag, self.slot)
 
 	local link = GetContainerItemLink(self.bag, self.slot)
