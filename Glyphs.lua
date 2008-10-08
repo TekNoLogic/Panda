@@ -1,4 +1,12 @@
 ﻿
+local function glyphcolorer(id, frame)
+	local _, _, _, _, _, _, subtype = GetItemInfo(id)
+	local c = subtype and RAID_CLASS_COLORS[subtype:gsub(" ", ""):upper()]
+	frame.border:SetVertexColor(c and c.r or 0, c and c.g or 0, c and c.b or 0)
+	frame.border:SetAlpha(1)
+	frame.border:Show()
+end
+
 Panda.PanelFactory("Glyphs", 45357,
 [[39334 39774 43413 41096 42743 42960 41531 42410 42455 42912 40897 40922
     0     0   43418 41095 42741 42956 41537 42408 42462 42907 40913
@@ -21,16 +29,21 @@ Panda.PanelFactory("Glyphs", 45357,
 		0     0     0   41097 42742 42967 41529 42404 42459 42913 40912
 		0     0     0     0   42752 42968 41534 42414 42464 42914 40921
 		0     0     0     0   42753 42971 41552 42417 42472
-]],
-function(id, frame)
-	local _, _, _, _, _, _, subtype = GetItemInfo(id)
-	local c = subtype and RAID_CLASS_COLORS[subtype:gsub(" ", ""):upper()]
-	frame.border:SetVertexColor(c and c.r or 0, c and c.g or 0, c and c.b or 0)
-	frame.border:SetAlpha(1)
-	frame.border:Show()
-end)
-
+]], glyphcolorer)
 
 -- 43427 Sunder Armor
 -- 43414 Cleaving
 -- 43432 Whirlwind
+
+
+Panda.PanelFactory("Minor Glyphs", 45357,
+[[39334 39774 43339 43395 43340 43366 43396 43379 43397 43300 43342 43371 43359
+    0     0   43367 43350 43343 43354 43338 43356 43364 43361 43335 43332 43399
+  39338 43116 43316 43365 43357 43725 43398 43377 43331 43368 43373 43389 43386
+    0     0   43376 43360 43391 43380 43344
+  39339 43118 43381 43334 43392 43674 43393 43351 43385 43372 43369 43388 43370
+  39340 43120 43378 43355
+  39341 43122
+  39342 43124 43671 43539 43672 43673 43535 43400 43544
+  39343 43126 43374 43394
+]], glyphcolorer)
