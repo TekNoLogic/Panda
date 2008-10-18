@@ -70,7 +70,7 @@ function Panda.ButtonFactory(parent, id, secure, notext, ...)
 			secure(f)
 		else
 			f:SetAttribute("type", "macro")
-			f:SetAttribute("macrotext", "/run CloseTradeSkill()\n/cast "..secure.."\n/run for i=1,GetNumTradeSkills() do if GetTradeSkillInfo(i) == '"..name.."' then DoTradeSkill(i) end end\n/run CloseTradeSkill()")
+			f:SetAttribute("macrotext", "/run CloseTradeSkill()\n/cast "..secure.."\n/run for i=1,GetNumTradeSkills() do if GetTradeSkillInfo(i) == '"..name:gsub("\'", "\\\'").."' then DoTradeSkill(i) end end\n/run CloseTradeSkill()")
 		end
 	end
 
