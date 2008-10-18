@@ -31,9 +31,6 @@ Panda.PanelFactory("Glyphs", 45357,
     0     0   43430   0   42753 42971 41552 42417 42472
 ]], glyphcolorer)
 
--- 43427 Sunder Armor
--- 43414 Cleaving
-
 
 Panda.PanelFactory("Minor Glyphs", 45357,
 [[39334 39774 43339 43395 43340 43366 43396 43379 43397 43300 43342 43371 43359
