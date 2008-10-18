@@ -1,12 +1,12 @@
 ﻿
 
 -- I am lazy, so I "borrowed" these constants from Enchantrix ^^
-local VOID, NEXUS = 22450, 20725
-local LRADIANT, SBRILLIANT, LBRILLIANT, SPRISMATIC, LPRISMATIC = 11178, 14343, 14344, 22448, 22449
-local SGLIMMERING, LGLIMMERING, SGLOWING, LGLOWING, SRADIANT = 10978, 11084, 11138, 11139, 11177
-local LNETHER, GNETHER, LETERNAL, GETERNAL, LPLANAR, GPLANAR = 11174, 11175, 16202, 16203, 22447, 22446
+local VOID, NEXUS, ABYSS = 22450, 20725, 34057
+local LRADIANT, SBRILLIANT, LBRILLIANT, SPRISMATIC, LPRISMATIC, LDREAM = 11178, 14343, 14344, 22448, 22449, 34052
+local SGLIMMERING, LGLIMMERING, SGLOWING, LGLOWING, SRADIANT, SDREAM = 10978, 11084, 11138, 11139, 11177, 34053
+local LNETHER, GNETHER, LETERNAL, GETERNAL, LPLANAR, GPLANAR, LCOSMIC, GCOSMIC = 11174, 11175, 16202, 16203, 22447, 22446, 34056, 34055
 local LMAGIC, GMAGIC, LASTRAL, GASTRAL, LMYSTIC, GMYSTIC = 10938, 10939, 10998, 11082, 11134, 11135
-local STRANGE, SOUL, VISION, DREAM, ILLUSION, ARCANE = 10940, 11083, 11137, 11176, 16204, 22445
+local STRANGE, SOUL, VISION, DREAM, ILLUSION, ARCANE, INFINATE = 10940, 11083, 11137, 11176, 16204, 22445, 34054
 
 
 -- Average AH Buyouts, mined from wowhead.com
@@ -38,7 +38,8 @@ local function GetUncommonVals(ilvl)
 	elseif ilvl <= 65 then return ILLUSION, "2-5x", "75%", 3.5, .75, GETERNAL, "2-3x", "20%", 2.5, .20,  LBRILLIANT, "1x", "5%", 1, .05
 	elseif ilvl <= 80 then return   ARCANE, "2-3x", "75%", 2.5, .75,  LPLANAR, "1-2x", "20%", 1.5, .20,  SPRISMATIC, "1x", "5%", 1, .05
 	elseif ilvl <= 99 then return   ARCANE, "2-3x", "75%", 2.5, .75,  LPLANAR, "2-3x", "20%", 2.5, .20,  SPRISMATIC, "1x", "5%", 1, .05
-	else return                     ARCANE, "2-5x", "75%", 3.5, .75,  GPLANAR, "1-2x", "20%", 1.5, .20,  LPRISMATIC, "1x", "5%", 1, .05 end
+	elseif ilvl <= 120 then return  ARCANE, "2-5x", "75%", 3.5, .75,  GPLANAR, "1-2x", "20%", 1.5, .20,  LPRISMATIC, "1x", "5%", 1, .05
+	else return                   INFINATE, "2-3x", "75%", 2.5, .75,  LCOSMIC, "1-2x", "20%", 1.5, .20,      SDREAM, "1x", "5%", 1, .05 end -- Not sure the exact numbers in Wrath yet, so we'll stick to the pattern
 end
 
 
@@ -48,13 +49,14 @@ function Panda:GetPossibleDisenchants(item)
 
 	if qual == 4 then -- Epic
 		if ilvl > 75 and ilvl <= 80 and itemtype == "Weapon" then return NEXUS, "1-2x", "33%/66%", 5/3
-		elseif ilvl <= 45  then return SRADIANT, "2-4x", "100%", 3, 1
-		elseif ilvl <= 50  then return LRADIANT, "2-4x", "100%", 3, 1
-		elseif ilvl <= 55  then return SBRILLIANT, "2-4x", "100%", 3, 1
-		elseif ilvl <= 60  then return NEXUS, "1x", "100%", 1, 1
-		elseif ilvl <= 80  then return NEXUS, "1-2x", "100%", 1.5, 1
-		elseif ilvl <= 100 then return VOID, "1-2x", "100%", 1.5, 1
-		else return VOID, "1-2x", "33%/66%", 5/3, 1 end
+		elseif ilvl <= 45  then return SRADIANT,   "2-4x",    "100%",   3, 1
+		elseif ilvl <= 50  then return LRADIANT,   "2-4x",    "100%",   3, 1
+		elseif ilvl <= 55  then return SBRILLIANT, "2-4x",    "100%",   3, 1
+		elseif ilvl <= 60  then return NEXUS,        "1x",    "100%",   1, 1
+		elseif ilvl <= 80  then return NEXUS,      "1-2x",    "100%", 1.5, 1
+		elseif ilvl <= 100 then return VOID,       "1-2x",    "100%", 1.5, 1
+		elseif ilvl <  200 then return VOID,       "1-2x", "33%/66%", 5/3, 1
+		else return                   ABYSS,       "1-2x",    "100%", 1.5, 1 end -- Not sure the exact numbers in Wrath yet, so we'll stick to the pattern
 
 	elseif qual == 3 then -- Rare
 		local _, _, itemid = string.find(link, "item:(%d+):")
@@ -71,7 +73,8 @@ function Panda:GetPossibleDisenchants(item)
 		elseif ilvl <= 65 then return  LBRILLIANT, "1x", "100%", 1, 1
 		elseif ilvl <= 70 then return  LBRILLIANT, "1x", "99.5%", 1, .995, NEXUS, "1x", "0.5%", 1, 0.005
 		elseif ilvl <= 99 then return  SPRISMATIC, "1x", "99.5%", 1, .995, NEXUS, "1x", "0.5%", 1, 0.005
-		else return                    LPRISMATIC, "1x", "99.5%", 1, .995, VOID, "1x", "0.5%", 1, 0.005 end
+		elseif ilvl < 138 then return  LPRISMATIC, "1x", "99.5%", 1, .995,  VOID, "1x", "0.5%", 1, 0.005
+		else return                        SDREAM, "1x", "99.5%", 1, .995, ABYSS, "1x", "0.5%", 1, 0.005 end -- Not sure the exact numbers in Wrath yet, so we'll stick to the pattern
 
 	elseif qual == 2 then -- Uncommon
 		if itemtype == "Armor" then

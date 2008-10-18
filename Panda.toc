@@ -8,28 +8,27 @@
 ## X-Email: tekkub-wow@googlegroups.com
 ## X-Category: Tradeskills
 
-## OptionalDeps: Dongle, OptionHouse, tekDebug
+## OptionalDeps: tekDebug
 
 ## LoadManagers: AddonLoader
-## X-LoadOn-Resting: true
+## X-LoadOn-slash: /panda
 ## X-LoadOn-LDB-Launcher: Interface\AddOns\Panda\icon
-
-Dongle.lua
-OptionHouse.lua
-tinyGratuity.lua
 
 LibStub.lua
 CallbackHandler-1.0.lua
 LibDataBroker-1.1\LibDataBroker-1.1.lua
+tekAucQuery.lua
+tekPanelAuction.lua
+tekKonfigButton.lua
+tinyGratuity.lua
 
 Panda.lua
+ButtonFactory.lua
+PanelFactory.lua
+
 Disenchanting.lua
 DisenchantingProb.lua
-DETooltip.lua
 Prospecting.lua
 GemCutting.lua
-GemTooltip.lua
-AutolootFix.lua
-PricePanel.lua
-BtmScanner.lua
-OreTooltip.lua
+Milling.lua
+Glyphs.lua
