@@ -6,7 +6,7 @@ setmetatable(lib, {
 	__index = function(t,i)
 		if not i then return end
 		return GetAuctionBuyout and GetAuctionBuyout(i)
-			or AucAdvanced and AucAdvanced.API.GetMarketValue(i)
+			or AucAdvanced and AucAdvanced.Modules.Util.Appraiser.GetPrice(i, nil, true)
 	end,
 })
 
