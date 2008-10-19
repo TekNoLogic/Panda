@@ -108,7 +108,7 @@ function Panda:PanelFiller()
 		tracker = true
 	end
 
-	self:SetScript("OnShow", OpenBackpack)
+	self:SetScript("OnShow", function() OpenBackpack() end)
 	OpenBackpack()
 
 	return buttons
