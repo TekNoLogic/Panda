@@ -9,11 +9,7 @@ local UNK = "Interface\\Icons\\INV_Misc_QuestionMark"
 local function OnEvent(self)
 	local count = GetItemCount(self.id)
 	self.count:SetText(count > 0 and count or "")
-	if self.text then
-		local price = auc[self.id]
-		self.text:SetText(price)
-		self.text:SetText(GS(price))
-	end
+	if self.text then self.text:SetText(GS(auc[self.id])) end
 end
 
 
