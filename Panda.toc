@@ -21,6 +21,7 @@ tekAucQuery.lua
 tekPanelAuction.lua
 tekKonfigButton.lua
 tinyGratuity.lua
+tekIDmemo.lua
 
 Panda.lua
 ButtonFactory.lua

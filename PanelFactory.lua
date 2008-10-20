@@ -1,4 +1,6 @@
 ﻿
+local idmemo = LibStub("tekIDmemo")
+
 local knowncombines, unknown, tracker = {}, {}
 local nocombine = [[39334 39338 39339 39340 39341 39342 39343
 39151  2447   765  2449   785
@@ -41,7 +43,7 @@ function Panda:PanelFiller()
 				buttons[id] = lastframe
 				if func then func(id, lastframe) end
 				if not GetItemInfo(id) then uncached[lastframe] = true end
-				if craftable and canCraft and not knowncombines[lastframe.name] then
+				if craftable and canCraft and not knowncombines[lastframe.id] then
 					lastframe:SetAlpha(.25)
 					unknown[lastframe] = true
 				end
@@ -100,9 +102,10 @@ function Panda:PanelFiller()
 		self:SetScript("OnEvent", function()
 			for i=1,GetNumTradeSkills() do
 				local name, rowtype = GetTradeSkillInfo(i)
-				if rowtype ~= "header" then knowncombines[name] = true end
+				local link = GetTradeSkillItemLink(i)
+				if rowtype ~= "header" and link then knowncombines[idmemo[link]] = true end
 			end
-			for f in pairs(unknown) do f:SetAlpha(knowncombines[f.name] and 1 or 0.25) end
+			for f in pairs(unknown) do f:SetAlpha(knowncombines[f.id] and 1 or 0.25) end
 		end)
 		self:RegisterEvent("TRADE_SKILL_SHOW")
 		tracker = true
