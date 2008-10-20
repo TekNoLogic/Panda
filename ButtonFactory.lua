@@ -4,12 +4,20 @@ local auc = LibStub("tekAucQuery")
 
 
 local UNK = "Interface\\Icons\\INV_Misc_QuestionMark"
+local server = GetRealmName().." "..UnitFactionGroup("player")
 
 
 local function OnEvent(self)
 	local count = GetItemCount(self.id)
 	self.count:SetText(count > 0 and count or "")
 	if self.text then self.text:SetText(GS(auc[self.id])) end
+
+
+	if ForSaleByOwnerDB then
+		local count, name = 0, GetItemInfo(self.id)
+		for char,vals in pairs(ForSaleByOwnerDB[server]) do count = count + (vals[name] or 0) end
+		self.ahcount:SetText(count ~= 0 and count or "")
+	end
 end
 
 
@@ -48,6 +56,9 @@ function Panda.ButtonFactory(parent, id, secure, notext, ...)
 	local count = f:CreateFontString(nil, "ARTWORK", "NumberFontNormalSmall")
 	count:SetPoint("BOTTOMRIGHT", icon, "BOTTOMRIGHT", -2, 2)
 	f.count = count
+
+	f.ahcount = f:CreateFontString(nil, "ARTWORK", "NumberFontNormalSmall")
+	f.ahcount:SetPoint("TOPRIGHT", icon, "TOPRIGHT", -2, -2)
 
 	-- Thanks to oglow for this method
 	local border = f:CreateTexture(nil, "OVERLAY")
