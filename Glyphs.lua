@@ -1,10 +1,18 @@
 ﻿
+local twoinks = [[42906 42462 43418 41537 42410 42962 42400 41092 42458 41532 43417 41532 43417 42737 42908 40923 42964 42402 41108 42465 41536 43427 40909 42897 42746 41104 42415 41547 42970
+43424 42473 41547 42970 43424 43473 41098 42904 42744 41535 42973 42470 42749 42471 43551 41542 42736 41094 42955 43827 43554 42453 40896 42906 42406 43549 43554 42453 40896 42906 42406 43549]]
 local function glyphcolorer(id, frame)
 	local _, _, _, _, _, _, subtype = GetItemInfo(id)
 	local c = subtype and RAID_CLASS_COLORS[subtype:gsub(" ", ""):upper()]
 	frame.border:SetVertexColor(c and c.r or 0, c and c.g or 0, c and c.b or 0)
 	frame.border:SetAlpha(1)
 	frame.border:Show()
+
+	if twoinks:match(id) then
+		local fs = frame:CreateFontString(nil, "ARTWORK", "NumberFontNormalSmall")
+		fs:SetPoint("TOPLEFT", frame.icon, "TOPLEFT", 0, -2)
+		fs:SetText("*")
+	end
 end
 
 Panda.PanelFactory("Glyphs", 45357,
