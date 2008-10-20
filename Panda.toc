@@ -8,6 +8,8 @@
 ## X-Email: tekkub-wow@googlegroups.com
 ## X-Category: Tradeskills
 
+## SavedVariablesPerCharacter: PandaDBPC
+
 ## OptionalDeps: tekDebug
 
 ## LoadManagers: AddonLoader

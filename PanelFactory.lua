@@ -1,7 +1,7 @@
 ﻿
 local idmemo = LibStub("tekIDmemo")
 
-local knowncombines, unknown, tracker = {}, {}
+local unknown, knowncombines, tracker = {}
 local nocombine = [[39334 39338 39339 39340 39341 39342 39343
 39151  2447   765  2449   785
 43103  2450  2452  3820  2453
@@ -14,6 +14,8 @@ local nocombine = [[39334 39338 39339 39340 39341 39342 39343
 
 
 function Panda:PanelFiller()
+	PandaDBPC = PandaDBPC or {}
+	knowncombines = PandaDBPC
 	local buttons = {}
 	local factory = Panda.ButtonFactory
 	local scroll, func, securefunc = self.scroll, self.func, self.securefunc
