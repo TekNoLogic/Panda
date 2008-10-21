@@ -28,6 +28,13 @@ local function OnShow(self)
 end
 
 
+function Panda.CraftMacro(name, id)
+	return "/run CloseTradeSkill()\n/cast "..name.."\n"..
+		"/run for i=1,GetNumTradeSkills() do local l = GetTradeSkillItemLink(i) if l and l:match('item:"..id..":') then SelectTradeSkill(i); DoTradeSkill(i, IsShiftKeyDown() and select(3, GetTradeSkillInfo(i)) or 1) end end\n"..
+		"/run if not IsShiftKeyDown() then CloseTradeSkill() end"
+end
+
+
 function Panda.ButtonFactory(parent, id, secure, notext, ...)
 	local f = CreateFrame(secure and "CheckButton" or "Frame", nil, parent, secure and "SecureActionButtonTemplate")
 	local name, link, _, _, _, _, _, _, _, texture = GetItemInfo(id)
@@ -77,7 +84,7 @@ function Panda.ButtonFactory(parent, id, secure, notext, ...)
 			secure(f)
 		else
 			f:SetAttribute("type", "macro")
-			f:SetAttribute("macrotext", "/run CloseTradeSkill()\n/cast "..secure.."\n/run for i=1,GetNumTradeSkills() do local l = GetTradeSkillItemLink(i) if l and l:match('item:"..id..":') then DoTradeSkill(i) end end\n/run CloseTradeSkill()")
+			f:SetAttribute("macrotext", Panda.CraftMacro(secure, id))
 		end
 	end
 

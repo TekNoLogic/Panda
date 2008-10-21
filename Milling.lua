@@ -14,7 +14,7 @@ Panda.PanelFactory(NAME, 45357,
 ]], nil, function(frame)
 	frame:SetAttribute("type", "macro")
 	if inks:match(frame.id) then
-		frame:SetAttribute("macrotext", "/run CloseTradeSkill()\n/cast "..NAME2.."\n/run for i=1,GetNumTradeSkills() do local l = GetTradeSkillItemLink(i) if l and l:match('item:"..frame.id.."') then DoTradeSkill(i) end end\n/run CloseTradeSkill()")
+		frame:SetAttribute("macrotext", Panda.CraftMacro(NAME2, frame.id))
 	else
 		frame:SetAttribute("macrotext", "/cast "..NAME.."\n/use "..frame.name)
 	end
