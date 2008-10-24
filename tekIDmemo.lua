@@ -1,10 +1,13 @@
 
-local ids = LibStub:NewLibrary("tekIDmemo", 1)
+local ids = LibStub:NewLibrary("tekIDmemo", 2)
 if not ids then return end
 
 setmetatable(ids, {
 	__index = function(t,i)
-		if type(i) ~= "string" then
+		if type(i) == "number" then
+			t[i] = i
+			return i
+		elseif type(i) ~= "string" then
 			t[i] = false
 			return
 		end
