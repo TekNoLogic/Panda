@@ -10,6 +10,8 @@
 local panel = LibStub("tekPanel-Auction").new("PandaPanel", "Panda", true)
 Panda = {panel = panel}
 
+UIErrorsFrame:SetFrameStrata("FULLSCREEN")
+
 --~ function Panda:Initialize()
 --~ 	local _, title = GetAddOnInfo("Panda")
 --~ 	local author, version = GetAddOnMetadata("Panda", "Author"), GetAddOnMetadata("Panda", "Version")
