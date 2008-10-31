@@ -35,3 +35,4 @@ Prospecting.lua
 GemCutting.lua
 Milling.lua
 Glyphs.lua
+Pot.lua
