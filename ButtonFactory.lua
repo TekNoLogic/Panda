@@ -30,7 +30,7 @@ end
 
 function Panda.CraftMacro(name, id)
 	return "/run CloseTradeSkill()\n/cast "..name.."\n"..
-		"/run for i=1,GetNumTradeSkills() do local l = GetTradeSkillItemLink(i) if l and l:match('item:"..id..":') then SelectTradeSkill(i); DoTradeSkill(i, IsShiftKeyDown() and select(3, GetTradeSkillInfo(i)) or 1) end end\n"..
+		"/run for i=1,GetNumTradeSkills() do local l = GetTradeSkillItemLink(i) if l and l:match('item:"..id..":') then TradeSkillFrame_SetSelection(i); DoTradeSkill(i, IsShiftKeyDown() and select(3, GetTradeSkillInfo(i)) or 1) end end\n"..
 		"/run if not IsShiftKeyDown() then CloseTradeSkill() end"
 end
 
