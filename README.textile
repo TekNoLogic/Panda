@@ -1,8 +1,7 @@
 Panda is a simple mod designed (initially) to speed up mass-disenchanting.
-This functionality was expanded to include prospecting, gem cutting, and quick viewing of AuctioneerAdvanced prices for gems, dust and other materials.
-Panda will also add price information to item tooltips where applicable.
+This functionality was expanded to include prospecting, gem cutting, milling, glyphs, flasks, elixirs, and quick viewing of AuctioneerAdvanced prices.
 
-Panda includes an auto-loot fix for prospecting and DE, since Blizzard has not fixed the longstanding issues with autoloot and crushing.
+To access the panda panel use @/panda@ or the LDB launcher.
 
 h2. Links
 
