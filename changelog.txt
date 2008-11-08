@@ -1,3 +1,27 @@
+3.0.3.10-Beta
+    Big 3.0 update!  No more dongle or OptionHouse
+    Redesign DE panel to use space better and display results more clearly
+    Redesign prospecting panel to be, like, actually useful
+    Add Wrath gems and ores
+    Add glyph and scroll panels
+    Add milling
+    Add flask and elixir panels
+    Add shift-click item linking
+    Add alt-click to craft all of an item
+    Add flasks and elixirs panels
+    Add Nightmare Vine to milling
+    Tweak up the UIErrorsFrame strata so we can see combine errors
+    Save char's known combines across sessions
+    Add * to glyphs that require two inks
+    Use itemIDs when crafting instead of names
+    Use Auc's Beancounter, I guess
+    Move DE panel tooltip anchor so it doesn't cover up the current button
+    Make DE panel tooltip update on BAG_UPDATE
+    Add placeholder wrath DE probabilities... no idea if the usual pattern is maintained
+    Make panels scrollable if they overflow
+    Add force-cache button to panels
+    Make refresh button use localized craft name
+
 2.4.3.9-Beta
     Add AddonLoader LDB launcher field
     Tweak launcher declaration to match the updated spec
