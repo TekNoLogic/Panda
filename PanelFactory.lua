@@ -47,7 +47,7 @@ function Panda:PanelFiller()
 				buttons[id] = lastframe
 				if func then func(id, lastframe) end
 				if not GetItemInfo(id) then uncached[lastframe] = true end
-				if craftable and canCraft and not knowncombines[lastframe.id] then
+				if craftable and canCraft and not (knowncombines[lastframe.id] or knowncombines[lastframe.name]) then
 					lastframe:SetAlpha(.25)
 					unknown[lastframe] = true
 				end
@@ -105,11 +105,14 @@ function Panda:PanelFiller()
 	if canCraft and not tracker and next(unknown) then
 		self:SetScript("OnEvent", function()
 			for i=1,GetNumTradeSkills() do
-				local name, rowtype = GetTradeSkillInfo(i)
+				local name, rowtype, _, _, skilltype = GetTradeSkillInfo(i)
 				local link = GetTradeSkillItemLink(i)
-				if rowtype ~= "header" and link then knowncombines[idmemo[link]] = true end
+				if rowtype ~= "header" and link then
+					if skilltype == "Enchant" then knowncombines["Scroll of "..name] = true
+					else knowncombines[idmemo[link]] = true end
+				end
 			end
-			for f in pairs(unknown) do f:SetAlpha(knowncombines[f.id] and 1 or 0.25) end
+			for f in pairs(unknown) do f:SetAlpha((knowncombines[f.id] or knowncombines[f.name]) and 1 or 0.25) end
 		end)
 		self:RegisterEvent("TRADE_SKILL_SHOW")
 		tracker = true
