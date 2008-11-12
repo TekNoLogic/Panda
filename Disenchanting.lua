@@ -146,23 +146,25 @@ frame:SetScript("OnShow", function(self)
 		for bag=0,4 do
 			for slot=1,GetContainerNumSlots(bag) do
 				local link = GetContainerItemLink(bag, slot)
-				local bound = IsBound(bag, slot)
-				if link and Panda:DEable(link) and (showBOP or not bound) then
-					local name, _, _, itemLevel, _, itemType, itemSubType, _, _, texture = GetItemInfo(link)
+				if link and Panda:DEable(link) then
+					local bound = IsBound(bag, slot)
+					if showBOP or not bound then
+						local name, _, _, itemLevel, _, itemType, itemSubType, _, _, texture = GetItemInfo(link)
 
-					local l = frame.lines[i]
-					if canDE then l:SetAttribute("macrotext", string.format("/cast Disenchant\n/use %s %s", bag, slot)) end
-					l.bag, l.slot = bag, slot
-					l.icon:SetTexture(texture)
-					l.name:SetText(link)
-					l.type:SetText(itemType)
-					l.bind:SetText(bound and "Soulbound" or "Bind on Equip")
-					l:Show()
+						local l = frame.lines[i]
+						if canDE then l:SetAttribute("macrotext", string.format("/cast Disenchant\n/use %s %s", bag, slot)) end
+						l.bag, l.slot = bag, slot
+						l.icon:SetTexture(texture)
+						l.name:SetText(link)
+						l.type:SetText(itemType)
+						l.bind:SetText(bound and "Soulbound" or "Bind on Equip")
+						l:Show()
 
-					if l == tipinframe then ShowItemDetails(tipinframe) end
+						if l == tipinframe then ShowItemDetails(tipinframe) end
 
-					i = i + 1
-					if i > NUM_LINES then return end
+						i = i + 1
+						if i > NUM_LINES then return end
+					end
 				end
 			end
 		end
