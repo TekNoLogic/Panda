@@ -21,7 +21,7 @@ Panda.PanelFactory("Enchant Bracer", SPELLID,
   38777   0   38881 38901   0   38679
 ]], nil, function(frame)
 	frame:SetAttribute("type", "macro")
-	frame:SetAttribute("macrotext", frame.id, frame.name)
+	frame:SetAttribute("macrotext", MakeMacro(frame.id, frame.name))
 end)
 
 
@@ -32,7 +32,7 @@ Panda.PanelFactory("Enchant Shield", SPELLID,
   38843   0   38907
 ]], nil, function(frame)
 	frame:SetAttribute("type", "macro")
-	frame:SetAttribute("macrotext", frame.id, frame.name)
+	frame:SetAttribute("macrotext", MakeMacro(frame.id, frame.name))
 end)
 
 Panda.PanelFactory("Enchant Weapon", SPELLID,
@@ -44,5 +44,5 @@ Panda.PanelFactory("Enchant Weapon", SPELLID,
   38876 38838 38868 38872 38873 38871   0   38925 38927 38926 38924 38923   0   44453 44493 44497 38998
 ]], nil, function(frame)
 	frame:SetAttribute("type", "macro")
-	frame:SetAttribute("macrotext", frame.id, frame.name, true)
+	frame:SetAttribute("macrotext", MakeMacro(frame.id, frame.name, true))
 end)
