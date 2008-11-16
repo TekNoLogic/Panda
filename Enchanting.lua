@@ -25,6 +25,19 @@ Panda.PanelFactory("Enchant Bracer", SPELLID,
 end)
 
 
+Panda.PanelFactory("Enchant Cloak", SPELLID,
+[[38789 38835 38940 38959 44457   0     0     0     0     0     0     0     0   38770 38826 38858 38915
+  38775 38790 38806 38825 38859 38914 39001   0     0     0     0     0     0   38784 38815 38891 38969
+    0     0     0     0     0     0     0     0     0     0     0     0     0     0   38795 38942 38977
+    0     0   38939 38894 38893 39000 38895   0     0     0     0     0     0     0     0   38941 38982
+  44456 39003 38973 39004 38993 38978   0     0     0     0     0     0     0     0     0   38892 38956
+    0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0   38950
+]], nil, function(frame)
+	frame:SetAttribute("type", "macro")
+	frame:SetAttribute("macrotext", MakeMacro(frame.id, frame.name))
+end)
+
+
 Panda.PanelFactory("Enchant Shield", SPELLID,
 [[38787 38805 38828 38861 38945 38983   0   38949
   38791   0   38904   0   38820 38906   0   38954
@@ -34,6 +47,7 @@ Panda.PanelFactory("Enchant Shield", SPELLID,
 	frame:SetAttribute("type", "macro")
 	frame:SetAttribute("macrotext", MakeMacro(frame.id, frame.name))
 end)
+
 
 Panda.PanelFactory("Enchant Weapon", SPELLID,
 [[38779 38813   0   38814   0   38840
