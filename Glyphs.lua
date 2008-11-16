@@ -1,4 +1,5 @@
 ﻿
+local name = GetSpellInfo(45357)
 local twoinks = [[42906 42462 43418 41537 42410 42962 42400 41092 42458 41532 43417 41532 43417 42737 42908 40923 42964 42402 41108 42465 41536 43427 40909 42897 42746 41104 42415 41547 42970 42960
 43424 42473 41547 42970 43424 43473 41098 42904 42744 41535 42973 42470 42749 42471 43551 41542 42736 41094 42955 43827 43554 42453 40896 42906 42406 43549 43554 42453 40896 42906 42406 43549]]
 local function glyphcolorer(id, frame)
@@ -29,7 +30,7 @@ Panda.PanelFactory("Glyphs", 45357,
   39341 43122 43416 41103 42750 42974 41541 42399 42468 42905 40901 43536 43543 43546 43541
   39342 43124 43428 41105 42749 42963 41527 42401 42471 42911 40903 43548 43553 43825 43826
     0     0   43432 41094 42736 42955 41542 42406 42453 42906 40896 43551 43827 43554 43549
-  39343 43126 43419 41102 42745 42958 41539 42412 42460 42909 40920 43552
+  39343 43126 43419 41102 42745 42958 41539 42412 42460 42909 40920 43552   0     0     0   0 44680
     0     0   43431 41110 42752 42957 41517 42405 42454 42902 40908
     0     0   43425 41109 42748 42965 41538 42409 42463 42915 40900
     0     0   43429 41097 42751 42969 41518 42407 42469 42916 40906
@@ -38,9 +39,18 @@ Panda.PanelFactory("Glyphs", 45357,
     0     0   43415   0   42742 42967 41529 42404 42459 42913 40912
     0     0   43412   0   42754 42968 41534 42414 42464 42914 40921
     0     0   43430   0   42753 42971 41552 42417 42472
-]], glyphcolorer)
+]], glyphcolorer, function(frame)
+	frame:SetAttribute("type", "macro")
+	if frame.id == 44680 then
+		frame:SetAttribute("macrotext", "/run CloseTradeSkill()\n/cast "..name.."\n"..
+			"/run for i=1,GetNumTradeSkills() do if GetTradeSkillInfo(i) == 'Northrend Inscription Research' then DoTradeSkill(i) end end CloseTradeSkill()")
+	else
+		frame:SetAttribute("macrotext", Panda.CraftMacro(name, frame.id))
+	end
+end)
 
 
+research = "Minor Inscription Research"
 Panda.PanelFactory("Minor Glyphs", 45357,
 [[39334 39774 43339 43395 43340 43366 43396 43379 43397 43390 43342 43371 43359 0 0 0 44680
     0     0   43367 43350 43343 43354 43338 43356 43364 43361 43335 43332 43399
@@ -51,7 +61,15 @@ Panda.PanelFactory("Minor Glyphs", 45357,
   39341 43122
   39342 43124 43671 43539 43672 43673 43535 43400 43544
   39343 43126 43374 43394
-]], glyphcolorer)
+]], glyphcolorer, function(frame)
+	frame:SetAttribute("type", "macro")
+	if frame.id == 44680 then
+		frame:SetAttribute("macrotext", "/run CloseTradeSkill()\n/cast "..name.."\n"..
+			"/run for i=1,GetNumTradeSkills() do if GetTradeSkillInfo(i) == 'Minor Inscription Research' then DoTradeSkill(i) end end CloseTradeSkill()")
+	else
+		frame:SetAttribute("macrotext", Panda.CraftMacro(name, frame.id))
+	end
+end)
 
 
 Panda.PanelFactory("Scrolls", 45357,
