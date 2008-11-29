@@ -1,3 +1,19 @@
+3.0.3.11-Beta
+    Buggerfuck, got the flask panel backwards
+    Last of the missing NR major glyphs
+    Add minor glyph by class panel
+    Rearrange minor glyph panel
+    DK northrend glyphs
+    Add wrath flasks and elixirs
+    Add various ore and gems to "not craftable" list
+    Fix two tin ores on prospecting panel
+    Add Northrend Inscription Research
+    Rejigger the northrend glyphs a bit
+    Add wrath scrolls and vellum
+    Northrend herbs!
+    Don't test every bag item for soulboundedness, just ones we can DE
+    Add some enchant-to-vellum panels
+
 3.0.3.10-Beta
     Big 3.0 update!  No more dongle or OptionHouse
     Redesign DE panel to use space better and display results more clearly
