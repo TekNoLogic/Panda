@@ -120,7 +120,7 @@ function Panda:PanelFiller()
 				local link = GetTradeSkillItemLink(i)
 				if rowtype ~= "header" and link then
 					if skilltype == "Enchant" then knowncombines["Scroll of "..name] = true
-					else knowncombines[idmemo[link]] = true end
+					elseif idmemo[link] then knowncombines[idmemo[link]] = true end
 				end
 			end
 			for f in pairs(unknown) do f:SetAlpha((knowncombines[f.id] or knowncombines[f.name]) and 1 or 0.25) end
