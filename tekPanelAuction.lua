@@ -1,6 +1,6 @@
 
 
-local lib, oldminor = LibStub:NewLibrary("tekPanel-Auction", 3)
+local lib, oldminor = LibStub:NewLibrary("tekPanel-Auction", 4)
 if not lib then return end
 oldminor = oldminor or 0
 
@@ -16,7 +16,7 @@ end
 function lib.new(name, titletext, splitstyle)
 	local frame = CreateFrame("Frame", name, UIParent)
 	frame:CreateTitleRegion()
-	frame:SetFrameStrata("DIALOG")
+	frame:SetToplevel(true)
 	frame:SetWidth(832) frame:SetHeight(447)
 	frame:SetPoint("TOPLEFT", 0, -104)
 	frame:EnableMouse() -- To avoid click-thru
@@ -100,7 +100,6 @@ function lib.new(name, titletext, splitstyle)
 
 					frame:SetParent(subpanel)
 					frame:SetAllPoints(subpanel)
-					frame:SetFrameStrata("DIALOG")
 					frame:Show()
 
 					self:LockHighlight()
