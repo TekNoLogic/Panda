@@ -63,6 +63,11 @@ function Panda:ShowTooltip()
 		GameTooltip:AddLine("This may cause the server to disconnect you!")
 		GameTooltip:AddLine("Use with caution.")
 		GameTooltip:Show()
+	elseif self.tiptext then
+		GameTooltip:SetOwner(self, "ANCHOR_NONE")
+		GameTooltip:SetPoint("TOPLEFT", self, "TOPRIGHT")
+		GameTooltip:SetText(self.tiptext)
+		GameTooltip:Show()
 	end
 end
 

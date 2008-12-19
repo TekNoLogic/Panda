@@ -8,6 +8,7 @@ local server = GetRealmName().." "..UnitFactionGroup("player")
 
 
 local function OnEvent(self)
+	if not self.id then return end
 	local count = GetItemCount(self.id)
 	self.count:SetText(count > 0 and count or "")
 	if self.text then self.text:SetText(GS(auc[self.id])) end
@@ -38,7 +39,7 @@ end
 
 
 function Panda.ButtonFactory(parent, id, secure, notext, ...)
-	local f = CreateFrame(secure and "CheckButton" or "Frame", nil, parent, secure and "SecureActionButtonTemplate")
+	local f = CreateFrame(secure and "CheckButton" or "Frame", id == 6948 and "MassMill" or nil, parent, secure and "SecureActionButtonTemplate")
 	local name, link, _, _, _, _, _, _, _, texture = GetItemInfo(id)
 	f.link, f.id, f.name = link, id, name or ""
 
