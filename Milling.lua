@@ -13,7 +13,6 @@ Panda.PanelFactory(NAME, 45357,
   39343 43109 43126 43127   0   36901 36903 36904 36905 36906 36907 37921
 ]], nil, function(frame)
 	frame:SetAttribute("type", "macro")
-	print(frame.id, type(frame.id))
 	if frame.id == 6948 then
 		frame.icon:SetTexture(MILLICON)
 		frame.id, frame.link = nil
