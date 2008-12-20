@@ -1,3 +1,6 @@
+3.0.3.13-Beta
+    Add Mass Milling button
+
 3.0.3.12-Beta
     Embed update
     What, nil? NEVAR!
