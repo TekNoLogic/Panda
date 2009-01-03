@@ -27,6 +27,8 @@ local nocombine = [[39334 39338 39339 39340 39341 39342 39343
 ]]
 
 
+local function noop() end
+
 function Panda:PanelFiller()
 	PandaDBPC = PandaDBPC or {}
 	knowncombines = PandaDBPC
@@ -78,13 +80,25 @@ function Panda:PanelFiller()
 		self:SetPoint("RIGHT")
 		self:SetHeight(1000)
 
-		scroll:UpdateScrollChildRect()
 		scroll:EnableMouseWheel(true)
-		scroll:SetScript("OnMouseWheel", function(scroll, val)
-			offset = math.max(math.min(offset - val*LINEHEIGHT, 0), MAXOFFSET)
-			scroll:SetVerticalScroll(-offset)
-			self:SetPoint("TOP", 0, offset)
-		end)
+
+		if MAXOFFSET ~= 0 then
+			local scrollbar = LibStub("tekKonfig-Scroll").new(scroll, 2, LINEHIEGHT)
+			scrollbar:SetMinMaxValues(0, -MAXOFFSET)
+			scrollbar:SetValue(0)
+
+			scroll:UpdateScrollChildRect()
+			scroll:SetScript("OnMouseWheel", function(scroll, val) scrollbar:SetValue(scrollbar:GetValue() + val*LINEHEIGHT) end)
+
+			local orig = scrollbar:GetScript("OnValueChanged")
+			scrollbar:SetScript("OnValueChanged", function(scrollbar, val, ...)
+				scroll:SetVerticalScroll(val)
+				self:SetPoint("TOP", 0, -val)
+				return orig(scrollbar, val, ...)
+			end)
+		else
+			scroll:SetScript("OnMouseWheel", noop)
+		end
 	end
 
 	if canCraft then Panda.RefreshButtonFactory(scroll or self, canCraft, "TOPRIGHT", scroll or self, "BOTTOMRIGHT", 4, -3) end
