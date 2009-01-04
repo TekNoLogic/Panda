@@ -1,3 +1,10 @@
+3.0.3.14-Beta
+    Hide mass-mill button from players that can't mill
+    Why was dongle still here?
+    Embed update
+    Add scrollbars to panels that need them
+    Remove some debuggery, oops
+
 3.0.3.13-Beta
     Add Mass Milling button
 
