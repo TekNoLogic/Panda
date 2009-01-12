@@ -1,3 +1,6 @@
+3.0.3.15-Beta
+    Add wrath meta panel
+
 3.0.3.14-Beta
     Hide mass-mill button from players that can't mill
     Why was dongle still here?
