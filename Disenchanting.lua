@@ -31,11 +31,11 @@ local notDEable = {
 	["29378"] = true,
 }
 
-local GS = Panda.GS
+local GS, L = Panda.GS, Panda.locale
 local function IsBound(bag, slot)
 	tip:SetBagItem(bag, slot)
 	for i=1,30 do
-		if tip.L[i] == "Soulbound" then return true end
+		if tip.L[i] == L.Soulbound then return true end
 	end
 end
 
@@ -45,7 +45,7 @@ function Panda:DEable(link)
 	if id and notDEable[id] then return end
 
 	local _, _, qual, itemLevel, _, itemType = GetItemInfo(link)
-	if (itemType == "Armor" or itemType == "Weapon") and qual > 1 and qual < 5 then return true end
+	if (itemType == ARMOR or itemType == L.Weapon) and qual > 1 and qual < 5 then return true end
 end
 
 
@@ -108,7 +108,7 @@ end
 
 
 local frame = CreateFrame("Frame", nil, UIParent)
-Panda.panel:RegisterFrame("Disenchanting", frame)
+Panda.panel:RegisterFrame(L.Disenchanting, frame)
 frame:Hide()
 
 frame:SetScript("OnShow", function(self)
@@ -157,7 +157,7 @@ frame:SetScript("OnShow", function(self)
 						l.icon:SetTexture(texture)
 						l.name:SetText(link)
 						l.type:SetText(itemType)
-						l.bind:SetText(bound and "Soulbound" or "Bind on Equip")
+						l.bind:SetText(bound and ITEM_SOULBOUND or ITEM_BIND_ON_EQUIP)
 						l:Show()
 
 						if l == tipinframe then ShowItemDetails(tipinframe) end

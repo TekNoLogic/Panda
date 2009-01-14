@@ -1,4 +1,7 @@
 ﻿
+local L = Panda.locale
+
+
 local name = GetSpellInfo(45357)
 local twoinks = [[42906 42462 43418 41537 42410 42962 42400 41092 42458 41532 43417 41532 43417 42737 42908 40923 42964 42402 41108 42465 41536 43427 40909 42897 42746 41104 42415 41547 42970 42960
 43424 42473 41547 42970 43424 43473 41098 42904 42744 41535 42973 42470 42749 42471 43551 41542 42736 41094 42955 43827 43554 42453 40896 42906 42406 43549 42453 40896 42906 42406]]
@@ -17,7 +20,7 @@ local function glyphcolorer(id, frame)
 end
 
 
-Panda.PanelFactory("Glyphs", 45357,
+Panda.PanelFactory(GLYPHS, 45357,
 [[39334 39774 43413 41096 42741 42956 41531 42408 42455 42907 40913 40922
     0     0   43418 41095 42743 42960 41537 42410 42462 42912 40897
   39338 43116 43423 41106 42734 42961 41530 42398 42461 42898 40924
@@ -44,14 +47,14 @@ Panda.PanelFactory("Glyphs", 45357,
 	frame:SetAttribute("type", "macro")
 	if frame.id == 44680 then
 		frame:SetAttribute("macrotext", "/run CloseTradeSkill()\n/cast "..name.."\n"..
-			"/run for i=1,GetNumTradeSkills() do if GetTradeSkillInfo(i) == 'Northrend Inscription Research' then DoTradeSkill(i) end end CloseTradeSkill()")
+			"/run for i=1,GetNumTradeSkills() do if GetTradeSkillInfo(i) == '"..L["Northrend Inscription Research"].."' then DoTradeSkill(i) end end CloseTradeSkill()")
 	else
 		frame:SetAttribute("macrotext", Panda.CraftMacro(name, frame.id))
 	end
 end)
 
 
-Panda.PanelFactory("Minor Glyphs (by ink)", 45357,
+Panda.PanelFactory(L["Minor Glyphs (by ink)"], 45357,
 [[39334 39774 43395 43396 43366 43390 43339 43364 43379 43342 43354 43338 43335   0     0   44680
     0     0   43399 43397 43367 43340 43359 43361 43343 43371 43350 43356 43332
   39338 43116 43398 43377 43365 43357 43725 43373 43389 43316
@@ -62,14 +65,14 @@ Panda.PanelFactory("Minor Glyphs (by ink)", 45357,
 	frame:SetAttribute("type", "macro")
 	if frame.id == 44680 then
 		frame:SetAttribute("macrotext", "/run CloseTradeSkill()\n/cast "..name.."\n"..
-			"/run for i=1,GetNumTradeSkills() do if GetTradeSkillInfo(i) == 'Minor Inscription Research' then DoTradeSkill(i) end end CloseTradeSkill()")
+			"/run for i=1,GetNumTradeSkills() do if GetTradeSkillInfo(i) == '"..L["Minor Inscription Research"].."' then DoTradeSkill(i) end end CloseTradeSkill()")
 	else
 		frame:SetAttribute("macrotext", Panda.CraftMacro(name, frame.id))
 	end
 end)
 
 
-Panda.PanelFactory("Minor Glyphs (by class)", 45357,
+Panda.PanelFactory(L["Minor Glyphs (by class)"], 45357,
 [[43395 43366 43339 43379 43725 43342 43390 43354 43335 43671
   43399 43367 43359 43343 43344 43371 43389 43350 43332 43539
   43396 43340 43364 43377 43386 43373 43391 43338 43316 43672
@@ -79,7 +82,7 @@ Panda.PanelFactory("Minor Glyphs (by class)", 45357,
 ]], glyphcolorer)
 
 
-Panda.PanelFactory("Scrolls", 45357,
+Panda.PanelFactory(L["Scrolls"], 45357,
 [[39151 37101  3012   955  1180  1181   954
   39151 39469   0     0     0     0     0   37118 38682
   39334 39774  1477  2290  1711  1712  2289   0     0   39349

@@ -1,4 +1,32 @@
 ﻿
+----------------------------
+--      Localization      --
+----------------------------
+
+Local locale = GetLocale()
+local L = setmetatable(locale == "deDE" and {
+	Disenchanting = "Entzaubern",
+	Scrolls = "Rollen",
+	Weapon = "Waffe",
+	["Elixirs (BC)"] = "Elixire (BC)",
+	["Elixirs (Wrath)"] = "Elixire (WotLK)",
+	["Enchant Bracer"] = "Armschiene verzaubern",
+	["Enchant Cloak"] = "Umhang verzaubern",
+	["Enchant Shield"] = "Schild verzaubern",
+	["Enchant Weapon"] = "Waffe verzaubern",
+	["Gem Cutting (BC Epic/Meta)"] = "Sockel (BC Epic/Meta)",
+	["Gem Cutting (BC Unc/Rare)"] = "Sockel (BC Selten/Rar)",
+	["Gem Cutting (Wrath Meta)"] = "Sockel (WotLK Meta)",
+	["Gem Cutting (Wrath Rare)"] = "Sockel (WotLK Rar)",
+	["Gem Cutting (Wrath Unc)"] = "Sockel (WotLK Selten)",
+	["Minor Glyphs (by class)"] = "Geringe Glyphen (-> Klasse)",
+	["Minor Glyphs (by ink)"] = "Geringe Glyphen (-> Tinte)",
+	["Minor Inscription Research"] = "Schwache Inschriftenforschung",
+	["Northrend Inscription Research"] = "Inschriftenforschung von Nordend",
+	["Scroll of (.+)$"] = "Rolle der (.+)$",
+} or {}, {__index=function(t,i) return i end})
+
+
 -------------------------------
 --      Addon Namespace      --
 -------------------------------
@@ -8,7 +36,7 @@
 
 
 local panel = LibStub("tekPanel-Auction").new("PandaPanel", "Panda", true)
-Panda = {panel = panel}
+Panda = {panel = panel, locale = L}
 
 UIErrorsFrame:SetFrameStrata("FULLSCREEN")
 
