@@ -3,7 +3,7 @@
 --      Localization      --
 ----------------------------
 
-Local locale = GetLocale()
+local locale = GetLocale()
 local L = setmetatable(locale == "deDE" and {
 	Disenchanting = "Entzaubern",
 	Scrolls = "Rollen",
