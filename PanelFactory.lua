@@ -144,19 +144,24 @@ function Panda:PanelFiller()
 		tracker = true
 	end
 
+	if self.firstshowfunc then
+		self:firstshowfunc()
+		self.firstshowfunc = nil
+	end
+
 	self:SetScript("OnShow", function() OpenBackpack() end)
 	OpenBackpack()
 
 	return buttons
 end
 
-function Panda.PanelFactory(name, spellid, itemids, func, securefunc)
+function Panda.PanelFactory(name, spellid, itemids, func, securefunc, firstshowfunc)
 	local scroll = CreateFrame("ScrollFrame", nil, UIParent)
 	local frame = CreateFrame("Frame", nil, UIParent)
 	scroll:SetScrollChild(frame)
 	scroll:Hide()
 	Panda.panel:RegisterFrame(name, scroll)
-	frame.scroll, frame.spellid, frame.itemids, frame.func, frame.securefunc = scroll, spellid, itemids, func, securefunc
+	frame.scroll, frame.spellid, frame.itemids, frame.func, frame.securefunc, frame.firstshowfunc = scroll, spellid, itemids, func, securefunc, firstshowfunc
 
 	frame:SetScript("OnShow", Panda.PanelFiller)
 end
