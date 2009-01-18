@@ -51,13 +51,13 @@ function Panda:PanelFiller()
 		lastrow = row
 
 		local gap, lastframe = 0
-		for id in ids:gmatch("%d+") do
+		for id,extra in ids:gmatch("(%d+):?(%S*)") do
 			local craftable = not nocombine:match(id)
 			gap = gap + (lastframe and HGAP or 0)
 			id = tonumber(id)
 			if id == 0 then gap = gap + 32 + (not lastframe and HGAP or 0)
 			else
-				lastframe = factory(self, id, (type(craftDetail) == "function" or craftable) and craftDetail, nil, "TOPLEFT", lastframe or row, lastframe and "TOPRIGHT" or "TOPLEFT", gap, 0)
+				lastframe = factory(self, id, (type(craftDetail) == "function" or craftable) and craftDetail, nil, extra, "TOPLEFT", lastframe or row, lastframe and "TOPRIGHT" or "TOPLEFT", gap, 0)
 				buttons[id] = lastframe
 				if func then func(id, lastframe) end
 				if not GetItemInfo(id) then uncached[lastframe] = true end
