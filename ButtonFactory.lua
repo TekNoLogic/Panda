@@ -11,11 +11,14 @@ local UNK, ICONS = "Interface\\Icons\\INV_Misc_QuestionMark", {
 	INT = "Spell_Holy_MagicalSentry", SPI = "Spell_Holy_DivineSpirit", SP = "Spell_Holy_MindVision",
 	BEAST = "Ability_Druid_FerociousBite", ELEM = "Spell_Frost_SummonWaterElemental", DEMON = "Spell_Shadow_DemonicTactics",
 	RALL = "Spell_Frost_WizardMark", RFR = "Spell_Frost_FrostWard", RSH = "Spell_Shadow_AntiShadow", RFI = "Spell_Fire_FireArmor", RAR = "Spell_Nature_StarFall", RNA = "Spell_Nature_ResistNature",
+	FIP = "Spell_Fire_FireBolt02", FRP = "Spell_Frost_FrostBolt02", SHP = "Spell_Shadow_ShadowBolt",
 	HP = "INV_Potion_51", MP = "INV_Potion_72", HMP = "INV_Potion_79", MPR = "Spell_Magic_ManaGain",
 	STAT = "Spell_ChargePositive", EXP = "Spell_Holy_BlessingOfStrength", SPE = "Spell_Fire_BurningSpeed",
 	HIT = "Ability_Marksmanship",
 	MONGOOSE = "Spell_Nature_UnrelentingStorm", BERSERK = "Spell_Shadow_DeathPact", FROST = "Spell_Frost_FrostShock", UNHOLY = "Spell_Shadow_CurseOfMannoroth",
 	CRUSADER = "Spell_Holy_BlessingOfStrength", FIERY = "Spell_Fire_Immolation", WINTER = "Spell_Frost_FrostNova", LIFESTEAL = "Spell_Shadow_LifeDrain",
+	FISH = "INV_Misc_Fish_09", HERB = "INV_Misc_Flower_02", MINE = "Trade_Mining", SKIN = "INV_Misc_Pelt_Wolf_01", MOUNT = "INV_Misc_Crop_02", THREAT = "Spell_Nature_Reincarnation",
+	GATHER = "Trade_Herbalism", HASTE = "Spell_Nature_Invisibilty",
 }
 
 

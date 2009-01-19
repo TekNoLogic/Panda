@@ -15,12 +15,32 @@ local function MakeMacro(id, name, isweapon)
 end
 
 
+Panda.PanelFactory(L["Enchant Boots"], SPELLID,
+[[38786:AGI 38807:AGI 38844:AGI 38863:AGI 37603:AGI 38976:AGI 0 44449:AP  44469:AP  0 38943:SPE
+  38785:STA 38810:STA 38830:STA 38862:STA 38909:STA 38966:STA 0   0         0       0 38944:SPE 39006:SPE
+  38819:SPI 38864:SPI 38961:SPI   0       38908:HMP 38974:HMP 0 38910:HIT 38986:HIT 0 38837:SPE
+]], nil, function(frame)
+	frame:SetAttribute("type", "macro")
+	frame:SetAttribute("macrotext", MakeMacro(frame.id, frame.name))
+end)
+
+
 Panda.PanelFactory(L["Enchant Bracer"], SPELLID,
 [[38768:DEF 38811:DEF 38842:DEF 38899:DEF   0       38984:EXP 0 38898:STAT 38987:STAT
   38771:STA 38793:STA 38812:STA 38849:STA 38855:STA 38902:STA 0 38679:HP
   38778:STR 38797:STR 38817:STR 38846:STR 38854:STR 38897:STR 0 38938:AP 38971:AP 44815:AP 0 38777:AGI
   38803:INT 38829:INT 38852:INT 38937:INT 38968:INT   0       0 38903:SP 38997:SP 38900:SP 0 38881:MPR 38901:MPR
   38774:SPI 38783:SPI 38809:SPI 38832:SPI 38853:SPI 38980:SPI 0 38882:SP 38900:SP 38996:SP
+]], nil, function(frame)
+	frame:SetAttribute("type", "macro")
+	frame:SetAttribute("macrotext", MakeMacro(frame.id, frame.name))
+end)
+
+
+Panda.PanelFactory(L["Enchant Chest"], SPELLID,
+[[38766:HP   38773:HP   38782:HP   38808:HP   38833:HP 38866:HP 38911:HP 38955:HP  0 38930:RES 0 38767:DEF  38798:DEF
+  38769:MP   38776:MP   38799:MP   38818:MP   38841:MP 38867:MP 38912:MP   0       0 38928:SPI 0 38929:MPR  38962:MPR
+	38804:STAT 38824:STAT 38847:STAT 38865:STAT 38913:STAT
 ]], nil, function(frame)
 	frame:SetAttribute("type", "macro")
 	frame:SetAttribute("macrotext", MakeMacro(frame.id, frame.name))
@@ -34,6 +54,17 @@ Panda.PanelFactory(L["Enchant Cloak"], SPELLID,
     0         0       38939     38894     38893     39000:DEF 38895     0 0 0 0 0 0   0          0        38941:RAR  38982:RAR
   44456     39003     38973     39004     38993     38978:DEF   0       0 0 0 0 0 0   0          0        38892:RNA  38956:RNA
     0         0         0         0         0         0         0       0 0 0 0 0 0   0          0          0        38950:RFR
+]], nil, function(frame)
+	frame:SetAttribute("type", "macro")
+	frame:SetAttribute("macrotext", MakeMacro(frame.id, frame.name))
+end)
+
+
+Panda.PanelFactory(L["Enchant Gloves"], SPELLID,
+[[38850:MOUNT 0       38802:FISH 38823:SKIN 38801:HERB 38834:HERB 38800:MINE 38831:MINE 38980:GATHER
+  38827:AGI 38856:AGI 38890:AGI  38967:AGI    0        38836:STR  38857:STR  38933:STR    0          38934:AP  38964:AP     44458:AP
+  38932:HIT 38953:HIT    0       38931:HIT  38985:HIT    0        38951:EXP    0        38851:HASTE    0       38885:THREAT 38990:THREAT
+  38888:FIP 38887:FRP 38886:SHP    0        38889:SP   38936:SP   38935:SP   38979:SP
 ]], nil, function(frame)
 	frame:SetAttribute("type", "macro")
 	frame:SetAttribute("macrotext", MakeMacro(frame.id, frame.name))
