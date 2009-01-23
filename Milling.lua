@@ -1,8 +1,9 @@
 ﻿
+local panel = Panda.panel:NewPanel(true)
 local NAME, _, MILLICON = GetSpellInfo(51005)
 local NAME2 = GetSpellInfo(45357)
 local inks = "39469 39774 43115 43116 43117 43118 43118 43119 43120 43121 43122 43123 43124 43125 43126 43127"
-Panda.PanelFactory(NAME, 45357,
+panel:RegisterFrame(NAME, Panda.PanelFactory(45357,
 [[39151   0   39469   0     0    2447   765  2449   0     0     0     0     0     0     0    6948
   39334 43103 39774 43115   0     785  2450  2452  3820  2453
   39338 43104 43116 43117   0    3369  3355  3356  3357
@@ -24,5 +25,5 @@ Panda.PanelFactory(NAME, 45357,
 	else
 		frame:SetAttribute("macrotext", "/cast "..NAME.."\n/use "..frame.name)
 	end
-end)
+end))
 

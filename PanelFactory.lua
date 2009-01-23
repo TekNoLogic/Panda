@@ -150,15 +150,16 @@ function Panda:PanelFiller()
 	return buttons
 end
 
-function Panda.PanelFactory(name, spellid, itemids, func, securefunc)
+function Panda.PanelFactory(spellid, itemids, func, securefunc)
 	local scroll = CreateFrame("ScrollFrame", nil, UIParent)
 	local frame = CreateFrame("Frame", nil, UIParent)
 	scroll:SetScrollChild(frame)
 	scroll:Hide()
-	Panda.panel:RegisterFrame(name, scroll)
 	frame.scroll, frame.spellid, frame.itemids, frame.func, frame.securefunc = scroll, spellid, itemids, func, securefunc
 
 	frame:SetScript("OnShow", Panda.PanelFiller)
+
+	return scroll
 end
 
 

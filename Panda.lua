@@ -43,22 +43,22 @@ function Panda:HideTooltip() GameTooltip:Hide() end
 function Panda:ShowTooltip()
 	if self.link then
 		GameTooltip:SetOwner(self, "ANCHOR_NONE")
-		GameTooltip:SetPoint("TOPLEFT", self, "TOPRIGHT")
+		GameTooltip:SetPoint("TOPLEFT", self, self.anchor or "TOPRIGHT")
 		GameTooltip:SetHyperlink(self.link)
 	elseif IsShiftKeyDown() and self.id then
 		GameTooltip:SetOwner(self, "ANCHOR_NONE")
-		GameTooltip:SetPoint("TOPLEFT", self, "TOPRIGHT")
+		GameTooltip:SetPoint("TOPLEFT", self, self.anchor or "TOPRIGHT")
 		GameTooltip:SetHyperlink("item:"..self.id)
 	elseif self.id then
 		GameTooltip:SetOwner(self, "ANCHOR_NONE")
-		GameTooltip:SetPoint("TOPLEFT", self, "TOPRIGHT")
+		GameTooltip:SetPoint("TOPLEFT", self, self.anchor or "TOPRIGHT")
 		GameTooltip:AddLine("Hold shift to force a server query for this tooltip.")
 		GameTooltip:AddLine("This may cause the server to disconnect you!")
 		GameTooltip:AddLine("Use with caution.")
 		GameTooltip:Show()
 	elseif self.tiptext then
 		GameTooltip:SetOwner(self, "ANCHOR_NONE")
-		GameTooltip:SetPoint("TOPLEFT", self, "TOPRIGHT")
+		GameTooltip:SetPoint("TOPLEFT", self, self.anchor or "TOPRIGHT")
 		GameTooltip:SetText(self.tiptext)
 		GameTooltip:Show()
 	end
@@ -82,6 +82,36 @@ function Panda.G(cash)
 	return "|cffffd700".. floor(cash/10000)
 end
 
+
+--------------------------
+--      Main panel      --
+--------------------------
+
+local butts, lastbutt = {}
+
+local function OnClick(self)
+	for i,f in pairs(panel.panels) do f:Hide() end
+	for i,b in pairs(butts) do b:SetChecked(false) end
+	panel.panels[self.i]:Show()
+	self:SetChecked(true)
+end
+
+for i,spellid in ipairs{7411, 25229, 45357, 2259} do
+	local name, _, icon = GetSpellInfo(spellid)
+	local butt = CreateFrame("CheckButton", nil, panel)
+	butt:SetWidth(32) butt:SetHeight(32)
+	butt:SetPoint("TOPLEFT", lastbutt or panel, lastbutt and "TOPRIGHT" or "TOPLEFT", lastbutt and 4 or 75, lastbutt and 0 or -40)
+	butt:SetNormalTexture(icon)
+	butt:SetCheckedTexture("Interface\\Buttons\\CheckButtonHilight")
+
+	butt.tiptext, butt.i, butt.anchor = name, i, "BOTTOMLEFT"
+	if i == 1 then butt:SetChecked(true) end
+	butt:SetScript("OnClick", OnClick)
+	butt:SetScript("OnEnter", Panda.ShowTooltip)
+	butt:SetScript("OnLeave", Panda.HideTooltip)
+
+	butts[i], lastbutt = butt, butt
+end
 
 
 -----------------------------
