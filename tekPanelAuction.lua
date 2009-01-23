@@ -1,6 +1,6 @@
 
 
-local lib, oldminor = LibStub:NewLibrary("tekPanel-Auction", 5)
+local lib, oldminor = LibStub:NewLibrary("tekPanel-Auction", 6)
 if not lib then return end
 oldminor = oldminor or 0
 
@@ -44,32 +44,43 @@ function lib.new(name, titletext, splitstyle)
 	title:SetPoint("TOP", 0, -18)
 	title:SetText(titletext)
 
-	local topleft = createtex(frame, "ARTWORK", 256, 256, "TOPLEFT", 0, 0)
-	local top = createtex(frame, "ARTWORK", 320, 256, "TOPLEFT", 256, 0)
-	local topright = createtex(frame, "ARTWORK", 256, 256, "TOPLEFT", top, "TOPRIGHT")
-	local bottomleft = createtex(frame, "ARTWORK", 256, 256, "TOPLEFT", 0, -256)
-	local bottom = createtex(frame, "ARTWORK", 320, 256, "TOPLEFT", 256, -256)
-	local bottomright = createtex(frame, "ARTWORK", 256, 256, "TOPLEFT", bottom, "TOPRIGHT")
-
-	if splitstyle then
-		topleft:SetTexture("Interface\\AuctionFrame\\UI-AuctionFrame-Browse-TopLeft")
-		top:SetTexture("Interface\\AuctionFrame\\UI-AuctionFrame-Browse-Top")
-		topright:SetTexture("Interface\\AuctionFrame\\UI-AuctionFrame-Browse-TopRight")
-		bottomleft:SetTexture("Interface\\AuctionFrame\\UI-AuctionFrame-Browse-BotLeft")
-		bottom:SetTexture("Interface\\AuctionFrame\\UI-AuctionFrame-Browse-Bot")
-		bottomright:SetTexture("Interface\\AuctionFrame\\UI-AuctionFrame-Browse-BotRight")
-	else
-		topleft:SetTexture("Interface\\AuctionFrame\\UI-AuctionFrame-Bid-TopLeft")
-		top:SetTexture("Interface\\AuctionFrame\\UI-AuctionFrame-Bid-Top")
-		topright:SetTexture("Interface\\AuctionFrame\\UI-AuctionFrame-Bid-TopRight")
-		bottomleft:SetTexture("Interface\\AuctionFrame\\UI-AuctionFrame-Bid-BotLeft")
-		bottom:SetTexture("Interface\\AuctionFrame\\UI-AuctionFrame-Bid-Bot")
-		bottomright:SetTexture("Interface\\AuctionFrame\\UI-AuctionFrame-Bid-BotRight")
-	end
-
 	local close = CreateFrame("Button", nil, frame, "UIPanelCloseButton")
 	close:SetPoint("TOPRIGHT", 3, -8)
 	close:SetScript("OnClick", function() HideUIPanel(frame) end)
+
+	frame.topleft = createtex(frame, "ARTWORK", 256, 256, "TOPLEFT", 0, 0)
+	frame.top = createtex(frame, "ARTWORK", 320, 256, "TOPLEFT", 256, 0)
+	frame.topright = createtex(frame, "ARTWORK", 256, 256, "TOPLEFT", frame.top, "TOPRIGHT")
+	frame.bottomleft = createtex(frame, "ARTWORK", 256, 256, "TOPLEFT", 0, -256)
+	frame.bottom = createtex(frame, "ARTWORK", 320, 256, "TOPLEFT", 256, -256)
+	frame.bottomright = createtex(frame, "ARTWORK", 256, 256, "TOPLEFT", frame.bottom, "TOPRIGHT")
+
+	frame.panels = {}
+	frame.NewPanel = lib.newpanel
+
+	local panel = frame:NewPanel(splitstyle)
+	if splitstyle then
+		function frame:RegisterFrame(...)
+			panel:RegisterFrame(...)
+		end
+	end
+
+	frame:SetScript("OnShow", function(self)
+		local vis
+		for i,panel in pairs(self.panels) do vis = vis or panel:IsShown() end
+		if not vis then self.panels[1]:Show() end
+	end)
+
+	return frame, panel
+end
+
+function lib.newpanel(base, splitstyle)
+	local frame = CreateFrame("Frame", nil, base)
+	frame:SetAllPoints()
+	frame:Hide()
+
+	table.insert(base.panels, frame)
+	frame.base = base
 
 	if splitstyle then
 		local subpanel = CreateFrame("Frame", nil, frame)
@@ -152,8 +163,27 @@ function lib.new(name, titletext, splitstyle)
 				buttons[i] = button
 			end
 
+			local function setbackdrop(self)
+				self.base.topleft:SetTexture("Interface\\AuctionFrame\\UI-AuctionFrame-Browse-TopLeft")
+				self.base.top:SetTexture("Interface\\AuctionFrame\\UI-AuctionFrame-Browse-Top")
+				self.base.topright:SetTexture("Interface\\AuctionFrame\\UI-AuctionFrame-Browse-TopRight")
+				self.base.bottomleft:SetTexture("Interface\\AuctionFrame\\UI-AuctionFrame-Browse-BotLeft")
+				self.base.bottom:SetTexture("Interface\\AuctionFrame\\UI-AuctionFrame-Browse-Bot")
+				self.base.bottomright:SetTexture("Interface\\AuctionFrame\\UI-AuctionFrame-Browse-BotRight")
+			end
+
 			refresh()
-			self:SetScript("OnShow", nil)
+			setbackdrop(self)
+			self:SetScript("OnShow", setbackdrop)
+		end)
+	else
+		frame:SetScript("OnShow", function(self)
+			self.base.topleft:SetTexture("Interface\\AuctionFrame\\UI-AuctionFrame-Bid-TopLeft")
+			self.base.top:SetTexture("Interface\\AuctionFrame\\UI-AuctionFrame-Bid-Top")
+			self.base.topright:SetTexture("Interface\\AuctionFrame\\UI-AuctionFrame-Bid-TopRight")
+			self.base.bottomleft:SetTexture("Interface\\AuctionFrame\\UI-AuctionFrame-Bid-BotLeft")
+			self.base.bottom:SetTexture("Interface\\AuctionFrame\\UI-AuctionFrame-Bid-Bot")
+			self.base.bottomright:SetTexture("Interface\\AuctionFrame\\UI-AuctionFrame-Bid-BotRight")
 		end)
 	end
 

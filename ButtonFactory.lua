@@ -3,8 +3,23 @@ local HideTooltip, ShowTooltip, GS, G = Panda.HideTooltip, Panda.ShowTooltip, Pa
 local auc = LibStub("tekAucQuery")
 
 
-local UNK = "Interface\\Icons\\INV_Misc_QuestionMark"
 local server = GetRealmName().." "..UnitFactionGroup("player")
+local UNK, ICONS = "Interface\\Icons\\INV_Misc_QuestionMark", {
+	STA = "Spell_Nature_UnyeildingStamina", RES = "Spell_Holy_ChampionsGrace",
+	AGI = "Spell_Holy_BlessingOfAgility", AP = "Spell_Holy_FistOfJustice", STR = "Spell_Nature_Strength", DAM = "Ability_Gouge",
+	ARM = "INV_Misc_ArmorKit_25", BLKR = "Ability_Warrior_DefensiveStance", BLKV = "INV_Shield_04", DEF = "Ability_Defend", DOD = "Spell_Nature_Invisibilty",
+	INT = "Spell_Holy_MagicalSentry", SPI = "Spell_Holy_DivineSpirit", SP = "Spell_Holy_MindVision",
+	BEAST = "Ability_Druid_FerociousBite", ELEM = "Spell_Frost_SummonWaterElemental", DEMON = "Spell_Shadow_DemonicTactics",
+	RALL = "Spell_Frost_WizardMark", RFR = "Spell_Frost_FrostWard", RSH = "Spell_Shadow_AntiShadow", RFI = "Spell_Fire_FireArmor", RAR = "Spell_Nature_StarFall", RNA = "Spell_Nature_ResistNature",
+	FIP = "Spell_Fire_FireBolt02", FRP = "Spell_Frost_FrostBolt02", SHP = "Spell_Shadow_ShadowBolt",
+	HP = "INV_Potion_51", MP = "INV_Potion_72", HMP = "INV_Potion_79", MPR = "Spell_Magic_ManaGain",
+	STAT = "Spell_ChargePositive", EXP = "Spell_Holy_BlessingOfStrength", SPE = "Spell_Fire_BurningSpeed",
+	HIT = "Ability_Marksmanship", CRIT = "Ability_Rogue_KidneyShot",
+	MONGOOSE = "Spell_Nature_UnrelentingStorm", BERSERK = "Spell_Shadow_DeathPact", FROST = "Spell_Frost_FrostShock", UNHOLY = "Spell_Shadow_CurseOfMannoroth", CRUSADER = "Spell_Holy_WeaponMastery",
+	FIERY = "Spell_Fire_Immolation", WINTER = "Spell_Frost_FrostNova", LIFESTEAL = "Spell_Shadow_LifeDrain", SOULFROST = "Spell_Holy_ConsumeMagic", SUNFIRE = "Ability_Mage_FireStarter",
+	FISH = "INV_Misc_Fish_09", HERB = "INV_Misc_Flower_02", MINE = "Trade_Mining", SKIN = "INV_Misc_Pelt_Wolf_01", MOUNT = "INV_Misc_Crop_02", THREAT = "Spell_Nature_Reincarnation",
+	GATHER = "Trade_Herbalism", HASTE = "Ability_Hunter_RunningShot", STL = "Ability_Stealth", FADE = "Spell_Magic_LesserInvisibilty", SPEN = "Spell_Nature_StormReach",
+}
 
 
 local function OnEvent(self)
@@ -38,7 +53,9 @@ function Panda.CraftMacro(name, id)
 end
 
 
-function Panda.ButtonFactory(parent, id, secure, notext, ...)
+function Panda.ButtonFactory(parent, id, secure, notext, extra, ...)
+	local customicon = extra ~= "" and extra
+
 	local f = CreateFrame(secure and "CheckButton" or "Frame", id == 6948 and "MassMill" or nil, parent, secure and "SecureActionButtonTemplate")
 	local name, link, _, _, _, _, _, _, _, texture = GetItemInfo(id)
 	f.link, f.id, f.name = link, id, name or ""
@@ -55,7 +72,7 @@ function Panda.ButtonFactory(parent, id, secure, notext, ...)
 
 	local icon = f:CreateTexture(nil, "ARTWORK")
 	icon:SetAllPoints(f)
-	icon:SetTexture(texture or UNK)
+	icon:SetTexture(texture and (customicon and ("Interface\\Icons\\".. ICONS[customicon]) or texture) or UNK)
 	f.icon = icon
 
 	if not notext then
