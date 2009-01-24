@@ -2,6 +2,13 @@
 local idmemo = LibStub("tekIDmemo")
 
 local unknown, knowncombines, tracker = {}
+local known = setmetatable({}, {__index = function(t,i)
+	local spellid = tonumber(i.extra)
+	if not spellid and (knowncombines[i.id] or knowncombines[i.name]) or spellid and knowncombines[spellid + 0.1] then
+		t[i] = true
+		return true
+	end
+end})
 local nocombine = [[39334 39338 39339 39340 39341 39342 39343
 39151  2447   765  2449   785
 43103  2450  2452  3820  2453
@@ -28,6 +35,7 @@ local nocombine = [[39334 39338 39339 39340 39341 39342 39343
 
 
 local function noop() end
+
 
 function Panda:PanelFiller()
 	PandaDBPC = PandaDBPC or {}
@@ -61,7 +69,7 @@ function Panda:PanelFiller()
 				buttons[id] = lastframe
 				if func then func(id, lastframe) end
 				if not GetItemInfo(id) then uncached[lastframe] = true end
-				if craftable and canCraft and not (knowncombines[lastframe.id] or knowncombines[lastframe.name]) then
+				if craftable and canCraft and not known[lastframe] then
 					lastframe:SetAlpha(.25)
 					unknown[lastframe] = true
 				end
@@ -132,16 +140,24 @@ function Panda:PanelFiller()
 		self:SetScript("OnEvent", function()
 			for i=1,GetNumTradeSkills() do
 				local name, rowtype, _, _, skilltype = GetTradeSkillInfo(i)
+				local spelllink = GetTradeSkillRecipeLink(i)
 				local link = GetTradeSkillItemLink(i)
 				if rowtype ~= "header" and link then
+					local spellid = spelllink:match("enchant:(%d+)")
+					knowncombines[tonumber(spellid) + 0.1] = true
 					if skilltype == "Enchant" then knowncombines["Scroll of "..name] = true
 					elseif idmemo[link] then knowncombines[idmemo[link]] = true end
 				end
 			end
-			for f in pairs(unknown) do f:SetAlpha((knowncombines[f.id] or knowncombines[f.name]) and 1 or 0.25) end
+			for f in pairs(unknown) do f:SetAlpha(known[f] and 1 or 0.25) end
 		end)
 		self:RegisterEvent("TRADE_SKILL_SHOW")
 		tracker = true
+	end
+
+	if self.firstshowfunc then
+		self:firstshowfunc()
+		self.firstshowfunc = nil
 	end
 
 	self:SetScript("OnShow", function() OpenBackpack() end)
@@ -150,12 +166,12 @@ function Panda:PanelFiller()
 	return buttons
 end
 
-function Panda.PanelFactory(spellid, itemids, func, securefunc)
+function Panda.PanelFactory(spellid, itemids, func, securefunc, firstshowfunc)
 	local scroll = CreateFrame("ScrollFrame", nil, UIParent)
 	local frame = CreateFrame("Frame", nil, UIParent)
 	scroll:SetScrollChild(frame)
 	scroll:Hide()
-	frame.scroll, frame.spellid, frame.itemids, frame.func, frame.securefunc = scroll, spellid, itemids, func, securefunc
+	frame.scroll, frame.spellid, frame.itemids, frame.func, frame.securefunc, frame.firstshowfunc = scroll, spellid, itemids, func, securefunc, firstshowfunc
 
 	frame:SetScript("OnShow", Panda.PanelFiller)
 

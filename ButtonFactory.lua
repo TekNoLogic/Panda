@@ -44,21 +44,24 @@ local function OnShow(self)
 end
 
 
-function Panda.CraftMacro(name, id)
+function Panda.CraftMacro(name, id, extra)
+	local linkfunc, linktoken = extra and "GetTradeSkillRecipeLink" or "GetTradeSkillItemLink", extra and "enchant:" or "item:"
 	return "/run if IsShiftKeyDown() then ChatEdit_InsertLink('"..select(2, GetItemInfo(id)).."') end\n"..
 		"/stopmacro [mod:shift]\n"..
 		"/run CloseTradeSkill()\n/cast "..name.."\n"..
-		"/run for i=1,GetNumTradeSkills() do local l = GetTradeSkillItemLink(i) if l and l:match('item:"..id..":') then TradeSkillFrame_SetSelection(i); DoTradeSkill(i, IsAltKeyDown() and select(3, GetTradeSkillInfo(i)) or 1) end end\n"..
+		"/run for i=1,GetNumTradeSkills() do local l = "..linkfunc.."(i) if l and l:match('"..linktoken..(extra or id)..(extra and "" or ":").."') then "..
+			"TradeSkillFrame_SetSelection(i); DoTradeSkill(i, IsAltKeyDown() and select(3, GetTradeSkillInfo(i)) or 1) end end\n"..
 		"/run if not IsAltKeyDown() then CloseTradeSkill() end"
 end
 
 
 function Panda.ButtonFactory(parent, id, secure, notext, extra, ...)
-	local customicon = extra ~= "" and extra
+	local customicon = extra ~= "" and not tonumber(extra) and extra
 
 	local f = CreateFrame(secure and "CheckButton" or "Frame", id == 6948 and "MassMill" or nil, parent, secure and "SecureActionButtonTemplate")
 	local name, link, _, _, _, _, _, _, _, texture = GetItemInfo(id)
 	f.link, f.id, f.name = link, id, name or ""
+	if not customicon and extra and extra ~= "" then f.extra = extra end
 
 	f:SetHeight(32)
 	f:SetWidth(32)
@@ -104,7 +107,7 @@ function Panda.ButtonFactory(parent, id, secure, notext, extra, ...)
 			secure(f)
 		else
 			f:SetAttribute("type", "macro")
-			f:SetAttribute("macrotext", Panda.CraftMacro(secure, id))
+			f:SetAttribute("macrotext", Panda.CraftMacro(secure, id, f.extra))
 		end
 	end
 
