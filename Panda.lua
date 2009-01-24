@@ -100,11 +100,16 @@ for i,spellid in ipairs{7411, 25229, 45357, 2259} do
 	local name, _, icon = GetSpellInfo(spellid)
 	local butt = CreateFrame("CheckButton", nil, panel)
 	butt:SetWidth(32) butt:SetHeight(32)
-	butt:SetPoint("TOPLEFT", lastbutt or panel, lastbutt and "TOPRIGHT" or "TOPLEFT", lastbutt and 4 or 75, lastbutt and 0 or -40)
+	butt:SetPoint("TOPLEFT", lastbutt or panel, lastbutt and "BOTTOMLEFT" or "TOPRIGHT", lastbutt and 0 or 2, lastbutt and -17 or -65)
 	butt:SetNormalTexture(icon)
 	butt:SetCheckedTexture("Interface\\Buttons\\CheckButtonHilight")
 
-	butt.tiptext, butt.i, butt.anchor = name, i, "BOTTOMLEFT"
+	local tex = butt:CreateTexture(nil, "BACKGROUND")
+	tex:SetWidth(64) tex:SetHeight(64)
+	tex:SetPoint("TOPLEFT", -3, 11)
+	tex:SetTexture("Interface\\SpellBook\\SpellBook-SkillLineTab")
+
+	butt.tiptext, butt.i, butt.anchor = name, i
 	if i == 1 then butt:SetChecked(true) end
 	butt:SetScript("OnClick", OnClick)
 	butt:SetScript("OnEnter", Panda.ShowTooltip)
