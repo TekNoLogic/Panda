@@ -65,10 +65,11 @@ function lib.new(name, titletext, splitstyle)
 		end
 	end
 
-	frame:SetScript("OnShow", function(self)
+	local voyeur = CreateFrame("Frame", nil, frame)
+	voyeur:SetScript("OnShow", function()
 		local vis
-		for i,panel in pairs(self.panels) do vis = vis or panel:IsShown() end
-		if not vis then self.panels[1]:Show() end
+		for i,panel in pairs(frame.panels) do vis = vis or panel:IsShown() end
+		if not vis then frame.panels[1]:Show() end
 	end)
 
 	return frame, panel
