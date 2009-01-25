@@ -18,7 +18,8 @@ local UNK, ICONS = "Interface\\Icons\\INV_Misc_QuestionMark", {
 	MONGOOSE = "Spell_Nature_UnrelentingStorm", BERSERK = "Spell_Shadow_DeathPact", FROST = "Spell_Frost_FrostShock", UNHOLY = "Spell_Shadow_CurseOfMannoroth", CRUSADER = "Spell_Holy_WeaponMastery",
 	FIERY = "Spell_Fire_Immolation", WINTER = "Spell_Frost_FrostNova", LIFESTEAL = "Spell_Shadow_LifeDrain", SOULFROST = "Spell_Holy_ConsumeMagic", SUNFIRE = "Ability_Mage_FireStarter",
 	FISH = "INV_Misc_Fish_09", HERB = "INV_Misc_Flower_02", MINE = "Trade_Mining", SKIN = "INV_Misc_Pelt_Wolf_01", MOUNT = "INV_Misc_Crop_02", THREAT = "Spell_Nature_Reincarnation",
-	GATHER = "Trade_Herbalism", HASTE = "Ability_Hunter_RunningShot", STL = "Ability_Stealth", FADE = "Spell_Magic_LesserInvisibilty", SPEN = "Spell_Nature_StormReach",
+	GATHER = "Trade_Herbalism", HASTE = "Ability_Hunter_RunningShot", STL = "Ability_Stealth", FADE = "Spell_Magic_LesserInvisibilty",
+	SPEN = "Spell_Nature_StormReach", APEN = "Ability_Rogue_Rupture", PARRY = "Ability_Parry",
 }
 
 
