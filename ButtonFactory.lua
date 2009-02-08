@@ -27,7 +27,13 @@ local function OnEvent(self)
 	if not self.id then return end
 	local count = GetItemCount(self.id)
 	self.count:SetText(count > 0 and count or "")
-	if self.text then self.text:SetText(GS(auc[self.id])) end
+	if self.text then
+		local auc_price = auc[self.id]
+		local craft_price = not self.notcrafted and GetReagentCost and GetReagentCost(self.id)
+		local price = auc_price and craft_price and Panda.showprofit and (auc_price - craft_price) or auc_price
+		if price and price < 100 then price = nil end
+		self.text:SetText(GS(price))
+	end
 
 
 	if ForSaleByOwnerDB then

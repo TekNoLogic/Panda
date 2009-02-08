@@ -20,6 +20,18 @@ local function glyphcolorer(id, frame)
 	end
 end
 
+local check = CreateFrame("CheckButton", "PandaGlyphProfit", panel, "OptionsCheckButtonTemplate")
+check:SetWidth(22)
+check:SetHeight(22)
+check:SetPoint("TOPLEFT", Panda.panel, "BOTTOMLEFT", 185, 35)
+check:SetScript("OnClick", function() Panda.showprofit = not Panda.showprofit; panel:Hide(); panel:Show() end)
+
+local checklabel = check:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
+checklabel:SetPoint("LEFT", check, "RIGHT", 5, 0)
+checklabel:SetText("Show profit")
+
+CreateFrame("Frame", nil, panel):SetScript("OnShow", function() if GetReagentCost then check:Show() else check:Hide() end end)
+
 
 panel:RegisterFrame(GLYPHS, Panda.PanelFactory(45357,
 [[39334 39774 43413 41096 42741 42956 41531 42408 42455 42907 40913 40922
