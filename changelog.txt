@@ -1,3 +1,22 @@
+3.0.9.16-Beta
+    Fix up the pot panels a bit
+    Add support for GetReagentCost API, if present
+    Add a missing weapon chant
+    Add wrath uncommon gems by stat panels
+    Rename gem panels
+    New glyphs in 3.0.8
+    Embed update
+    Add transmute panel
+    Add "tabs" for each craft, reorganize panels
+    Remove some old, unused code
+    Forgot to delete the OptionHouse file
+    Update DE possibilities
+    New 3.0.8 recipes
+    New panels, ench boots. chest, gloves
+    Add custom icons for enchanting panels
+    Are you..... Local?
+    deDE locale
+
 3.0.3.15-Beta
     Add wrath meta panel
 
