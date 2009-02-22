@@ -96,7 +96,7 @@ local function OnClick(self)
 	self:SetChecked(true)
 end
 
-for i,spellid in ipairs{7411, 25229, 45357, 2259} do
+for i,spellid in ipairs{7411, 25229, 45357, 2259, 2550} do
 	local name, _, icon = GetSpellInfo(spellid)
 	local butt = CreateFrame("CheckButton", nil, panel)
 	butt:SetWidth(32) butt:SetHeight(32)

@@ -39,3 +39,4 @@ Milling.lua
 Glyphs.lua
 Pot.lua
 Transmutes.lua
+Cooking.lua
