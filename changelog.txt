@@ -1,3 +1,6 @@
+3.0.9.17-Beta
+    Add cooking panels
+
 3.0.9.16-Beta
     Fix up the pot panels a bit
     Add support for GetReagentCost API, if present
