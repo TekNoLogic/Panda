@@ -8,7 +8,7 @@ local WVELLUM1, WVELLUM2, WVELLUM3 = 29249, 39350, 43146
 local NAME = GetSpellInfo(SPELLID)
 local function MakeMacro(id, name, isweapon)
 	local chantname = name:match(L["Scroll of (.+)$"])
-	return "/run if IsShiftKeyDown() then ChatEdit_InsertLink('"..select(2, GetItemInfo(id)).."') end\n"..
+	return "/run if IsShiftKeyDown() then ChatEdit_InsertLink(select(2, GetItemInfo("..id.."))) end\n"..
 		"/stopmacro [mod:shift]\n/run CloseTradeSkill()\n/cast "..NAME.."\n"..
 		"/run for i=1,GetNumTradeSkills() do if GetTradeSkillInfo(i) == '"..chantname.."' then TradeSkillFrame_SetSelection(i); DoTradeSkill(i) end end CloseTradeSkill()\n"..
 		"/use item:"..(isweapon and WVELLUM2 or AVELLUM2)

@@ -53,7 +53,7 @@ end
 
 function Panda.CraftMacro(name, id, extra)
 	local linkfunc, linktoken = extra and "GetTradeSkillRecipeLink" or "GetTradeSkillItemLink", extra and "enchant:" or "item:"
-	return "/run if IsShiftKeyDown() then ChatEdit_InsertLink('"..select(2, GetItemInfo(id)).."') end\n"..
+	return "/run if IsShiftKeyDown() then ChatEdit_InsertLink(select(2, GetItemInfo("..id.."))) end\n"..
 		"/stopmacro [mod:shift]\n"..
 		"/run CloseTradeSkill()\n/cast "..name.."\n"..
 		"/run for i=1,GetNumTradeSkills() do local l = "..linkfunc.."(i) if l and l:match('"..linktoken..(extra or id)..(extra and "" or ":").."') then "..
