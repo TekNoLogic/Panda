@@ -1,3 +1,8 @@
+3.0.9.19-Beta
+    Add some missing enchants
+    Add nasty retarded checking to ENSURE that Auc's API is available when Auc is loaded... cache Auc prices since they don't    
+    - Sorry Auc users, bitch at Norgs to implement GetAuctionBuyout if you want proper support
+
 3.0.9.18-Beta
     Tweak chat linking to maybe avoid odd errors
 
