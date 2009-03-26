@@ -16,7 +16,7 @@ panel:RegisterFrame(NAME, Panda.PanelFactory(45357,
 	frame:SetAttribute("type", "macro")
 	if frame.id == 6948 then
 		frame.icon:SetTexture(MILLICON)
-		frame.id, frame.link = nil
+		frame.id = nil
 		frame.tiptext = "Mass Mill\nThis will mill any available herb.\nTo use in a macro: '/click MassMill'"
 		frame:SetAttribute("macrotext", "/cast "..NAME.."\n/use item:"..table.concat({2447, 765, 2449, 785, 2450, 2452, 3820, 2453, 3369, 3355, 3356, 3357, 3818, 3821, 3358, 3819, 4625, 8831, 8836, 8838, 8845, 8839, 8846,
 			13464, 13463, 13465, 13466, 13467, 22785, 22786, 22787, 22789, 22790, 22791, 22792, 22793, 36901, 36903, 36904, 36905, 36906, 36907, 37921}, "\n/use item:"))

@@ -66,8 +66,8 @@ function Panda.ButtonFactory(parent, id, secure, notext, extra, ...)
 	local customicon = extra ~= "" and not tonumber(extra) and extra
 
 	local f = CreateFrame(secure and "CheckButton" or "Frame", id == 6948 and "MassMill" or nil, parent, secure and "SecureActionButtonTemplate")
-	local name, link, _, _, _, _, _, _, _, texture = GetItemInfo(id)
-	f.link, f.id = link, id
+	local texture = GetItemIcon(id)
+	f.id = id
 	if not customicon and extra and extra ~= "" then f.extra = extra end
 
 	f:SetHeight(32)
@@ -109,7 +109,7 @@ function Panda.ButtonFactory(parent, id, secure, notext, extra, ...)
 	border:SetHeight(f:GetHeight() * 2 - 5)
 	f.border = border
 
-	if secure and name then
+	if secure then
 		if type(secure) == "function" then
 			secure(f)
 		else

@@ -49,7 +49,6 @@ function Panda:PanelFiller()
 	local canCraft = self.spellid and GetSpellInfo((GetSpellInfo(self.spellid)))
 	local craftDetail = canCraft and (securefunc or canCraft)
 
-	local uncached = {}
 	local HGAP, VGAP = 5, -18
 	local numrows, rowanchor, lastrow = 0
 
@@ -71,7 +70,6 @@ function Panda:PanelFiller()
 				lastframe.notcrafted = not craftable
 				buttons[id] = lastframe
 				if func then func(id, lastframe) end
-				if not GetItemInfo(id) then uncached[lastframe] = true end
 				if craftable and canCraft and not known[lastframe] then
 					lastframe:SetAlpha(.25)
 					unknown[lastframe] = true
@@ -113,31 +111,6 @@ function Panda:PanelFiller()
 	end
 
 	if canCraft then Panda.RefreshButtonFactory(scroll or self, canCraft, "TOPRIGHT", scroll or self, "BOTTOMRIGHT", 4, -3) end
-	if next(uncached) then
-		local b = LibStub("tekKonfig-Button").new(scroll or self, "TOPRIGHT", scroll or self, "BOTTOMRIGHT", -155, -3)
-		b:SetText("Cache")
-		b.tiptext = "Click to query server for missing item data.  This could potentially disconnect you from the server, use with care."
-		b:SetScript("OnClick", function(self)
-			GameTooltip:Hide()
-			for button in pairs(uncached) do GameTooltip:SetHyperlink("item:"..button.id) end
-
-			local elapsed = 0
-			self:SetScript("OnUpdate", function(self, elap)
-				elapsed = elapsed + elap
-				if elapsed < 2 then return end
-
-				for button in pairs(uncached) do
-					local name, link, _, _, _, _, _, _, _, texture = GetItemInfo(button.id)
-					if not name then elapsed = 0; return end
-
-					button.icon:SetTexture(texture)
-					button.link = link
-				end
-				self:SetScript("OnUpdate", nil)
-				self:Hide()
-			end)
-		end)
-	end
 
 	if canCraft and not tracker and next(unknown) then
 		self:SetScript("OnEvent", function()

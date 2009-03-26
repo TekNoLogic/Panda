@@ -41,21 +41,10 @@ Panda = {panel = panel, locale = L}
 
 function Panda:HideTooltip() GameTooltip:Hide() end
 function Panda:ShowTooltip()
-	if self.link then
-		GameTooltip:SetOwner(self, "ANCHOR_NONE")
-		GameTooltip:SetPoint("TOPLEFT", self, self.anchor or "TOPRIGHT")
-		GameTooltip:SetHyperlink(self.link)
-	elseif IsShiftKeyDown() and self.id then
+	if self.id then
 		GameTooltip:SetOwner(self, "ANCHOR_NONE")
 		GameTooltip:SetPoint("TOPLEFT", self, self.anchor or "TOPRIGHT")
 		GameTooltip:SetHyperlink("item:"..self.id)
-	elseif self.id then
-		GameTooltip:SetOwner(self, "ANCHOR_NONE")
-		GameTooltip:SetPoint("TOPLEFT", self, self.anchor or "TOPRIGHT")
-		GameTooltip:AddLine("Hold shift to force a server query for this tooltip.")
-		GameTooltip:AddLine("This may cause the server to disconnect you!")
-		GameTooltip:AddLine("Use with caution.")
-		GameTooltip:Show()
 	elseif self.tiptext then
 		GameTooltip:SetOwner(self, "ANCHOR_NONE")
 		GameTooltip:SetPoint("TOPLEFT", self, self.anchor or "TOPRIGHT")
