@@ -11,5 +11,5 @@ panel:RegisterFrame(NAME, Panda.PanelFactory(25229,[[
 
 ]], nil, function(frame)
 	frame:SetAttribute("type", "macro")
-	frame:SetAttribute("macrotext", "/cast "..NAME.."\n/use "..frame.name)
+	frame:SetAttribute("macrotext", "/cast "..NAME.."\n/use item:"..frame.id)
 end))

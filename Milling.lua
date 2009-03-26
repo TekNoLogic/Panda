@@ -23,7 +23,7 @@ panel:RegisterFrame(NAME, Panda.PanelFactory(45357,
 	elseif inks:match(frame.id) then
 		frame:SetAttribute("macrotext", Panda.CraftMacro(NAME2, frame.id))
 	else
-		frame:SetAttribute("macrotext", "/cast "..NAME.."\n/use "..frame.name)
+		frame:SetAttribute("macrotext", "/cast "..NAME.."\n/use item:"..frame.id)
 	end
 end))
 

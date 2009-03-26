@@ -4,7 +4,8 @@ local idmemo = LibStub("tekIDmemo")
 local unknown, knowncombines, tracker = {}
 local known = setmetatable({}, {__index = function(t,i)
 	local spellid = tonumber(i.extra)
-	if not spellid and (knowncombines[i.id] or knowncombines[i.name]) or spellid and knowncombines[spellid + 0.1] then
+	local name = i.id and GetItemInfo(i.id)
+	if not spellid and (knowncombines[i.id] or name and knowncombines[name]) or spellid and knowncombines[spellid + 0.1] then
 		t[i] = true
 		return true
 	end
@@ -130,7 +131,7 @@ function Panda:PanelFiller()
 					if not name then elapsed = 0; return end
 
 					button.icon:SetTexture(texture)
-					button.link, button.name = link, name or ""
+					button.link = link
 				end
 				self:SetScript("OnUpdate", nil)
 				self:Hide()

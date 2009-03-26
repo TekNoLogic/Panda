@@ -6,11 +6,10 @@ local SPELLID = 7411
 local AVELLUM1, AVELLUM2, AVELLUM3 = 38682, 37602, 43145
 local WVELLUM1, WVELLUM2, WVELLUM3 = 29249, 39350, 43146
 local NAME = GetSpellInfo(SPELLID)
-local function MakeMacro(id, name, isweapon)
-	local chantname = name:match(L["Scroll of (.+)$"])
+local function MakeMacro(id, isweapon)
 	return "/run if IsShiftKeyDown() then ChatEdit_InsertLink(select(2, GetItemInfo("..id.."))) end\n"..
 		"/stopmacro [mod:shift]\n/run CloseTradeSkill()\n/cast "..NAME.."\n"..
-		"/run for i=1,GetNumTradeSkills() do if GetTradeSkillInfo(i) == '"..chantname.."' then TradeSkillFrame_SetSelection(i); DoTradeSkill(i) end end CloseTradeSkill()\n"..
+		"/run local chantname = GetItemInfo("..id.."):match(\""..L["Scroll of (.+)$"].."\") for i=1,GetNumTradeSkills() do if GetTradeSkillInfo(i) == chantname then TradeSkillFrame_SetSelection(i); DoTradeSkill(i) end end CloseTradeSkill()\n"..
 		"/use item:"..(isweapon and WVELLUM3 or AVELLUM3)
 end
 
@@ -21,7 +20,7 @@ Panda.panel:RegisterFrame(L["Enchant Boots"], Panda.PanelFactory(SPELLID,
   38819:SPI 38864:SPI 38961:SPI   0       38908:HMP 38974:HMP 0 38910:HIT 38986:HIT 0 38837:SPE
 ]], nil, function(frame)
 	frame:SetAttribute("type", "macro")
-	frame:SetAttribute("macrotext", MakeMacro(frame.id, frame.name))
+	frame:SetAttribute("macrotext", MakeMacro(frame.id))
 end))
 
 
@@ -33,7 +32,7 @@ Panda.panel:RegisterFrame(L["Enchant Bracer"], Panda.PanelFactory(SPELLID,
   38774:SPI 38783:SPI 38809:SPI 38832:SPI 38853:SPI 38980:SPI   0       38882:SP   38900:SP
 ]], nil, function(frame)
 	frame:SetAttribute("type", "macro")
-	frame:SetAttribute("macrotext", MakeMacro(frame.id, frame.name))
+	frame:SetAttribute("macrotext", MakeMacro(frame.id))
 end))
 
 
@@ -43,7 +42,7 @@ Panda.panel:RegisterFrame(L["Enchant Chest"], Panda.PanelFactory(SPELLID,
 	38804:STAT 38824:STAT 38847:STAT 38865:STAT 38913:STAT 38989:STAT 44465:STAT
 ]], nil, function(frame)
 	frame:SetAttribute("type", "macro")
-	frame:SetAttribute("macrotext", MakeMacro(frame.id, frame.name))
+	frame:SetAttribute("macrotext", MakeMacro(frame.id))
 end))
 
 
@@ -56,7 +55,7 @@ Panda.panel:RegisterFrame(L["Enchant Cloak"], Panda.PanelFactory(SPELLID,
     0           0           0          0          0         0         0       0 0 0 0 0 0   0          0          0        38950:RFR
 ]], nil, function(frame)
 	frame:SetAttribute("type", "macro")
-	frame:SetAttribute("macrotext", MakeMacro(frame.id, frame.name))
+	frame:SetAttribute("macrotext", MakeMacro(frame.id))
 end))
 
 
@@ -67,7 +66,7 @@ Panda.panel:RegisterFrame(L["Enchant Gloves"], Panda.PanelFactory(SPELLID,
   38888:FIP 38887:FRP 38886:SHP    0        38889:SP   38936:SP   38935:SP   38979:SP
 ]], nil, function(frame)
 	frame:SetAttribute("type", "macro")
-	frame:SetAttribute("macrotext", MakeMacro(frame.id, frame.name))
+	frame:SetAttribute("macrotext", MakeMacro(frame.id))
 end))
 
 
@@ -78,7 +77,7 @@ Panda.panel:RegisterFrame(L["Enchant Shield"], Panda.PanelFactory(SPELLID,
   38843:RFR   0       38907:RALL
 ]], nil, function(frame)
 	frame:SetAttribute("type", "macro")
-	frame:SetAttribute("macrotext", MakeMacro(frame.id, frame.name))
+	frame:SetAttribute("macrotext", MakeMacro(frame.id))
 end))
 
 
@@ -91,5 +90,5 @@ Panda.panel:RegisterFrame(L["Enchant Weapon"], Panda.PanelFactory(SPELLID,
   44493:BERSERK 38965:FIERY 38998:FROST 43987:UNHOLY 38972:CRUSADER 44497:HIT       0   0              0               0       38779:BEAST     38813:BEAST 38814:ELEM 38840:DEMON 38988:GIANT 0 38981:UNDEAD
 ]], nil, function(frame)
 	frame:SetAttribute("type", "macro")
-	frame:SetAttribute("macrotext", MakeMacro(frame.id, frame.name, true))
+	frame:SetAttribute("macrotext", MakeMacro(frame.id, true))
 end))
