@@ -97,18 +97,6 @@ function Panda.ButtonFactory(parent, id, secure, notext, extra, ...)
 	f.ahcount = f:CreateFontString(nil, "ARTWORK", "NumberFontNormalSmall")
 	f.ahcount:SetPoint("TOPRIGHT", icon, "TOPRIGHT", -2, -2)
 
-	-- Thanks to oglow for this method
-	local border = f:CreateTexture(nil, "OVERLAY")
-	border:SetTexture("Interface\\Buttons\\UI-ActionButton-Border")
-	border:SetBlendMode("ADD")
-	border:SetAlpha(.5)
-	border:Hide()
-
-	border:SetPoint('CENTER', f, 'CENTER', 0, 1)
-	border:SetWidth(f:GetWidth() * 2 - 5)
-	border:SetHeight(f:GetHeight() * 2 - 5)
-	f.border = border
-
 	if secure then
 		if type(secure) == "function" then
 			secure(f)
