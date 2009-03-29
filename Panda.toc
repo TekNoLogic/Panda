@@ -3,7 +3,7 @@
 ## Title: Panda
 ## Notes: Prospecting and Disenchanting Aide
 ## Author: Tekkub Stoutwrithe
-## Version: Alpha
+## Version: 3.0.9.20
 ## X-Website: http://code.google.com/p/tekkub-wow/
 ## X-Email: tekkub-wow@googlegroups.com
 ## X-Category: Tradeskills
