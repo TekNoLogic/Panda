@@ -1,3 +1,9 @@
+3.0.9.20-Beta
+    Missed a chant
+    Remove calls to GetItemInfo that may involve uncached items, remove the force-caching buttons
+    Remove dependency on item names to avoid cache issues, always use itemID instead
+    Use 3rd-level vellums when enchanting
+
 3.0.9.19-Beta
     Add some missing enchants
     Add nasty retarded checking to ENSURE that Auc's API is available when Auc is loaded... cache Auc prices since they don't    
