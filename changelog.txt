@@ -1,3 +1,10 @@
+3.1.0.21-Beta
+    Seems we were missing some chest def chants
+    Rejigger bracer enchant layout a smidge
+    New chants!
+    New glyphs!
+    Pot update for 3.1
+
 3.0.9.20-Beta
     Missed a chant
     Remove calls to GetItemInfo that may involve uncached items, remove the force-caching buttons
