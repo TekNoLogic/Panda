@@ -1,6 +1,6 @@
 
 
-local lib, oldminor = LibStub:NewLibrary("tekPanel-Auction", 6)
+local lib, oldminor = LibStub:NewLibrary("tekPanel-Auction", 7)
 if not lib then return end
 oldminor = oldminor or 0
 
@@ -91,6 +91,7 @@ function lib.newpanel(base, splitstyle)
 		local frames, names, refresh = {}, {}
 
 		function frame:RegisterFrame(name, newframe)
+			newframe:Hide()
 			frames[name] = newframe
 			table.insert(names, name)
 			if refresh then refresh() end
