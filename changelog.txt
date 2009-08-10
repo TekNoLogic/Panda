@@ -1,3 +1,8 @@
+3.2.0.23-Beta
+    Embed update
+    Add wrath epic gems and titanium prospecting
+    Seems that glyph was removed
+
 3.1.0.22-Beta
     Rejigger 3.1 glyphs, now sorted by ink
 
@@ -16,7 +21,7 @@
 
 3.0.9.19-Beta
     Add some missing enchants
-    Add nasty retarded checking to ENSURE that Auc's API is available when Auc is loaded... cache Auc prices since they don't    
+    Add nasty retarded checking to ENSURE that Auc's API is available when Auc is loaded... cache Auc prices since they don't
     - Sorry Auc users, bitch at Norgs to implement GetAuctionBuyout if you want proper support
 
 3.0.9.18-Beta
