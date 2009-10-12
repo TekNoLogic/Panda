@@ -1,3 +1,6 @@
+3.2.0.24-Beta
+    Transmutants
+
 3.2.0.23-Beta
     Embed update
     Add wrath epic gems and titanium prospecting
