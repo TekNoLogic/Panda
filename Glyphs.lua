@@ -4,15 +4,6 @@ local panel = Panda.panel.panels[3]
 
 
 local name = GetSpellInfo(45357)
-local twoinks = [[42906 42462 43418 41537 42410 42962 42400 41092 42458 41532 43417 41532 43417 42737 42908 40923 42964 42402 41108 42465 41536 43427 40909 42897 42746 41104 42415 41547 42970 42960
-43424 42473 41547 42970 43424 43473 41098 42904 42744 41535 42973 42470 42749 42471 43551 41542 42736 41094 42955 43827 43554 42453 40896 42906 42406 43549 42453 40896 42906 42406 45747 45797 45740]]
-local function glyphcolorer(id, frame)
-	if twoinks:match(id) then
-		local fs = frame:CreateFontString(nil, "ARTWORK", "NumberFontNormalSmall")
-		fs:SetPoint("TOPLEFT", frame.icon, "TOPLEFT", 0, -2)
-		fs:SetText("*")
-	end
-end
 
 local check = CreateFrame("CheckButton", "PandaGlyphProfit", panel, "OptionsCheckButtonTemplate")
 check:SetWidth(22)
@@ -41,7 +32,7 @@ panel:RegisterFrame(GLYPHS, Panda.PanelFactory(45357,
   39342 43124 43428 41105 42749 42963 41527 42401 42471 42911 40903 43548 43553 43825 43826
     0     0   43432 41094 42736 42955 41542 42406 42453 42906 40896 43551 43827 43554 43549
     0     0     0     0   44955
-]], glyphcolorer))
+]]))
 
 
 panel:RegisterFrame(L["Glyphs (Wrath)"], Panda.PanelFactory(45357,
@@ -68,7 +59,7 @@ panel:RegisterFrame(L["Glyphs (Wrath)"], Panda.PanelFactory(45357,
   39339 43118   0     0     0     0     0     0     0   45733
 	39338 43116 45797 45747   0     0     0     0   45789 45734
   39334 39774   0     0   45735   0   45778   0   45785 45735
-]], glyphcolorer, function(frame)
+]], nil, function(frame)
 	frame:SetAttribute("type", "macro")
 	if frame.id == 44680 then
 		frame:SetAttribute("macrotext", "/run CloseTradeSkill()\n/cast "..name.."\n"..
@@ -86,7 +77,7 @@ panel:RegisterFrame(L["Minor Glyphs (by ink)"], Panda.PanelFactory(45357,
     0     0   43376 43380 43368 43360 43344 43386 43391 43331   0     0     0   43374 43394 43126 39343
   39339 43118 43369 43388 43385 43381 43372 43370 43392 43393 43351 43334 43674
   39340 43120 43378 43355   0     0     0     0   43400 43671 43539 43672 43673 43535 43544 43124 39342
-]], glyphcolorer, function(frame)
+]], nil, function(frame)
 	frame:SetAttribute("type", "macro")
 	if frame.id == 44680 then
 		frame:SetAttribute("macrotext", "/run CloseTradeSkill()\n/cast "..name.."\n"..
@@ -104,7 +95,7 @@ panel:RegisterFrame(L["Minor Glyphs (by class)"], Panda.PanelFactory(45357,
   43397 43365 43361   0   43380 43381   0   43370 43393 43356 43331   0   43673
   43398 43368 43357   0   43376 43385   0   43372 43392 43351 43334   0   43535
   43400 43369 43360   0   43378 43388   0   43374 43394 43355 43674   0   43544
-]], glyphcolorer))
+]]))
 
 
 panel:RegisterFrame(L["Scrolls"], Panda.PanelFactory(45357,
