@@ -1,6 +1,6 @@
 
 
-local lib, oldminor = LibStub:NewLibrary("tekPanel-Auction", 7)
+local lib, oldminor = LibStub:NewLibrary("tekPanel-Auction", 8)
 if not lib then return end
 oldminor = oldminor or 0
 
@@ -170,8 +170,8 @@ function lib.newpanel(base, splitstyle)
 				self.base.top:SetTexture("Interface\\AuctionFrame\\UI-AuctionFrame-Browse-Top")
 				self.base.topright:SetTexture("Interface\\AuctionFrame\\UI-AuctionFrame-Browse-TopRight")
 				self.base.bottomleft:SetTexture("Interface\\AuctionFrame\\UI-AuctionFrame-Browse-BotLeft")
-				self.base.bottom:SetTexture("Interface\\AuctionFrame\\UI-AuctionFrame-Browse-Bot")
-				self.base.bottomright:SetTexture("Interface\\AuctionFrame\\UI-AuctionFrame-Browse-BotRight")
+				self.base.bottom:SetTexture("Interface\\AuctionFrame\\UI-AuctionFrame-Auction-Bot")
+				self.base.bottomright:SetTexture("Interface\\AuctionFrame\\UI-AuctionFrame-Bid-BotRight")
 			end
 
 			refresh()
