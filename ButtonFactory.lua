@@ -63,12 +63,13 @@ end
 
 
 function Panda.ButtonFactory(parent, id, secure, notext, extra, ...)
-	local customicon = extra ~= "" and not tonumber(extra) and extra
+	local extraid, extraicon = (extra or ""):match("(%d*):?(%S*)")
+	local customicon = extraicon ~= "" and extraicon
 
 	local f = CreateFrame(secure and "CheckButton" or "Frame", id == 6948 and "MassMill" or nil, parent, secure and "SecureActionButtonTemplate")
 	local texture = GetItemIcon(id)
 	f.id = id
-	if not customicon and extra and extra ~= "" then f.extra = extra end
+	if extraid and extraid ~= "" then f.extra = extraid end
 
 	f:SetHeight(32)
 	f:SetWidth(32)
