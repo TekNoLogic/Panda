@@ -1,3 +1,9 @@
+3.3.0.27-Beta
+    Add shatters to DE panel
+    Fucking scroll/enchant names don't always match up
+    Make transmutes panels a bit betterer
+    Seems you can transmute the epic red gem
+
 3.3.0.26-Beta
     Fix shitty change in AH panel textures
     No more two-ink glyphs
