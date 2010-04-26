@@ -69,7 +69,7 @@ function Panda.ButtonFactory(parent, id, secure, notext, extra, ...)
 	local f = CreateFrame(secure and "CheckButton" or "Frame", id == 6948 and "MassMill" or nil, parent, secure and "SecureActionButtonTemplate")
 	local texture = GetItemIcon(id)
 	f.id = id
-	if extraid and extraid ~= "" then f.extra = extraid end
+	if extraid and extraid ~= "" then f.extra, f.tiplink = extraid, "spell:"..extraid end
 
 	f:SetHeight(32)
 	f:SetWidth(32)

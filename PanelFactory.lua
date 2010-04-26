@@ -71,7 +71,7 @@ function Panda:PanelFiller()
 				lastframe.notcrafted = not craftable
 				buttons[id] = lastframe
 				if func then func(id, lastframe) end
-				if craftable and canCraft and not known[lastframe] then
+				if not lastframe.notcrafted and canCraft and not known[lastframe] then
 					lastframe:SetAlpha(.25)
 					unknown[lastframe] = true
 				end

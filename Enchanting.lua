@@ -6,6 +6,7 @@ local SPELLID = 7411
 local AVELLUM1, AVELLUM2, AVELLUM3 = 38682, 37602, 43145
 local WVELLUM1, WVELLUM2, WVELLUM3 = 29249, 39350, 43146
 local NAME = GetSpellInfo(SPELLID)
+local function NoSpelltips(id, f) f.tiplink = nil end
 local function MakeMacro(frame, isweapon)
 	local id, extra = frame.id, frame.extra
 
@@ -28,7 +29,7 @@ Panda.panel:RegisterFrame(L["Enchant Boots"], Panda.PanelFactory(SPELLID,
 [[38786:AGI 38807:AGI 38844:AGI 38863:AGI 37603:AGI 38976:AGI 0 38943:SPE   0       44449:AP  44469:AP
   38785:STA 38810:STA 38830:STA 38862:STA 38909:STA 38966:STA 0 38944:SPE 39006:SPE
   38819:SPI 38864:SPI 38961:SPI   0       38908:HMP 38974:HMP 0 38837:SPE   0       45628:HIT 38910:HIT 38986:HIT
-]], nil, function(frame)
+]], NoSpelltips, function(frame)
 	frame:SetAttribute("type", "macro")
 	frame:SetAttribute("macrotext", MakeMacro(frame))
 end))
@@ -40,7 +41,7 @@ Panda.panel:RegisterFrame(L["Enchant Bracer"], Panda.PanelFactory(SPELLID,
   38778:STR 38797:STR 38817:STR 38846:STR 38854:STR 38897:STR         0             38938:AP   38971:AP 44815:AP   0            38777:AGI
   38803:INT 38829:INT 38852:INT 38937:INT 38968:INT   0             38882:SP        38900:SP   38903:SP 38997:SP 44470:60767:SP
   38774:SPI 38783:SPI 38809:SPI 38832:SPI 38853:SPI 38980:SPI         0             38881:MPR  38901:MPR
-]], nil, function(frame)
+]], NoSpelltips, function(frame)
 	frame:SetAttribute("type", "macro")
 	frame:SetAttribute("macrotext", MakeMacro(frame))
 end))
@@ -50,7 +51,7 @@ Panda.panel:RegisterFrame(L["Enchant Chest"], Panda.PanelFactory(SPELLID,
 [[38766:HP   38773:HP   38782:HP   38808:HP   38833:HP   38866:HP   38911:HP 38955:HP  39005:HP 0 38767:DEF 38798:DEF 38999:DEF 39002:DEF
   38769:MP   38776:MP   38799:MP   38818:MP   38841:MP   38867:MP   38912:MP   0         0      0 38929:MPR 38962:MPR   0       38928:SPI
 	38804:STAT 38824:STAT 38847:STAT 38865:STAT 38913:STAT 38989:STAT 44465:STAT 0         0      0 38930:RES 38975:RES
-]], nil, function(frame)
+]], NoSpelltips, function(frame)
 	frame:SetAttribute("type", "macro")
 	frame:SetAttribute("macrotext", MakeMacro(frame))
 end))
@@ -63,7 +64,7 @@ Panda.panel:RegisterFrame(L["Enchant Cloak"], Panda.PanelFactory(SPELLID,
     0           0         38939:SPEN 38894:FADE 38893:STL 39000:DEF 38895:DOD 0 0 0 0 0 0   0          0        38941:RAR  38982:RAR
   44456:HASTE 39003:HASTE 38973:SPEN 39004:FADE 38993:STL 38978:DEF   0       0 0 0 0 0 0   0          0        38892:RNA  38956:RNA
     0           0           0          0          0         0         0       0 0 0 0 0 0   0          0          0        38950:RFR
-]], nil, function(frame)
+]], NoSpelltips, function(frame)
 	frame:SetAttribute("type", "macro")
 	frame:SetAttribute("macrotext", MakeMacro(frame))
 end))
@@ -74,7 +75,7 @@ Panda.panel:RegisterFrame(L["Enchant Gloves"], Panda.PanelFactory(SPELLID,
   38827:AGI 38856:AGI 38890:AGI  38967:AGI    0        38836:STR  38857:STR  38933:STR    0          38934:AP  38964:AP     44458:AP
   38932:HIT 38953:HIT    0       38931:CRIT 38985:CRIT   0        38951:EXP    0        38851:HASTE    0       38885:THREAT 38990:THREAT
   38888:FIP 38887:FRP 38886:SHP    0        38889:SP   38936:SP   38935:SP   38979:SP
-]], nil, function(frame)
+]], NoSpelltips, function(frame)
 	frame:SetAttribute("type", "macro")
 	frame:SetAttribute("macrotext", MakeMacro(frame))
 end))
@@ -85,7 +86,7 @@ Panda.panel:RegisterFrame(L["Enchant Shield"], Panda.PanelFactory(SPELLID,
   38791:ARM   0       38904:BLKV  0       38820:BLKR 38906:BLKR   0   38954:DEF
   38792:SPI 38816:SPI 38839:SPI 38860:SPI   0        38905:INT  44455:INT
   38843:RFR   0       38907:RALL
-]], nil, function(frame)
+]], NoSpelltips, function(frame)
 	frame:SetAttribute("type", "macro")
 	frame:SetAttribute("macrotext", MakeMacro(frame))
 end))
@@ -98,7 +99,7 @@ Panda.panel:RegisterFrame(L["Enchant Weapon"], Panda.PanelFactory(SPELLID,
   38878:SP  38877:SP  38946:SP  38921:SP  38991:SP  44467:SP  0   0        0      0 0 0   0         0         0       45060:SP  45056:SP
   38876:WINTER  38838:FIERY 38868:FROST 38872:UNHOLY 38873:CRUSADER 38871:LIFESTEAL   0       38925:MONGOOSE 38927:LIFESTEAL 38926:MPR 38924:SOULFROST 38923:SUNFIRE
   44493:BERSERK 38965:FIERY 38998:FROST 43987:UNHOLY 38972:CRUSADER 46098:LIFESTEAL 44497:HIT 46026:PARRY      0               0       38779:BEAST     38813:BEAST 38814:ELEM 38840:DEMON 38988:GIANT 0 38981:UNDEAD
-]], nil, function(frame)
+]], NoSpelltips, function(frame)
 	frame:SetAttribute("type", "macro")
 	frame:SetAttribute("macrotext", MakeMacro(frame, true))
 end))

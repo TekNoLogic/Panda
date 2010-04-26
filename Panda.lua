@@ -41,7 +41,11 @@ Panda = {panel = panel, locale = L}
 
 function Panda:HideTooltip() GameTooltip:Hide() end
 function Panda:ShowTooltip()
-	if self.id then
+	if self.tiplink then
+		GameTooltip:SetOwner(self, "ANCHOR_NONE")
+		GameTooltip:SetPoint("TOPLEFT", self, self.anchor or "TOPRIGHT")
+		GameTooltip:SetHyperlink(self.tiplink)
+	elseif self.id then
 		GameTooltip:SetOwner(self, "ANCHOR_NONE")
 		GameTooltip:SetPoint("TOPLEFT", self, self.anchor or "TOPRIGHT")
 		GameTooltip:SetHyperlink("item:"..self.id)

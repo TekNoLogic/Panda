@@ -114,15 +114,19 @@ frame:Hide()
 frame:SetScript("OnShow", function(self)
 	local canDE = GetSpellInfo(GetSpellInfo(13262))
 
-	local NoItems = cfs(self, nil, "ARTWORK", "GameFontNormalHuge", "CENTER", -self:GetWidth()/4, 0)
+	local deframe = CreateFrame("Frame", nil, self)
+	deframe:SetPoint("TOPLEFT")
+	deframe:SetPoint("BOTTOMRIGHT", self, "BOTTOM", -15, 0)
+
+	local NoItems = cfs(deframe, nil, "ARTWORK", "GameFontNormalHuge", "CENTER", deframe, "CENTER", 0, 0)
 	NoItems:SetText("Nothing to disenchant!")
 
 	self.lines = {}
 	for i=1,NUM_LINES do
-		local f = CreateFrame("CheckButton", "PandaDEFrame"..i, self, "SecureActionButtonTemplate")
-		f:SetPoint("TOPLEFT", self, OFFSET, ICONSIZE-i*(ICONSIZE+OFFSET))
+		local f = CreateFrame("CheckButton", "PandaDEFrame"..i, deframe, "SecureActionButtonTemplate")
+		f:SetPoint("TOPLEFT", deframe, OFFSET, ICONSIZE-i*(ICONSIZE+OFFSET))
+		f:SetPoint("RIGHT")
 		f:SetHeight(ICONSIZE)
-		f:SetWidth(BUTTON_WIDTH)
 		f:SetScript("OnEnter", ShowItemDetails)
 		f:SetScript("OnLeave", HideItemDetails)
 		if canDE then f:SetAttribute("type", "macro") end
@@ -200,13 +204,15 @@ frame:SetScript("OnShow", function(self)
 
 	-- Set up price panel
 	local frame = CreateFrame("Frame", nil, self)
-	frame:SetPoint("TOPLEFT", self, "TOP", 20, 0)
+	frame:SetPoint("TOPLEFT", deframe, "TOPRIGHT")
 	frame:SetPoint("BOTTOMRIGHT")
+	frame.spellid = 7411
+	frame.func = function(id, f) f.notcrafted = not f.tiplink end
 	frame.itemids = [[10940 11083 11137 11176 16204 22445 34054
-	                  10938 10998 11134 11174 16202 22447 34056
-	                  10939 11082 11135 11175 16203 22446 34055
-	                    0   10978 11138 11177 14343 22448 34053
-	                    0   11084 11139 11178 14344 22449 34052
-	                    0     0     0     0   20725 22450 34057]]
+	                  10938 10998 11134 11174 16202 22447 34056 0 20725:42613
+	                  10939 11082 11135 11175 16203 22446 34055 0 22448:28022
+	                    0   10978 11138 11177 14343 22448 34053 0 22449:42615
+	                    0   11084 11139 11178 14344 22449 34052 0 22450:45765
+	                    0     0     0     0   20725 22450 34057 0 34057:69412]]
 	buttons = Panda.PanelFiller(frame)
 end)
