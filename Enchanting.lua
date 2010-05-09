@@ -2,12 +2,20 @@
 local L = Panda.locale
 
 
+local WEAPONS = [[
+	38780 38794 38821 38848 38870 38917 38772 38796 38822 38845 38869
+  38880 38947 38995 38879 38920 44453 44466 38896 38922 38919 38992 44463
+  38883 38963 38884 38918 38788 38874 38781 38875
+  38878 38877 38946 38921 38991 44467 45060 45056
+  38876 38838 38868 38872 38873 38871 38925 38927 38926 38924 38923
+  44493 38965 38998 43987 38972 46098 44497 46026 38779 38813 38814 38840 38988 38981
+]]
 local SPELLID = 7411
 local AVELLUM1, AVELLUM2, AVELLUM3 = 38682, 37602, 43145
 local WVELLUM1, WVELLUM2, WVELLUM3 = 29249, 39350, 43146
 local NAME = GetSpellInfo(SPELLID)
 local function NoSpelltips(id, f) f.tiplink = nil end
-local function MakeMacro(frame, isweapon)
+local function MakeMacro(frame)
 	local id, extra = frame.id, frame.extra
 
 	if extra then
@@ -15,13 +23,13 @@ local function MakeMacro(frame, isweapon)
 			"/stopmacro [mod:shift]\n/run CloseTradeSkill()\n/cast "..NAME.."\n"..
 			"/run for i=1,GetNumTradeSkills() do local l = GetTradeSkillRecipeLink(i) if l and l:match('enchant:"..extra.."') then "..
 				"TradeSkillFrame_SetSelection(i); DoTradeSkill(i) end end CloseTradeSkill()\n"..
-			"/use item:"..(isweapon and WVELLUM3 or AVELLUM3)
+			"/use item:"..(WEAPONS:match(id) and WVELLUM3 or AVELLUM3)
 	end
 
 	return "/run if IsShiftKeyDown() then ChatEdit_InsertLink(select(2, GetItemInfo("..id.."))) end\n"..
 		"/stopmacro [mod:shift]\n/run CloseTradeSkill()\n/cast "..NAME.."\n"..
 		"/run local chantname = GetItemInfo("..id.."):match(\""..L["Scroll of (.+)$"].."\") for i=1,GetNumTradeSkills() do if GetTradeSkillInfo(i) == chantname then TradeSkillFrame_SetSelection(i); DoTradeSkill(i) end end CloseTradeSkill()\n"..
-		"/use item:"..(isweapon and WVELLUM3 or AVELLUM3)
+		"/use item:"..(WEAPONS:match(id) and WVELLUM3 or AVELLUM3)
 end
 
 
@@ -34,7 +42,7 @@ Panda.panel:RegisterFrame(L["All Wrath"], Panda.PanelFactory(SPELLID,
   38995:AGI       44453:AP   44466:AP  38963:SPI   38991:SP    44467:SP     44493:BERSERK 38965:FIERY 43987:UNHOLY 38972:CRUSADER 46098:LIFESTEAL 44497:HIT 46026:PARRY 38988:GIANT   0       45060:SP  45056:SP
 ]], NoSpelltips, function(frame)
 	frame:SetAttribute("type", "macro")
-	frame:SetAttribute("macrotext", MakeMacro(frame, true))
+	frame:SetAttribute("macrotext", MakeMacro(frame))
 end))
 
 
@@ -114,5 +122,5 @@ Panda.panel:RegisterFrame(L["Enchant Weapon"], Panda.PanelFactory(SPELLID,
   44493:BERSERK 38965:FIERY 38998:FROST 43987:UNHOLY 38972:CRUSADER 46098:LIFESTEAL 44497:HIT 46026:PARRY      0               0       38779:BEAST     38813:BEAST 38814:ELEM 38840:DEMON 38988:GIANT 0 38981:UNDEAD
 ]], NoSpelltips, function(frame)
 	frame:SetAttribute("type", "macro")
-	frame:SetAttribute("macrotext", MakeMacro(frame, true))
+	frame:SetAttribute("macrotext", MakeMacro(frame))
 end))
