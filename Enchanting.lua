@@ -13,13 +13,13 @@ local function MakeMacro(frame)
 			"/stopmacro [mod:shift]\n/run CloseTradeSkill()\n/cast "..NAME.."\n"..
 			"/run for i=1,GetNumTradeSkills() do local l = GetTradeSkillRecipeLink(i) if l and l:match('enchant:"..extra.."') then "..
 				"TradeSkillFrame_SetSelection(i); DoTradeSkill(i) end end CloseTradeSkill()\n"..
-			"/use item:38682")
+			"/use item:38682"
 	end
 
 	return "/run if IsShiftKeyDown() then ChatEdit_InsertLink(select(2, GetItemInfo("..id.."))) end\n"..
 		"/stopmacro [mod:shift]\n/run CloseTradeSkill()\n/cast "..NAME.."\n"..
 		"/run local chantname = GetItemInfo("..id.."):match(\""..L["Scroll of (.+)$"].."\") for i=1,GetNumTradeSkills() do if GetTradeSkillInfo(i) == chantname then TradeSkillFrame_SetSelection(i); DoTradeSkill(i) end end CloseTradeSkill()\n"..
-		"/use item:38682")
+		"/use item:38682"
 end
 
 
