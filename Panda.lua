@@ -33,6 +33,7 @@ local L = setmetatable(locale == "deDE" and {
 
 local panel = LibStub("tekPanel-Auction").new("PandaPanel", "Panda", true)
 Panda = {panel = panel, locale = L}
+Panda.IHASCAT = GetGuildLevelEnabled()
 
 
 ------------------------------
