@@ -126,7 +126,7 @@ function Panda:PanelFiller()
 				if rowtype ~= "header" and link then
 					local spellid = spelllink:match("enchant:(%d+)")
 					knowncombines[tonumber(spellid) + 0.1] = true
-					if skilltype == "Enchant" then knowncombines["Scroll of "..name] = true
+					if skilltype == "Enchant" then knowncombines["Scroll of "..name], knowncombines[name] = true, true
 					elseif idmemo[link] then knowncombines[idmemo[link]] = true end
 				end
 			end
