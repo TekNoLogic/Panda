@@ -1,3 +1,11 @@
+4.0.0.30-Beta
+    Finish cleap up of wrath gem panels
+    Finish sorting out major glyphs
+    Add some Cat panels (will activate when cat is activated)
+    Clean up wrath rare gem panel
+    It was a fun experiment, but I never used the by-stat gem panels
+    Really no reason to keep the BC gem panels around, I'm not going to waste time fixing them anyway
+
 4.0.0.29-Beta
     Add prime glyph panel
     Clean up minor glyph panels
