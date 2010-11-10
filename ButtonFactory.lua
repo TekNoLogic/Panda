@@ -26,7 +26,11 @@ local UNK, ICONS = "Interface\\Icons\\INV_Misc_QuestionMark", {
 local function OnEvent(self)
 	if not self.id then return end
 	local count = GetItemCount(self.id)
-	self.count:SetText(count > 0 and count or "")
+	if self.craftqty then
+		self.count:SetText(count .. "/".. self.craftqty)
+	else
+		self.count:SetText(count > 0 and count or "")
+	end
 	if self.text then
 		local auc_price = auc[self.id]
 		local craft_price = not self.notcrafted and GetReagentCost and GetReagentCost(self.id)
@@ -63,7 +67,8 @@ end
 
 
 function Panda.ButtonFactory(parent, id, secure, notext, extra, ...)
-	local extraid, extraicon = (extra or ""):match("(%d*):?(%S*)")
+	local craftqty = (extra or ""):match("^x(%d*)")
+	local extraid, extraicon = (not craftqty and extra or ""):match("(%d*):?(%S*)")
 	local customicon = extraicon ~= "" and extraicon
 
 	local f = CreateFrame(secure and "CheckButton" or "Frame", id == 6948 and "MassMill" or nil, parent, secure and "SecureActionButtonTemplate")
@@ -98,6 +103,7 @@ function Panda.ButtonFactory(parent, id, secure, notext, extra, ...)
 	f.ahcount = f:CreateFontString(nil, "ARTWORK", "NumberFontNormalSmall")
 	f.ahcount:SetPoint("TOPRIGHT", icon, "TOPRIGHT", -2, -2)
 
+	f.craftqty = craftqty
 	if secure then
 		if type(secure) == "function" then
 			secure(f)
