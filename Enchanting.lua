@@ -23,7 +23,6 @@ local function MakeMacro(frame)
 end
 
 
-if Panda.IHASCAT then
 Panda.panel:RegisterFrame(L["All Cat"], Panda.PanelFactory(SPELLID,
 [[52743:STA      52750:HASTE 52757:AGI  52769:HIT   52781:AGI  52771:MAS  52782:MAS     0         52754:ARM 52762:BLKR
   52763:DOD      52766:HIT   52770:SPI  52772:EXP   52752:CRIT 52778:CRIT 52746:HASTE 52785:HASTE
@@ -35,7 +34,6 @@ Panda.panel:RegisterFrame(L["All Cat"], Panda.PanelFactory(SPELLID,
 	frame:SetAttribute("type", "macro")
 	frame:SetAttribute("macrotext", MakeMacro(frame))
 end))
-end
 
 
 Panda.panel:RegisterFrame(L["All Wrath"], Panda.PanelFactory(SPELLID,

@@ -3,7 +3,6 @@ local L = Panda.locale
 local panel = Panda.panel:NewPanel(true)
 
 
-if Panda.IHASCAT then
 panel:RegisterFrame(L["Flasks (Cat)"], Panda.PanelFactory(2259,
 [[58085 3371x1 52329x6 52983x12 52987x12 0 0 62288 58085x1 58086x1 58087x1 58088x1 58142x8
   58086 3371x1 52329x6 52985x12 52987x12 0 0 65460 58085x3 58086x3 58087x3 58088x3
@@ -22,7 +21,6 @@ panel:RegisterFrame(L["Elixirs (Cat)"], Panda.PanelFactory(2259,
   58144 3371x1 52984x1 52987x1
   58148 3371x1 52986x1 52987x1
 ]]))
-end
 
 
 panel:RegisterFrame(L["Flasks"], Panda.PanelFactory(2259,

@@ -3,8 +3,6 @@ local L = Panda.locale
 local panel = Panda.panel.panels[2]
 
 
-if Panda.IHASCAT then
-
 panel:RegisterFrame(L["Cat Unc"], Panda.PanelFactory(25229,
 [[52177 52081 52082 52083 52084 52085
   52181 52109 52113 52114 52117 52118
@@ -28,8 +26,6 @@ panel:RegisterFrame(L["Cat Rare"], Panda.PanelFactory(25229,
 panel:RegisterFrame(L["Cat Meta"], Panda.PanelFactory(25229,
 [[52303 52289 52291 52292 52293 52294 52295 52296 52297 52298 52299 52300 52301 52302
 ]]))
-
-end
 
 
 panel:RegisterFrame(L["Wrath Unc"], Panda.PanelFactory(25229,
