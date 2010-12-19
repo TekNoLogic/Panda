@@ -1,3 +1,16 @@
+4.0.0.31-Beta
+    New ink
+    Scrolls were backwards
+    Some glyphs changed type
+    Vials were simplified with cat, thank god
+    Cat prospecting
+    Those are inks
+    get rid of old vellumz
+    Fix new enchanting panel
+    New transmutants
+    New flasks and elixirs
+    Allow for craft reagent qty in panels
+
 4.0.0.30-Beta
     Finish cleap up of wrath gem panels
     Finish sorting out major glyphs
