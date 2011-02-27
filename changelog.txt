@@ -1,3 +1,10 @@
+4.0.0.32-Beta
+    flask costs changed
+    new glyph
+    Consistency is hard and stuff
+    missed some enchants
+    Some more cat green gems
+
 4.0.0.31-Beta
     New ink
     Scrolls were backwards
