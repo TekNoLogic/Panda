@@ -1,3 +1,6 @@
+4.0.0.33-Beta
+    new glyphs
+
 4.0.0.32-Beta
     flask costs changed
     new glyph
