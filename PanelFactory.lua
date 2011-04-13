@@ -10,7 +10,8 @@ local known = setmetatable({}, {__index = function(t,i)
 		return true
 	end
 end})
-local nocombine = [[39334 39338 39339 39340 39341 39342 39343
+-- leave the space at the beginning of nocombine
+local nocombine = [[ 39334 39338 39339 39340 39341 39342 39343
 39151  2447   765  2449   785
 43103  2450  2452  3820  2453
 43104  3369  3355  3356  3357
@@ -68,7 +69,7 @@ function Panda:PanelFiller()
 
 		local gap, lastframe = 0
 		for id,extra in ids:gmatch("(%d+):?(%S*)") do
-			local craftable = not nocombine:match(id)
+			local craftable = not nocombine:match("%D"..id.."%D")
 			gap = gap + (lastframe and HGAP or 0)
 			id = tonumber(id)
 			if id == 0 then gap = gap + 32 + (not lastframe and HGAP or 0)
