@@ -120,7 +120,7 @@ function Panda:PanelFiller()
 
 	if canCraft and not tracker and next(unknown) then
 		self:SetScript("OnEvent", function()
-			if IsTradeSkillLinked() then return end
+			if IsTradeSkillLinked() or IsTradeSkillGuild() then return end
 			for i=1,GetNumTradeSkills() do
 				local name, rowtype, _, _, skilltype = GetTradeSkillInfo(i)
 				local spelllink = GetTradeSkillRecipeLink(i)
