@@ -1,4 +1,6 @@
 ﻿
+local myname, ns = ...
+
 local idmemo = LibStub("tekIDmemo")
 
 local unknown, knowncombines, tracker = {}
@@ -46,8 +48,7 @@ local function noop() end
 
 
 function Panda:PanelFiller()
-	PandaDBPC = PandaDBPC or {}
-	knowncombines = PandaDBPC
+	knowncombines = ns.db.knowns
 	local buttons = {}
 	local factory = Panda.ButtonFactory
 	local scroll, func, securefunc = self.scroll, self.func, self.securefunc

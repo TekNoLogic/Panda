@@ -1,4 +1,7 @@
 ﻿
+local myname, ns = ...
+
+
 ----------------------------
 --      Localization      --
 ----------------------------
@@ -33,6 +36,7 @@ local L = setmetatable(locale == "deDE" and {
 
 local panel = LibStub("tekPanel-Auction").new("PandaPanel", "Panda", true)
 Panda = {panel = panel, locale = L}
+local butts, lastbutt = {}
 
 
 ------------------------------
@@ -77,10 +81,49 @@ end
 
 
 --------------------------
---      Main panel      --
+--      Initialize      --
 --------------------------
 
-local butts, lastbutt = {}
+panel:SetScript("OnEvent", function(self, event, addon)
+	if addon ~= myname then return end
+
+	PandaDBPC = PandaDBPC or {knowns = {}}
+
+	-- Upgrade from old format
+	if not PandaDBPC.knowns then PandaDBPC = {knowns = (PandaDBPC or {})} end
+
+	ns.db = PandaDBPC
+
+	self:UnregisterEvent("ADDON_LOADED")
+	self.ADDON_LOADED = nil
+end)
+panel:RegisterEvent("ADDON_LOADED")
+
+
+panel:SetScript("OnShow", function(self)
+	local opentab = ns.db.lasttab or 1
+	butts[opentab]:SetChecked(true)
+	for i,f in pairs(panel.panels) do f:Hide() end
+
+	if ns.db.lastsubtab then panel.panels[opentab]:ShowPanel(ns.db.lastsubtab) end
+
+	panel.panels[opentab]:Show()
+
+	self:SetScript("OnShow", nil)
+end)
+
+
+panel:SetScript("OnHide", function(self)
+	ns.db.lastsubtab = nil
+
+	for i,f in pairs(panel.panels) do if f:IsShown() then ns.db.lasttab = i end end
+	for name,f in pairs(panel.panels[ns.db.lasttab].frames) do if f:IsShown() then ns.db.lastsubtab = name end end
+end)
+
+
+--------------------------
+--      Main panel      --
+--------------------------
 
 local function OnClick(self)
 	for i,f in pairs(panel.panels) do f:Hide() end
@@ -103,7 +146,6 @@ for i,spellid in ipairs{7411, 25229, 45357, 2259, 2550} do
 	tex:SetTexture("Interface\\SpellBook\\SpellBook-SkillLineTab")
 
 	butt.tiptext, butt.i, butt.anchor = name, i
-	if i == 1 then butt:SetChecked(true) end
 	butt:SetScript("OnClick", OnClick)
 	butt:SetScript("OnEnter", Panda.ShowTooltip)
 	butt:SetScript("OnLeave", Panda.HideTooltip)

@@ -1,6 +1,6 @@
 
 
-local lib, oldminor = LibStub:NewLibrary("tekPanel-Auction", 8)
+local lib, oldminor = LibStub:NewLibrary("tekPanel-Auction", 9)
 if not lib then return end
 oldminor = oldminor or 0
 
@@ -88,7 +88,8 @@ function lib.newpanel(base, splitstyle)
 		subpanel:SetPoint("TOPLEFT", 190, -103)
 		subpanel:SetPoint("BOTTOMRIGHT", -12, 39)
 
-		local frames, names, refresh = {}, {}
+		local frames, buttons, names, refresh = {}, {}, {}
+		frame.frames = frames
 
 		function frame:RegisterFrame(name, newframe)
 			newframe:Hide()
@@ -98,8 +99,20 @@ function lib.newpanel(base, splitstyle)
 		end
 
 
+		function frame:ShowPanel(name)
+			local frame = frames[name]
+			if not frame then return end
+
+			for _,f in pairs(frames) do f:Hide() end
+			frame:SetParent(subpanel)
+			frame:SetAllPoints(subpanel)
+			frame:Show()
+			if refresh then refresh() end
+		end
+
+
 		frame:SetScript("OnShow", function(self)
-			local panel, buttons, offset = self, {}, 0
+			local panel, offset = self, 0
 
 			local function OnClick(self)
 				if not self.scrollframe then return end
