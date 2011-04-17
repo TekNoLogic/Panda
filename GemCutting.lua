@@ -23,16 +23,14 @@ panel:RegisterFrame(L["Cat Rare"], Panda.PanelFactory(25229,
 ]]))
 
 
-panel:RegisterFrame(L["Cat Meta"], Panda.PanelFactory(25229,
+panel:RegisterFrame(L["Cat Meta & JC-only"], Panda.PanelFactory(25229,
 [[52303 52289 52291 52292 52293 52294 52295 52296 52297 52298 52299 52300 52301 52302 68778 68779 68780
-]]))
-
-panel:RegisterFrame(L["Cat JC"], Panda.PanelFactory(25229,
-[[52196 52255 52257 52258 52259 52260
+    0
+  52196 52255 52257 52258 52259 52260
   52196 52265 52266 52267 52268 52269
   52196 52261 52262 52263 52264
-]]
-))
+]]))
+
 
 panel:RegisterFrame(L["Cat Equipment"], Panda.PanelFactory(25229,
 [[52492 52177x3 52188x3 0 52493 52195x1 52194x1 52192x1 52193x1 52191x1 52190x1
