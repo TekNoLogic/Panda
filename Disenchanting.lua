@@ -8,6 +8,7 @@ local ICONSIZE = 32
 local NUM_LINES = math.floor(305/ICONSIZE)
 local OFFSET = math.floor((305 - NUM_LINES*ICONSIZE)/(NUM_LINES+1))
 local BUTTON_WIDTH = math.floor((630 - OFFSET*2-15)/2)
+local ENCHANTING = GetSpellInfo(7411)
 
 local showBOP, nocompare, buttons = false
 local notDEable = {
@@ -46,6 +47,42 @@ function Panda:DEable(link)
 
 	local _, _, qual, itemLevel, _, itemType = GetItemInfo(link)
 	if (itemType == ARMOR or itemType == L.Weapon) and qual > 1 and qual < 5 then return true end
+end
+
+
+-- Tells us if we can DE a give item based on ilvl and quality
+local function HasEnoughSkill(ilvl, quality)
+	local prof1, prof2 = GetProfessions()
+	local name, _, myskill = GetProfessionInfo(prof1)
+	if name ~= ENCHANTING then name, _, myskill = GetProfessionInfo(prof2) end
+	if name ~= ENCHANTING then return false end
+
+	if ilvl <= 20 then return true end
+	if ilvl <= 60 then return myskill >= (math.floor(ilvl/5) - 3) * 25 end
+	if ilvl <= 89 or quality <= 3 and ilvl <= 99 then return myskill >= 225 end
+
+	if quality == 2 then -- uncommon
+		if ilvl <= 120 then return myskill >= 275 end
+		if ilvl <= 150 then return myskill >= 325 end
+		if ilvl <= 182 then return myskill >= 350 end
+		if ilvl <= 333 then return myskill >= 425 end
+	end
+
+	if quality == 3 then -- rare
+		if ilvl <= 120 then return myskill >= 275 end
+		if ilvl <= 200 then return myskill >= 325 end
+		if ilvl <= 346 then return myskill >= 450 end
+	end
+
+	if quality == 4 then -- epic
+		if ilvl <= 151 then return myskill >= 300 end
+		if ilvl <= 277 then return myskill >= 375 end
+		if ilvl <= 379 then return myskill >= 525 end
+	end
+
+	-- We must have new ilvls not defined here
+	-- might as well assume the player can DE
+	return true
 end
 
 
@@ -153,12 +190,13 @@ frame:SetScript("OnShow", function(self)
 				if link and Panda:DEable(link) then
 					local bound = IsBound(bag, slot)
 					if showBOP or not bound then
-						local name, _, _, itemLevel, _, itemType, itemSubType, _, _, texture = GetItemInfo(link)
+						local name, _, quality, itemLevel, _, itemType, itemSubType, _, _, texture = GetItemInfo(link)
 
 						local l = frame.lines[i]
 						if canDE then l:SetAttribute("macrotext", string.format("/cast Disenchant\n/use %s %s", bag, slot)) end
 						l.bag, l.slot = bag, slot
 						l.icon:SetTexture(texture)
+						if HasEnoughSkill(itemLevel, quality) then l.icon:SetVertexColor(1, 1, 1) else l.icon:SetVertexColor(0.9, 0, 0) end
 						l.name:SetText(link)
 						l.type:SetText(itemType)
 						l.bind:SetText(bound and ITEM_SOULBOUND or ITEM_BIND_ON_EQUIP)
