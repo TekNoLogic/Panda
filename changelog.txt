@@ -1,3 +1,11 @@
+4.1.0.35-Beta
+    Remember what panel you had open last and reopen it
+    Highlight items we aren't skilled enough to DE
+    New JC panels (thanks eridius)
+    Missing resil gems
+    Avoid spurious nocombine matches (thanks eridius)
+    Avoid tracking guild tradeskills (thanks eridius)
+
 4.0.0.34-Beta
     New gems
 
