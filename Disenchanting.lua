@@ -30,6 +30,7 @@ local notDEable = {
 	["11287"] = true,
 	["11289"] = true,
 	["29378"] = true,
+	["69210"] = true, -- Renowned Guild Tabard, is DEable, but no one in their right mind would want to
 }
 
 local GS, L = Panda.GS, Panda.locale
