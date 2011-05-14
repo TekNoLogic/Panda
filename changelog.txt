@@ -1,3 +1,8 @@
+4.1.0.36-Beta
+    Don't DE epic guild tabards
+    Don't tell JCs that gems are craftable unless they're an alchy too
+    Updating README
+
 4.1.0.35-Beta
     Remember what panel you had open last and reopen it
     Highlight items we aren't skilled enough to DE
