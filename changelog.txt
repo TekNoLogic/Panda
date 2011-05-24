@@ -1,3 +1,6 @@
+4.1.0.37-Beta
+    Some missing bracer enchants
+
 4.1.0.36-Beta
     Don't DE epic guild tabards
     Don't tell JCs that gems are craftable unless they're an alchy too
