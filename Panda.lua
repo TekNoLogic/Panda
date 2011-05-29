@@ -96,6 +96,20 @@ panel:SetScript("OnEvent", function(self, event, addon)
 
 	self:UnregisterEvent("ADDON_LOADED")
 	self.ADDON_LOADED = nil
+
+	if IsLoggedIn() then
+		ns.CheckAlchy()
+		ns.CheckAlchy = nil
+		self:SetScript("OnEvent", nil)
+	else
+		self:RegisterEvent("PLAYER_LOGIN")
+		self:SetScript("OnEvent", function()
+			ns.CheckAlchy()
+			ns.CheckAlchy = nil
+			self:UnregisterEvent("PLAYER_LOGIN")
+			self:SetScript("OnEvent", nil)
+		end)
+	end
 end)
 panel:RegisterEvent("ADDON_LOADED")
 

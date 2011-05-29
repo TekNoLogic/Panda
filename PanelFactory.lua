@@ -42,15 +42,18 @@ local nocombine = [[ 39334 39338 39339 39340 39341 39342 39343
 61979 61980 52983 52984 52985 52986 52987 52988
 52325 52326 52327 52328 52329
 ]]
-if not GetSpellInfo((GetSpellInfo(2259))) then
-	-- We're not an alchemist, add in the transmute stones
-	nocombine = nocombine.. [[
+
+function ns.CheckAlchy()
+	if not GetSpellInfo((GetSpellInfo(2259))) then
+		-- We're not an alchemist, add in the transmute stones
+		nocombine = nocombine.. [[
 25867 25868
 36919 36931 36922 36934 36925 36928
 41266 51334
 52190 52193 52195 52192 52191 52194
 52303
 ]]
+	end
 end
 
 
