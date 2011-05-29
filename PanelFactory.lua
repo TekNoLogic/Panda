@@ -12,8 +12,16 @@ local known = setmetatable({}, {__index = function(t,i)
 		return true
 	end
 end})
--- leave the space at the beginning of nocombine
-local nocombine = [[ 39334 39338 39339 39340 39341 39342 39343
+
+local function parseNocombine(str)
+	local table = {}
+	for id in str:gmatch("%d+") do
+		table[tonumber(id)] = true
+	end
+	return table
+end
+local nocombine = parseNocombine([[
+39334 39338 39339 39340 39341 39342 39343
 39151  2447   765  2449   785
 43103  2450  2452  3820  2453
 43104  3369  3355  3356  3357
@@ -41,18 +49,27 @@ local nocombine = [[ 39334 39338 39339 39340 39341 39342 39343
 52185 52188 52196
 61979 61980 52983 52984 52985 52986 52987 52988
 52325 52326 52327 52328 52329
-]]
-if not GetSpellInfo((GetSpellInfo(2259))) then
-	-- We're not an alchemist, add in the transmute stones
-	nocombine = nocombine.. [[
-25867 25868
-36919 36931 36922 36934 36925 36928
-41266 51334
-52190 52193 52195 52192 52191 52194
-52303
-]]
-end
+]])
 
+local nocombineBySpell = {
+	[2259] = parseNocombine([[
+	25867 25868
+	36919 36931 36922 36934 36925 36928
+	41266 51334
+	52190 52193 52195 52192 52191 52194
+	52303
+	]])
+}
+
+local function isCraftable(id)
+	if nocombine[tonumber(id)] then return false end
+	for spellId, table in pairs(nocombineBySpell) do
+		if not GetSpellInfo((GetSpellInfo(spellId))) then
+			if table[tonumber(id)] then return false end
+		end
+	end
+	return true
+end
 
 local function noop() end
 
@@ -78,7 +95,7 @@ function Panda:PanelFiller()
 
 		local gap, lastframe = 0
 		for id,extra in ids:gmatch("(%d+):?(%S*)") do
-			local craftable = not nocombine:match("%D"..id.."%D")
+			local craftable = isCraftable(id)
 			gap = gap + (lastframe and HGAP or 0)
 			id = tonumber(id)
 			if id == 0 then gap = gap + 32 + (not lastframe and HGAP or 0)
