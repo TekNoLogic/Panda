@@ -31,6 +31,10 @@ local notDEable = {
 	["11289"] = true,
 	["29378"] = true,
 	["69210"] = true, -- Renowned Guild Tabard, is DEable, but no one in their right mind would want to
+	["63352"] = true, -- Shroud of Cooperation (A), as above
+	["63353"] = true, -- Shroud of Cooperation (H)
+	["63206"] = true, -- Wrap of Unity (A)
+	["63207"] = true, -- Wrap of Unity (H)
 }
 
 local GS, L = Panda.GS, Panda.locale
