@@ -35,6 +35,7 @@ local notDEable = {
 	["63353"] = true, -- Shroud of Cooperation (H)
 	["63206"] = true, -- Wrap of Unity (A)
 	["63207"] = true, -- Wrap of Unity (H)
+	["69209"] = true, -- Illustrious Guild Tabard
 }
 
 local GS, L = Panda.GS, Panda.locale
