@@ -30,9 +30,9 @@ tekDEprob.lua
 Panda.lua
 ButtonFactory.lua
 PanelFactory.lua
+Buyout.lua
 
 Disenchanting.lua
-DisenchantingProb.lua
 Enchanting.lua
 Prospecting.lua
 GemCutting.lua
