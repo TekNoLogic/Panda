@@ -1,4 +1,6 @@
 ﻿
+local myname, ns = ...
+
 
 local tip = DEATinyGratuity
 DEATinyGratuity = nil
@@ -11,32 +13,6 @@ local BUTTON_WIDTH = math.floor((630 - OFFSET*2-15)/2)
 local ENCHANTING = GetSpellInfo(7411)
 
 local showBOP, nocompare, buttons = false
-local notDEable = {
-	["32540"] = true,
-	["32541"] = true,
-	["18665"] = true,
-	["21766"] = true,
-	["5004"] = true,
-	["20408"] = true,
-	["20406"] = true,
-	["20407"] = true,
-	["14812"] = true,
-	["31336"] = true,
-	["32660"] = true,
-	["32662"] = true,
-	["11288"] = true,
-	["11290"] = true,
-	["12772"] = true,
-	["11287"] = true,
-	["11289"] = true,
-	["29378"] = true,
-	["69210"] = true, -- Renowned Guild Tabard, is DEable, but no one in their right mind would want to
-	["63352"] = true, -- Shroud of Cooperation (A), as above
-	["63353"] = true, -- Shroud of Cooperation (H)
-	["63206"] = true, -- Wrap of Unity (A)
-	["63207"] = true, -- Wrap of Unity (H)
-	["69209"] = true, -- Illustrious Guild Tabard
-}
 
 local GS, L = Panda.GS, Panda.locale
 local function IsBound(bag, slot)
@@ -44,15 +20,6 @@ local function IsBound(bag, slot)
 	for i=1,30 do
 		if tip.L[i] == L.Soulbound then return true end
 	end
-end
-
-
-function Panda:DEable(link)
-	local id = type(link) == "number" and link or select(3, link:find("item:(%d+):"))
-	if id and notDEable[id] then return end
-
-	local _, _, qual, itemLevel, _, itemType = GetItemInfo(link)
-	if (itemType == ARMOR or itemType == L.Weapon) and qual > 1 and qual < 5 then return true end
 end
 
 
@@ -127,7 +94,7 @@ local function ShowItemDetails(self)
 	local link = GetContainerItemLink(self.bag, self.slot)
 	if not link then return end
 
-	local id1, _, _, _, perc1, id2, _, _, _, perc2, id3, _, _, _, perc3 = Panda:GetPossibleDisenchants(link)
+	local id1, _, _, _, perc1, id2, _, _, _, perc2, id3, _, _, _, perc3 = ns.GetPossibleDisenchants(link)
 	if id1 then
 		for i,f in pairs(buttons) do f:SetAlpha(.1) end
 		if buttons[id1] then buttons[id1]:SetAlpha(.5 + perc1/2) end
@@ -193,7 +160,7 @@ frame:SetScript("OnShow", function(self)
 		for bag=0,4 do
 			for slot=1,GetContainerNumSlots(bag) do
 				local link = GetContainerItemLink(bag, slot)
-				if link and Panda:DEable(link) then
+				if link and ns.DEable(link) then
 					local bound = IsBound(bag, slot)
 					if showBOP or not bound then
 						local name, _, quality, itemLevel, _, itemType, itemSubType, _, _, texture = GetItemInfo(link)

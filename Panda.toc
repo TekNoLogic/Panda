@@ -25,6 +25,7 @@ tekKonfigButton.lua
 tekKonfigScroll.lua
 tinyGratuity.lua
 tekIDmemo.lua
+tekDEprob.lua
 
 Panda.lua
 ButtonFactory.lua
