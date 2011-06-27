@@ -1,3 +1,12 @@
+4.2.0.38-Beta
+    Fix the shatter buttons on the right of the DE panel alpha issue
+    Rename that file since it's only AH shits now
+    Move DE prob into shared lib
+    Remove duplicate Kill Command glyph (Thanks eridius)
+    Don't disenchant Illustrious Guild Tabards, either (Thanks brantb)
+    Don't disenchant town teleport guild cloaks (Thanks brantb)
+    Tweak how transmute nocombine is loaded so that initial login bug goes away
+
 4.1.0.37-Beta
     Some missing bracer enchants
 
