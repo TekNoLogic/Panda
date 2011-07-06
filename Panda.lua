@@ -8,25 +8,52 @@ local myname, ns = ...
 
 local locale = GetLocale()
 local L = setmetatable(locale == "deDE" and {
-	Disenchanting = "Entzaubern",
+	["Disenchant"] = "Entzaubern",
 	Scrolls = "Rollen",
 	Weapon = "Waffe",
-	["Elixirs (BC)"] = "Elixire (BC)",
-	["Elixirs (Wrath)"] = "Elixire (WotLK)",
+
+	["All Cat"] = "Alles (Cata)",
+	["All Wrath"] = "Alles (WotLK)",
+	["Enchant Boots"] = "Stiefel verzaubern",
 	["Enchant Bracer"] = "Armschiene verzaubern",
+	["Enchant Chest"] = "Brust verzaubern",
 	["Enchant Cloak"] = "Umhang verzaubern",
+	["Enchant Gloves"] = "Handschuhe verzaubern",
 	["Enchant Shield"] = "Schild verzaubern",
 	["Enchant Weapon"] = "Waffe verzaubern",
+	["Scroll of (.-)"] = "Rolle der (.-)n?verzauberung",
+	
+	["Cat Unc"] = "Cata Selten",
+	["Cat Rare"] = "Cata Rar",
+	["Cat Epic"] = "Cata Episch",
+	["Cat Meta & JC-only"] = "Cata Meta/Juwelier",
+	["Cat Meta"] = "WotLK Meta",
+	["Wrath Unc"] = "WotLK Selten",
+	["Wrath Rare"] = "WotLK Rar",
+	["Wrath Epic"] = "WotLK Episch",
+	["Wrath Meta"] = "WotLK Meta",
 	["BC Epic/Meta"] = "BC Epic/Meta",
 	["BC Unc/Rare"] = "BC Selten/Rar",
-	["Wrath Meta"] = "WotLK Meta",
-	["Wrath Rare"] = "WotLK Rar",
-	["Wrath Unc"] = "WotLK Selten",
+	
 	["Minor Glyphs (by class)"] = "Geringe Glyphen (-> Klasse)",
 	["Minor Glyphs (by ink)"] = "Geringe Glyphen (-> Tinte)",
 	["Minor Inscription Research"] = "Schwache Inschriftenforschung",
 	["Northrend Inscription Research"] = "Inschriftenforschung von Nordend",
-	["Scroll of (.+)$"] = "Rolle der (.+)$",
+
+	["Flasks (Cat)"] = "Fläschchen (Cata)",
+	["Elixirs (Cat)"] = "Elixire (Cata)",
+	["Flasks"] = "Fläschchen (pre Cata)",
+	["Battle Elixirs (Wrath)"] = "Kampfelixiere (WotLK)",
+	["Guardian Elixirs (Wrath)"] = "Wächterelixiere (WotLK)",
+	["Battle Elixirs (BC)"] = "Kampfelixiere (BC)",
+	["Guardian Elixirs (BC)"] = "Wächterelixiere (BC)",
+	["Transmutes (Elemental)"] = "Transmutieren (Elementar)",
+	["Transmutes (Gems)"] = "Transmutieren (Edelsteine)",
+	["Transmutes (Metals)"] = "Transmutieren (Metalle)",
+
+	["Food"] = "Essen",
+	["Feasts"] = "Festmahl",
+	["Emo food"] = "Lebt Eure Gefühle",
 } or {}, {__index=function(t,i) return i end})
 
 

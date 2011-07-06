@@ -1,6 +1,7 @@
 
 local myname, ns = ...
 local GetItemInfo = GetItemInfo
+local WEAPON, ARMOR = GetAuctionItemClasses() -- returns localized strings
 
 
 -- I am lazy, so I "borrowed" these constants from Enchantrix ^^
@@ -81,7 +82,7 @@ function ns.GetPossibleDisenchants(item)
 	if not link or not ns.DEable(link) then return end
 
 	if qual == 4 then -- Epic
-		if ilvl > 75 and ilvl <= 80 and itemtype == "Weapon" then return NEXUS, "1-2x", "33%/66%", 5/3
+		if ilvl > 75 and ilvl <= 80 and itemtype == WEAPON then return NEXUS, "1-2x", "33%/66%", 5/3
 		elseif ilvl <= 45  then return   SRADIANT, "2-4x",    "100%", 3.0, 1
 		elseif ilvl <= 50  then return   LRADIANT, "2-4x",    "100%", 3.0, 1
 		elseif ilvl <= 55  then return SBRILLIANT, "2-4x",    "100%", 3.0, 1
@@ -111,9 +112,9 @@ function ns.GetPossibleDisenchants(item)
 		else return                      LHEAVENLY, "1x",  "100%", 1, 1 end
 
 	elseif qual == 2 then -- Uncommon
-		if itemtype == "Armor" then
+		if itemtype == ARMOR then
 			return GetUncommonVals(ilvl)
-		elseif itemtype == "Weapon" then
+		elseif itemtype == ARMOR then
 			local r1i, r1ta, r1tp, r1a, r1p, r2i, r2ta, r2tp, r2a, r2p, r3i, r3ta, r3tp, r3a, r3p = GetUncommonVals(ilvl)
 			return r1i, r1ta, r2tp, r1a, r2p, r2i, r2ta, r1tp, r2a, r1p, r3i, r3ta, r3tp, r3a, r3p
 		end
@@ -131,5 +132,5 @@ function ns.DEable(link)
 	if id and notDEable[id] then return end
 
 	local _, _, qual, itemLevel, _, itemType = GetItemInfo(link)
-	return (itemType == "Armor" or itemType == "Weapon") and qual > 1 and qual < 5
+	return (itemType == ARMOR or itemType == WEAPON) and qual > 1 and qual < 5
 end
