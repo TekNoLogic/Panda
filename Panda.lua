@@ -21,8 +21,8 @@ local L = setmetatable(locale == "deDE" and {
 	["Enchant Gloves"] = "Handschuhe verzaubern",
 	["Enchant Shield"] = "Schild verzaubern",
 	["Enchant Weapon"] = "Waffe verzaubern",
-	["Scroll of (.+)$"] = "Rolle der (.+)$",
-
+	["Scroll of (.-)"] = "Rolle der (.-)n?verzauberung",
+	
 	["Cat Unc"] = "Cata Selten",
 	["Cat Rare"] = "Cata Rar",
 	["Cat Epic"] = "Cata Episch",
