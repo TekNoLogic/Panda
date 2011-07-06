@@ -119,7 +119,6 @@ function lib.newpanel(base, splitstyle)
 
 				local frame = self.scrollframe
 				if frame:IsVisible() then
-					frame:Hide()
 					self:UnlockHighlight()
 				else
 					for _,f in pairs(frames) do f:Hide() end
