@@ -118,7 +118,7 @@ end
 
 
 local frame = CreateFrame("Frame", nil, UIParent)
-Panda.panel:RegisterFrame(L.Disenchanting, frame)
+Panda.panel:RegisterFrame(L["Disenchant"], frame)
 frame:Hide()
 
 frame:SetScript("OnShow", function(self)
@@ -166,7 +166,7 @@ frame:SetScript("OnShow", function(self)
 						local name, _, quality, itemLevel, _, itemType, itemSubType, _, _, texture = GetItemInfo(link)
 
 						local l = frame.lines[i]
-						if canDE then l:SetAttribute("macrotext", string.format("/cast Disenchant\n/use %s %s", bag, slot)) end
+						if canDE then l:SetAttribute("macrotext", string.format("/cast "..L["Disenchant"].."\n/use %s %s", bag, slot)) end
 						l.bag, l.slot = bag, slot
 						l.icon:SetTexture(texture)
 						if HasEnoughSkill(itemLevel, quality) then l.icon:SetVertexColor(1, 1, 1) else l.icon:SetVertexColor(0.9, 0, 0) end

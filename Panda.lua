@@ -8,7 +8,7 @@ local myname, ns = ...
 
 local locale = GetLocale()
 local L = setmetatable(locale == "deDE" and {
-	Disenchanting = "Entzaubern",
+	["Disenchant"] = "Entzaubern",
 	Scrolls = "Rollen",
 	Weapon = "Waffe",
 
