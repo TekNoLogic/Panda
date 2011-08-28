@@ -153,6 +153,12 @@ frame:SetScript("OnShow", function(self)
 		self.lines[i] = f
 	end
 
+	local function PostClick(self) self:SetAttribute("macrotext", nil) end
+	local function PreClick(self)
+		if UnitCastingInfo("player") or LootFrame:IsVisible() then return end
+		self:SetAttribute("macrotext", string.format("/stopmacro [channeling]\n/cast !Disenchant\n/use %s %s", self.bag, self.slot))
+	end
+
 	local function OnEvent(self)
 		local i = 1
 		NoItems:Hide()
@@ -166,7 +172,11 @@ frame:SetScript("OnShow", function(self)
 						local name, _, quality, itemLevel, _, itemType, itemSubType, _, _, texture = GetItemInfo(link)
 
 						local l = frame.lines[i]
-						if canDE then l:SetAttribute("macrotext", string.format("/cast Disenchant\n/use %s %s", bag, slot)) end
+						if canDE then
+							l.bag, l.slot = bag, slot
+							l:SetScript("PreClick", PreClick)
+							l:SetScript("PostClick", PostClick)
+						end
 						l.bag, l.slot = bag, slot
 						l.icon:SetTexture(texture)
 						if HasEnoughSkill(itemLevel, quality) then l.icon:SetVertexColor(1, 1, 1) else l.icon:SetVertexColor(0.9, 0, 0) end
