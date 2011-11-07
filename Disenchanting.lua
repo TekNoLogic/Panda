@@ -117,8 +117,9 @@ end
 
 
 
+local disenchanting = GetSpellInfo(13262)
 local frame = CreateFrame("Frame", nil, UIParent)
-Panda.panel:RegisterFrame(L.Disenchanting, frame)
+Panda.panel:RegisterFrame(disenchanting, frame)
 frame:Hide()
 
 frame:SetScript("OnShow", function(self)
@@ -156,7 +157,7 @@ frame:SetScript("OnShow", function(self)
 	local function PostClick(self) self:SetAttribute("macrotext", nil) end
 	local function PreClick(self)
 		if UnitCastingInfo("player") or LootFrame:IsVisible() then return end
-		self:SetAttribute("macrotext", string.format("/stopmacro [channeling]\n/cast !Disenchant\n/use %s %s", self.bag, self.slot))
+		self:SetAttribute("macrotext", string.format("/stopmacro [channeling]\n/cast !"..disenchanting.."\n/use %s %s", self.bag, self.slot))
 	end
 
 	local function OnEvent(self)

@@ -59,6 +59,22 @@ end
 
 local function noop() end
 
+local function AddToData(name)
+	if GetLocale() == "deDE" then -- inconsistent naming up to Cataclysm enchants
+		local target, enchant = string.split("-", name)
+		target, enchant = string.trim(target), string.trim(enchant)
+		if target == "Handschuhe" then
+			knowncombines["Rolle der Handschuhverzauberung - "..enchant] = true
+		elseif target == "Waffe" or target == "Armschiene" or target == "Zweihandwaffe" then
+			knowncombines["Rolle der "..target.."nverzauberung - "..enchant] = true
+		else
+			knowncombines["Rolle der "..target.."verzauberung - "..enchant] = true
+		end
+	else
+		knowncombines["Scroll of "..name] = true
+	end
+	knowncombines[name] = true
+end
 
 function Panda:PanelFiller()
 	knowncombines = ns.db.knowns
@@ -142,7 +158,7 @@ function Panda:PanelFiller()
 				if rowtype ~= "header" and link then
 					local spellid = spelllink:match("enchant:(%d+)")
 					knowncombines[tonumber(spellid) + 0.1] = true
-					if skilltype == "Enchant" then knowncombines["Scroll of "..name], knowncombines[name] = true, true
+					if skilltype == ENSCRIBE then AddToData(name)
 					elseif idmemo[link] then knowncombines[idmemo[link]] = true end
 				end
 			end
