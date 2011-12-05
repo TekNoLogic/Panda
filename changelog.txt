@@ -1,3 +1,9 @@
+4.3.0.39-Beta
+    Add the new Cata Epic gem cuts (Thanks Eridius)
+    Some locale updates (Thanks ckaotik)
+    Some missing glyphs
+    Don't cast DE if we're casting or looting
+
 4.2.0.38-Beta
     Fix the shatter buttons on the right of the DE panel alpha issue
     Rename that file since it's only AH shits now
