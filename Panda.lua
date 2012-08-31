@@ -60,7 +60,7 @@ local L = setmetatable(locale == "deDE" and {
 --      Addon Namespace      --
 -------------------------------
 
-local panel = LibStub("tekPanel-Auction").new("PandaPanel", "Panda", true)
+local panel = ns.tekPanelAuction("PandaPanel", "Panda", true)
 Panda = {panel = panel, locale = L}
 local butts, lastbutt = {}
 
