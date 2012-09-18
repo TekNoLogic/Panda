@@ -41,8 +41,10 @@ local function OnEvent(self)
 
 
 	if ForSaleByOwnerDB then
-		local count, name = 0, GetItemInfo(self.id)
-		for char,vals in pairs(ForSaleByOwnerDB[server]) do count = count + (vals[name] or 0) end
+		local count = 0
+		for char,vals in pairs(ForSaleByOwnerDB[server]) do
+			count = count + (vals[self.id] or 0)
+		end
 		self.ahcount:SetText(count ~= 0 and count or "")
 	end
 end
