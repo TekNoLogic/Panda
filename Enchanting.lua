@@ -23,6 +23,19 @@ local function MakeMacro(frame)
 end
 
 
+Panda.panel:RegisterFrame(L["All Panda"], Panda.PanelFactory(SPELLID,
+[[
+  74717:AGI   74715:HASTE 74716:HIT 74718:MAS
+  74704:STR   74705:AGI   74701:DOD 74700:MAS 74703:INT
+  74708:STAT  74707:SPI   74706:RES 74709:STA
+  74719:HASTE 74721:STR   74720:EXP   0       74729:INT 89737:DEF
+  74727:DEF   74726:STAT  74725:DAM 74724:INT 74728:DOD 74723:STAT
+]], NoSpelltips, function(frame)
+	frame:SetAttribute("type", "macro")
+	frame:SetAttribute("macrotext", MakeMacro(frame))
+end))
+
+
 Panda.panel:RegisterFrame(L["All Cat"], Panda.PanelFactory(SPELLID,
 [[52743:STA      52750:HASTE 52757:AGI  52769:HIT   52781:AGI  52771:MAS  52782:MAS     0         52754:ARM 52762:BLKR
   52763:DOD      52766:HIT   52770:SPI  52772:EXP   52752:CRIT 52778:CRIT 52746:HASTE 52785:HASTE 68784:AGI 68785:STR 68786:INT
