@@ -104,6 +104,11 @@ panel:RegisterFrame(MINOR_GLYPHS, Panda.PanelFactory(45357,
 end))
 
 
+panel:RegisterFrame(L["Inscriptions"], Panda.PanelFactory(45357,
+[[79251 79254 87577 87578 87579 87580
+]]))
+
+
 panel:RegisterFrame(L["Scrolls"], Panda.PanelFactory(45357,
 [[61979 61978 63303 63305 63306 63307 63304 63308 63388 62237 60838
   39343 43126 43463 37091 37093 37097 43465 44315

@@ -13,6 +13,7 @@ local LCELEST, GCELEST = 52718, 52719
 local LNETHER, GNETHER, LETERNAL, GETERNAL, LPLANAR, GPLANAR, LCOSMIC, GCOSMIC = 11174, 11175, 16202, 16203, 22447, 22446, 34056, 34055
 local LMAGIC, GMAGIC, LASTRAL, GASTRAL, LMYSTIC, GMYSTIC = 10938, 10939, 10998, 11082, 11134, 11135
 local STRANGE, SOUL, VISION, DREAM, ILLUSION, ARCANE, INFINITE, HYPNOTIC = 10940, 11083, 11137, 11176, 16204, 22445, 34054, 52555
+local SHA, ETHERAL, SETHERAL, SPIRIT, MYST = 74248, 74247, 74252, 74249, 74250
 local notDEable = {
 	["32540"] = true,
 	["32541"] = true,
@@ -63,7 +64,11 @@ local function GetUncommonVals(ilvl)
 	elseif ilvl <= 300 then return HYPNOTIC,  "1-7x", "75%", 4.0, .75,  LCELEST, "1-7x", "25%", 4.0, .25
 	elseif ilvl <= 312 then return HYPNOTIC,  "1-8x", "75%", 4.5, .75,  GCELEST, "1-2x", "25%", 1.5, .25
 	elseif ilvl <= 325 then return HYPNOTIC,  "1-9x", "75%", 5.0, .75,  GCELEST, "2-3x", "25%", 2.5, .25
-	else return                    HYPNOTIC, "1-10x", "75%", 5.5, .75,  GCELEST, "2-3x", "25%", 2.5, .25 end
+	elseif ilvl <= 333 then return HYPNOTIC, "1-10x", "75%", 5.5, .75,  GCELEST, "2-3x", "25%", 2.5, .25
+	elseif ilvl <= 380 then return   SPIRIT,  "1-3x", "85%", 2.0, .85,     MYST,   "1x", "15%", 1.0, .15
+	elseif ilvl <= 390 then return   SPIRIT,  "1-4x", "85%", 2.5, .85,     MYST,   "1x", "15%", 1.0, .15
+	elseif ilvl <= 410 then return   SPIRIT,  "1-5x", "85%", 3.0, .85,     MYST, "1-2x", "15%", 1.5, .15
+	else return                      SPIRIT,  "1-6x", "85%", 3.5, .85,     MYST, "1-3x", "15%", 2.0, .15 end
 end
 
 
@@ -93,7 +98,9 @@ function ns.GetPossibleDisenchants(item)
 		elseif ilvl <= 200 then return      ABYSS,   "1x",    "100%", 1.0, 1
 		elseif ilvl <= 284 then return      ABYSS, "1-2x",    "100%", 1.5, 1
 		elseif ilvl <= 359 then return  MAELSTROM,   "1x",    "100%", 1.0, 1
-		else return                     MAELSTROM, "1-2x",    "100%", 1.5, 1 end
+		elseif ilvl <= 359 then return  MAELSTROM, "1-2x",    "100%", 1.5, 1
+		elseif ilvl <= 416 then return  MAELSTROM, "1-2x",    "100%", 1.5, 1
+		else return                           SHA,   "1x",    "100%", 1.0, 1 end
 
 	elseif qual == 3 then -- Rare
 		if     ilvl <=  25 then return SGLIMMERING, "1x",  "100%", 1, 1
@@ -109,14 +116,22 @@ function ns.GetPossibleDisenchants(item)
 		elseif ilvl <= 165 then return      SDREAM, "1x", "99.5%", 1, .995, ABYSS, "1x", "0.5%", 1, 0.005
 		elseif ilvl <= 200 then return      LDREAM, "1x", "99.5%", 1, .995, ABYSS, "1x", "0.5%", 1, 0.005
 		elseif ilvl <= 316 then return   SHEAVENLY, "1x",  "100%", 1, 1
-		else return                      LHEAVENLY, "1x",  "100%", 1, 1 end
+		elseif ilvl <= 380 then return   LHEAVENLY, "1x",  "100%", 1, 1
+		elseif ilvl <= 424 then return    SETHERAL, "1x",  "100%", 1, 1
+		else return                        ETHERAL, "1x",  "100%", 1, 1 end
 
 	elseif qual == 2 then -- Uncommon
 		if itemtype == ARMOR then
 			return GetUncommonVals(ilvl)
-		elseif itemtype == WEAPON then
+		elseif itemtype == WEAPON and ilvl < 380 then
 			local r1i, r1ta, r1tp, r1a, r1p, r2i, r2ta, r2tp, r2a, r2p, r3i, r3ta, r3tp, r3a, r3p = GetUncommonVals(ilvl)
 			return r1i, r1ta, r2tp, r1a, r2p, r2i, r2ta, r1tp, r2a, r1p, r3i, r3ta, r3tp, r3a, r3p
+		elseif itemtype == WEAPON then
+			-- Panda green weapons follow different rules form the old pattern
+			if     ilvl <= 380 then return SPIRIT, "1-4x", "85%", 2.5, .85, MYST,   "1x", "15%", 1.0, .15
+			elseif ilvl <= 390 then return SPIRIT, "1-5x", "85%", 3.0, .85, MYST,   "1x", "15%", 1.0, .15
+			elseif ilvl <= 410 then return SPIRIT, "1-6x", "85%", 3.5, .85, MYST, "1-2x", "15%", 1.5, .15
+			else return                    SPIRIT, "1-7x", "85%", 4.0, .85, MYST, "1-3x", "15%", 2.0, .15 end
 		end
 	end
 end
