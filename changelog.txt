@@ -1,3 +1,10 @@
+5.0.1.41-Beta
+    Panda DEs
+    New enchants (user submission)
+    New glyphs (thanks eridius)
+    New glyph reasearch
+    Panda milling (thanks gherzbrun)
+
 5.0.1.40-Beta
     New gem panels (thanks Xerrabaldy)
 
