@@ -26,9 +26,10 @@ panel:RegisterFrame(NAME, Panda.PanelFactory(45357,
 			for bag=0,4 do
 				for slot=1,GetContainerNumSlots(bag) do
 					local id = GetContainerItemID(bag, slot)
+					local _, count = GetContainerItemInfo(bag, slot)
 					if id then
 						local _, _, _, _, _, _, itemtype = GetItemInfo(id)
-						if itemtype == HERB then return bag, slot end
+						if itemtype == HERB and count >= 5 then return bag, slot end
 					end
 				end
 			end
