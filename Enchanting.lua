@@ -28,7 +28,7 @@ Panda.panel:RegisterFrame(L["All Panda"], Panda.PanelFactory(SPELLID,
   74717:AGI   74715:HASTE 74716:HIT 74718:MAS
   74704:STR   74705:AGI   74701:DOD 74700:MAS 74703:INT
   74708:STAT  74707:SPI   74706:RES 74709:STA
-  74719:HASTE 74721:STR   74720:EXP   0       74729:INT 89737:DEF
+  74719:HASTE 74721:STR   74720:EXP 74722:MAS   0       74729:INT 89737:DEF
   74727:DEF   74726:STAT  74725:DAM 74724:INT 74728:DOD 74723:STAT
 ]], NoSpelltips, function(frame)
 	frame:SetAttribute("type", "macro")
@@ -112,6 +112,7 @@ Panda.panel:RegisterFrame(L["Enchant Gloves"], Panda.PanelFactory(SPELLID,
   38827:AGI 38856:AGI 38890:AGI  38967:AGI    0        38836:STR  38857:STR  38933:STR    0          38934:AP  38964:AP     44458:AP
   38932:HIT 38953:HIT    0       38931:CRIT   0        38951:EXP    0        38851:HASTE    0       38885:THREAT 38990:THREAT
   38888:FIP 38887:FRP 38886:SHP    0        38889:SP   38936:SP   38935:SP   38979:SP
+  74722:MAS
 ]], NoSpelltips, function(frame)
 	frame:SetAttribute("type", "macro")
 	frame:SetAttribute("macrotext", MakeMacro(frame))
