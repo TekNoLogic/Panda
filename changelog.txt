@@ -1,3 +1,15 @@
+5.0.1.42-Beta
+    Make mass mill work for all future herbs
+    Skip herbs that are smaller than a 5-stack (fuck yes, finally!)
+    Clean up the panda jc equipment panel
+    Add gem research
+    Fix prospecting gem order
+    Some other new transmutes
+    Add the jc-only gem/shards
+    Add some new no-combine ingreds
+    Reagent corrections (thanks vafada)
+    Add Enchant Gloves - Superior Mastery (thanks vafada)
+
 5.0.1.41-Beta
     Panda DEs
     New enchants (user submission)
