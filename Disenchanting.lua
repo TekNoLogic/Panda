@@ -19,6 +19,7 @@ local function IsBound(bag, slot)
 	tip:SetBagItem(bag, slot)
 	for i=1,30 do
 		if tip.L[i] == L.Soulbound then return true end
+		if tip.L[i] == L["Battle.net Account Bound"] then return true end
 	end
 end
 
@@ -206,7 +207,7 @@ frame:SetScript("OnShow", function(self)
 	BOP:SetScript("OnClick", function() showBOP = not showBOP; OnEvent(self) end)
 
 	local BOPlabel = cfs(BOP, nil, "ARTWORK", "GameFontNormalSmall", "LEFT", BOP, "RIGHT", 5, 0)
-	BOPlabel:SetText("Show soulbound items")
+	BOPlabel:SetText("Show soulbound/BoA items")
 
 	self:SetScript("OnEvent", OnEvent)
 	self:RegisterEvent("BAG_UPDATE")
