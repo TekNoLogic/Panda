@@ -18,8 +18,8 @@ local GS, L = Panda.GS, Panda.locale
 local function IsBound(bag, slot)
 	tip:SetBagItem(bag, slot)
 	for i=1,30 do
-		if tip.L[i] == L.Soulbound then return true end
-		if tip.L[i] == L["Battle.net Account Bound"] then return true end
+		if tip.L[i] == L.Soulbound then return true, false end
+		if tip.L[i] == L["Battle.net Account Bound"] then return true, true end
 	end
 end
 
@@ -169,8 +169,8 @@ frame:SetScript("OnShow", function(self)
 			for slot=1,GetContainerNumSlots(bag) do
 				local link = GetContainerItemLink(bag, slot)
 				if link and ns.DEable(link) then
-					local bound = IsBound(bag, slot)
-					if showBOP or not bound then
+					local bound, BoA = IsBound(bag, slot)
+					if not BoA and showBOP or not bound then
 						local name, _, quality, itemLevel, _, itemType, itemSubType, _, _, texture = GetItemInfo(link)
 
 						local l = frame.lines[i]
@@ -207,7 +207,7 @@ frame:SetScript("OnShow", function(self)
 	BOP:SetScript("OnClick", function() showBOP = not showBOP; OnEvent(self) end)
 
 	local BOPlabel = cfs(BOP, nil, "ARTWORK", "GameFontNormalSmall", "LEFT", BOP, "RIGHT", 5, 0)
-	BOPlabel:SetText("Show soulbound/BoA items")
+	BOPlabel:SetText("Show soulbound items")
 
 	self:SetScript("OnEvent", OnEvent)
 	self:RegisterEvent("BAG_UPDATE")
