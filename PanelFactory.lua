@@ -1,7 +1,6 @@
 ﻿
 local myname, ns = ...
 
-local idmemo = LibStub("tekIDmemo")
 
 local unknown, knowncombines, tracker = {}
 local known = setmetatable({}, {__index = function(t,i)
@@ -167,7 +166,7 @@ function Panda:PanelFiller()
 					local spellid = spelllink:match("enchant:(%d+)")
 					knowncombines[tonumber(spellid) + 0.1] = true
 					if skilltype == ENSCRIBE then AddToData(name)
-					elseif idmemo[link] then knowncombines[idmemo[link]] = true end
+					elseif ns.ids[link] then knowncombines[ns.ids[link]] = true end
 				end
 			end
 			for f in pairs(unknown) do f:SetAlpha(known[f] and 1 or 0.25) end

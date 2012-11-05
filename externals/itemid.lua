@@ -1,8 +1,9 @@
 
-local ids = LibStub:NewLibrary("tekIDmemo", 2)
-if not ids then return end
+local myname, ns = ...
 
-setmetatable(ids, {
+
+-- Creates a memoizing table that converts an itemlink string into an itemID int
+ns.ids = setmetatable({}, {
 	__index = function(t,i)
 		if type(i) == "number" then
 			t[i] = i
@@ -17,4 +18,3 @@ setmetatable(ids, {
 		return id
 	end,
 })
-

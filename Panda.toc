@@ -25,7 +25,9 @@ tekKonfigButton.lua
 tekKonfigScroll.lua
 tinyGratuity.lua
 tekIDmemo.lua
-tekDEprob.lua
+
+externals\disenchant_probability.lua
+externals\itemid.lua
 
 Panda.lua
 ButtonFactory.lua
