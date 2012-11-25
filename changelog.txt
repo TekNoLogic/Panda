@@ -1,3 +1,6 @@
+5.0.1.43-Beta
+    Never DE BtA items
+
 5.0.1.42-Beta
     Make mass mill work for all future herbs
     Skip herbs that are smaller than a 5-stack (fuck yes, finally!)
