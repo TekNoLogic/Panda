@@ -1,3 +1,9 @@
+5.1.0.44-Beta
+    New glyph
+    Alt-click on an enchant now opens the tradeskill to it instead of crafting
+    Add missing panda cloak enchants
+    Add BoP scribe shoulder chants
+
 5.0.1.43-Beta
     Never DE BtA items
 
