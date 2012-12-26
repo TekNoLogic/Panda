@@ -4,6 +4,7 @@ local NAME, _, MILLICON = GetSpellInfo(51005)
 local NAME2 = GetSpellInfo(45357)
 local _, _, _, _, _, HERB = GetAuctionItemSubClasses(6)
 local inks = "79254 79255 39469 39774 43115 43116 43117 43118 43118 43119 43120 43121 43122 43123 43124 43125 43126 43127 61978 61981"
+local blacklist_herbs = {[72238] = true}
 panel:RegisterFrame(NAME, Panda.PanelFactory(45357,
 [[79251 79253 79254 79255   0   72234 72235 72237 79010 79011 89639   0     0   0 0 6948
   61979 61980 61978 61981   0   52983 52984 52985 52986 52987 52988
@@ -27,7 +28,7 @@ panel:RegisterFrame(NAME, Panda.PanelFactory(45357,
 				for slot=1,GetContainerNumSlots(bag) do
 					local id = GetContainerItemID(bag, slot)
 					local _, count = GetContainerItemInfo(bag, slot)
-					if id then
+					if id and not blacklist_herbs[id] then
 						local _, _, _, _, _, _, itemtype = GetItemInfo(id)
 						if itemtype == HERB and count >= 5 then return bag, slot end
 					end
