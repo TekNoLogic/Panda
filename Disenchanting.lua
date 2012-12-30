@@ -40,18 +40,22 @@ local function HasEnoughSkill(ilvl, quality)
 		if ilvl <= 150 then return myskill >= 325 end
 		if ilvl <= 182 then return myskill >= 350 end
 		if ilvl <= 333 then return myskill >= 425 end
+		if ilvl <= 437 then return myskill >= 475 end
 	end
 
 	if quality == 3 then -- rare
 		if ilvl <= 120 then return myskill >= 275 end
 		if ilvl <= 200 then return myskill >= 325 end
-		if ilvl <= 346 then return myskill >= 450 end
+		if ilvl <= 377 then return myskill >= 450 end
+		if ilvl <= 424 then return myskill >= 525 end
+		if ilvl <= 463 then return myskill >= 550 end
 	end
 
 	if quality == 4 then -- epic
 		if ilvl <= 151 then return myskill >= 300 end
 		if ilvl <= 277 then return myskill >= 375 end
-		if ilvl <= 379 then return myskill >= 525 end
+		if ilvl <= 416 then return myskill >= 475 end
+		if ilvl <= 516 then return myskill >= 575 end
 	end
 
 	-- We must have new ilvls not defined here
