@@ -212,7 +212,7 @@ spark:SetSize(20, 20)
 spark:SetBlendMode("ADD")
 spark:SetTexture("Interface\\CastingBar\\UI-CastingBar-Spark")
 
-local time = castbar:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
+local time = castbar:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
 time:SetPoint("RIGHT", castbar, -5, 0)
 
 local text = castbar:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
