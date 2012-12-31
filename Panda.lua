@@ -217,7 +217,8 @@ time:SetPoint("RIGHT", castbar, -5, 0)
 
 local text = castbar:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
 text:SetPoint("LEFT", castbar, 5, 0)
-
+text:SetPoint("RIGHT", time, "LEFT", -5, 0)
+text:SetJustifyH("LEFT")
 
 castbar:SetScript('OnEvent', function(self, event, unit)
 	if unit ~= 'player' then return end
