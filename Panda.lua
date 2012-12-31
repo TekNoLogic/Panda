@@ -194,6 +194,74 @@ for i,spellid in ipairs{7411, 25229, 45357, 2259, 2550} do
 end
 
 
+-----------------------
+--      Castbar      --
+-----------------------
+
+local castbar = CreateFrame("StatusBar", nil, panel)
+castbar:SetSize(153, 14)
+castbar:SetPoint('BOTTOMLEFT', 21, 19)
+castbar:SetStatusBarTexture("Interface\\TargetingFrame\\UI-StatusBar")
+castbar:SetStatusBarColor(1, 1, 0, 0.35)
+castbar:Hide()
+
+local width = castbar:GetWidth()
+
+local spark = castbar:CreateTexture(nil, "OVERLAY")
+spark:SetSize(20, 20)
+spark:SetBlendMode("ADD")
+spark:SetTexture("Interface\\CastingBar\\UI-CastingBar-Spark")
+
+local time = castbar:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
+time:SetPoint("RIGHT", castbar, -5, 0)
+
+local text = castbar:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
+text:SetPoint("LEFT", castbar, 5, 0)
+
+
+castbar:SetScript('OnEvent', function(self, event, unit)
+	if unit ~= 'player' then return end
+	local name, _, title, texture, starttime, endtime = UnitCastingInfo('player')
+	if not name then return self:Hide() end
+
+	text:SetText(title)
+
+	self:Show()
+end)
+castbar:RegisterEvent('UNIT_SPELLCAST_START')
+castbar:RegisterEvent('UNIT_SPELLCAST_STOP')
+castbar:RegisterEvent('UNIT_SPELLCAST_INTERRUPTED')
+castbar:RegisterEvent('UNIT_SPELLCAST_FAILED')
+
+
+castbar:SetScript('OnShow', function(self)
+	local name, _, title, texture, starttime, endtime = UnitCastingInfo('player')
+	endtime = endtime/1000
+	starttime = starttime/1000
+	local max = endtime - starttime
+
+	self:SetMinMaxValues(0, max)
+	self:SetValue(0)
+	spark:SetPoint("CENTER", self, "LEFT")
+	text:SetText(title)
+end)
+
+
+castbar:SetScript('OnUpdate', function(self)
+	local name, _, text, texture, starttime, endtime = UnitCastingInfo('player')
+	if not name then return self:Hide() end
+
+	endtime = endtime/1000
+	starttime = starttime/1000
+	local max = endtime - starttime
+	local duration = GetTime() - starttime
+
+	self:SetValue(duration)
+	spark:SetPoint("CENTER", self, "LEFT", (duration / max) * width, 0)
+	time:SetFormattedText("%.1f", duration)
+end)
+
+
 -----------------------------
 --      Slash Handler      --
 -----------------------------
