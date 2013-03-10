@@ -1,3 +1,6 @@
+5.2.0.46-Beta
+    Add reagents to the enchanting panda panel
+
 5.1.0.45-Beta
     Add panda pots
     Remove some gems that never existed on the live servers
