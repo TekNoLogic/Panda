@@ -28,7 +28,9 @@ end
 local function HasEnoughSkill(ilvl, quality)
 	local prof1, prof2 = GetProfessions()
 	local name, _, myskill = GetProfessionInfo(prof1)
-	if name ~= ENCHANTING then name, _, myskill = GetProfessionInfo(prof2) end
+	if name ~= ENCHANTING and prof2 then
+		name, _, myskill = GetProfessionInfo(prof2)
+	end
 	if name ~= ENCHANTING then return false end
 
 	if ilvl <= 20 then return true end
