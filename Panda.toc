@@ -1,4 +1,4 @@
-## Interface: 30000
+## Interface: 50200
 
 ## Title: Panda
 ## Notes: Prospecting and Disenchanting Aide
@@ -26,12 +26,15 @@ tekKonfigScroll.lua
 tinyGratuity.lua
 tekIDmemo.lua
 
+externals\disenchant_probability.lua
+externals\itemid.lua
+
 Panda.lua
 ButtonFactory.lua
 PanelFactory.lua
+Buyout.lua
 
 Disenchanting.lua
-DisenchantingProb.lua
 Enchanting.lua
 Prospecting.lua
 GemCutting.lua
@@ -39,3 +42,4 @@ Milling.lua
 Glyphs.lua
 Pot.lua
 Transmutes.lua
+Cooking.lua

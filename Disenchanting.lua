@@ -1,4 +1,6 @@
 ﻿
+local myname, ns = ...
+
 
 local tip = DEATinyGratuity
 DEATinyGratuity = nil
@@ -8,44 +10,59 @@ local ICONSIZE = 32
 local NUM_LINES = math.floor(305/ICONSIZE)
 local OFFSET = math.floor((305 - NUM_LINES*ICONSIZE)/(NUM_LINES+1))
 local BUTTON_WIDTH = math.floor((630 - OFFSET*2-15)/2)
+local ENCHANTING = GetSpellInfo(7411)
 
 local showBOP, nocompare, buttons = false
-local notDEable = {
-	["32540"] = true,
-	["32541"] = true,
-	["18665"] = true,
-	["21766"] = true,
-	["5004"] = true,
-	["20408"] = true,
-	["20406"] = true,
-	["20407"] = true,
-	["14812"] = true,
-	["31336"] = true,
-	["32660"] = true,
-	["32662"] = true,
-	["11288"] = true,
-	["11290"] = true,
-	["12772"] = true,
-	["11287"] = true,
-	["11289"] = true,
-	["29378"] = true,
-}
 
 local GS, L = Panda.GS, Panda.locale
 local function IsBound(bag, slot)
 	tip:SetBagItem(bag, slot)
 	for i=1,30 do
-		if tip.L[i] == L.Soulbound then return true end
+		if tip.L[i] == L.Soulbound then return true, false end
+		if tip.L[i] == L["Battle.net Account Bound"] then return true, true end
 	end
 end
 
 
-function Panda:DEable(link)
-	local id = type(link) == "number" and link or select(3, link:find("item:(%d+):"))
-	if id and notDEable[id] then return end
+-- Tells us if we can DE a give item based on ilvl and quality
+local function HasEnoughSkill(ilvl, quality)
+	local prof1, prof2 = GetProfessions()
+	local name, _, myskill = GetProfessionInfo(prof1)
+	if name ~= ENCHANTING and prof2 then
+		name, _, myskill = GetProfessionInfo(prof2)
+	end
+	if name ~= ENCHANTING then return false end
 
-	local _, _, qual, itemLevel, _, itemType = GetItemInfo(link)
-	if (itemType == ARMOR or itemType == L.Weapon) and qual > 1 and qual < 5 then return true end
+	if ilvl <= 20 then return true end
+	if ilvl <= 60 then return myskill >= (math.floor((ilvl-1)/5) - 3) * 25 end
+	if ilvl <= 89 or quality <= 3 and ilvl <= 99 then return myskill >= 225 end
+
+	if quality == 2 then -- uncommon
+		if ilvl <= 120 then return myskill >= 275 end
+		if ilvl <= 150 then return myskill >= 325 end
+		if ilvl <= 182 then return myskill >= 350 end
+		if ilvl <= 333 then return myskill >= 425 end
+		if ilvl <= 437 then return myskill >= 475 end
+	end
+
+	if quality == 3 then -- rare
+		if ilvl <= 120 then return myskill >= 275 end
+		if ilvl <= 200 then return myskill >= 325 end
+		if ilvl <= 377 then return myskill >= 450 end
+		if ilvl <= 424 then return myskill >= 525 end
+		if ilvl <= 463 then return myskill >= 550 end
+	end
+
+	if quality == 4 then -- epic
+		if ilvl <= 151 then return myskill >= 300 end
+		if ilvl <= 277 then return myskill >= 375 end
+		if ilvl <= 416 then return myskill >= 475 end
+		if ilvl <= 516 then return myskill >= 575 end
+	end
+
+	-- We must have new ilvls not defined here
+	-- might as well assume the player can DE
+	return true
 end
 
 
@@ -84,7 +101,7 @@ local function ShowItemDetails(self)
 	local link = GetContainerItemLink(self.bag, self.slot)
 	if not link then return end
 
-	local id1, _, _, _, perc1, id2, _, _, _, perc2, id3, _, _, _, perc3 = Panda:GetPossibleDisenchants(link)
+	local id1, _, _, _, perc1, id2, _, _, _, perc2, id3, _, _, _, perc3 = ns.GetPossibleDisenchants(link)
 	if id1 then
 		for i,f in pairs(buttons) do f:SetAlpha(.1) end
 		if buttons[id1] then buttons[id1]:SetAlpha(.5 + perc1/2) end
@@ -107,22 +124,27 @@ end
 
 
 
+local disenchanting = GetSpellInfo(13262)
 local frame = CreateFrame("Frame", nil, UIParent)
-Panda.panel:RegisterFrame(L.Disenchanting, frame)
+Panda.panel:RegisterFrame(disenchanting, frame)
 frame:Hide()
 
 frame:SetScript("OnShow", function(self)
 	local canDE = GetSpellInfo(GetSpellInfo(13262))
 
-	local NoItems = cfs(self, nil, "ARTWORK", "GameFontNormalHuge", "CENTER", -self:GetWidth()/4, 0)
+	local deframe = CreateFrame("Frame", nil, self)
+	deframe:SetPoint("TOPLEFT")
+	deframe:SetPoint("BOTTOMRIGHT", self, "BOTTOM", -54, 0)
+
+	local NoItems = cfs(deframe, nil, "ARTWORK", "GameFontNormalHuge", "CENTER", deframe, "CENTER", 0, 0)
 	NoItems:SetText("Nothing to disenchant!")
 
 	self.lines = {}
 	for i=1,NUM_LINES do
-		local f = CreateFrame("CheckButton", "PandaDEFrame"..i, self, "SecureActionButtonTemplate")
-		f:SetPoint("TOPLEFT", self, OFFSET, ICONSIZE-i*(ICONSIZE+OFFSET))
+		local f = CreateFrame("CheckButton", "PandaDEFrame"..i, deframe, "SecureActionButtonTemplate")
+		f:SetPoint("TOPLEFT", deframe, OFFSET, ICONSIZE-i*(ICONSIZE+OFFSET))
+		f:SetPoint("RIGHT")
 		f:SetHeight(ICONSIZE)
-		f:SetWidth(BUTTON_WIDTH)
 		f:SetScript("OnEnter", ShowItemDetails)
 		f:SetScript("OnLeave", HideItemDetails)
 		if canDE then f:SetAttribute("type", "macro") end
@@ -139,6 +161,12 @@ frame:SetScript("OnShow", function(self)
 		self.lines[i] = f
 	end
 
+	local function PostClick(self) self:SetAttribute("macrotext", nil) end
+	local function PreClick(self)
+		if UnitCastingInfo("player") or LootFrame:IsVisible() then return end
+		self:SetAttribute("macrotext", string.format("/stopmacro [channeling]\n/cast !"..disenchanting.."\n/use %s %s", self.bag, self.slot))
+	end
+
 	local function OnEvent(self)
 		local i = 1
 		NoItems:Hide()
@@ -146,15 +174,20 @@ frame:SetScript("OnShow", function(self)
 		for bag=0,4 do
 			for slot=1,GetContainerNumSlots(bag) do
 				local link = GetContainerItemLink(bag, slot)
-				if link and Panda:DEable(link) then
-					local bound = IsBound(bag, slot)
-					if showBOP or not bound then
-						local name, _, _, itemLevel, _, itemType, itemSubType, _, _, texture = GetItemInfo(link)
+				if link and ns.DEable(link) then
+					local bound, BoA = IsBound(bag, slot)
+					if not BoA and showBOP or not bound then
+						local name, _, quality, itemLevel, _, itemType, itemSubType, _, _, texture = GetItemInfo(link)
 
 						local l = frame.lines[i]
-						if canDE then l:SetAttribute("macrotext", string.format("/cast Disenchant\n/use %s %s", bag, slot)) end
+						if canDE then
+							l.bag, l.slot = bag, slot
+							l:SetScript("PreClick", PreClick)
+							l:SetScript("PostClick", PostClick)
+						end
 						l.bag, l.slot = bag, slot
 						l.icon:SetTexture(texture)
+						if HasEnoughSkill(itemLevel, quality) then l.icon:SetVertexColor(1, 1, 1) else l.icon:SetVertexColor(0.9, 0, 0) end
 						l.name:SetText(link)
 						l.type:SetText(itemType)
 						l.bind:SetText(bound and ITEM_SOULBOUND or ITEM_BIND_ON_EQUIP)
@@ -200,13 +233,15 @@ frame:SetScript("OnShow", function(self)
 
 	-- Set up price panel
 	local frame = CreateFrame("Frame", nil, self)
-	frame:SetPoint("TOPLEFT", self, "TOP", 20, 0)
+	frame:SetPoint("TOPLEFT", deframe, "TOPRIGHT")
 	frame:SetPoint("BOTTOMRIGHT")
-	frame.itemids = [[10940 11083 11137 11176 16204 22445 34054
-	                  10938 10998 11134 11174 16202 22447 34056
-	                  10939 11082 11135 11175 16203 22446 34055
-	                    0   10978 11138 11177 14343 22448 34053
-	                    0   11084 11139 11178 14344 22449 34052
-	                    0     0     0     0   20725 22450 34057]]
+	frame.spellid = 7411
+	frame.func = function(id, f) f.notcrafted = not f.tiplink end
+	frame.itemids = [[10940 11083 11137 11176 16204 22445 34054 52555 74249 20725:42613
+	                  10938 10998 11134 11174 16202 22447 34056 52718 74250 22448:28022
+	                  10939 11082 11135 11175 16203 22446 34055 52719   0   22449:42615
+	                    0   10978 11138 11177 14343 22448 34053 52720 74252 22450:45765
+	                    0   11084 11139 11178 14344 22449 34052 52721 74247 34057:69412
+	                    0     0     0     0   20725 22450 34057 52722 74248]]
 	buttons = Panda.PanelFiller(frame)
 end)

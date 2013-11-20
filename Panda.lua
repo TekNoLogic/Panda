@@ -1,29 +1,58 @@
 ﻿
+local myname, ns = ...
+
+
 ----------------------------
 --      Localization      --
 ----------------------------
 
 local locale = GetLocale()
 local L = setmetatable(locale == "deDE" and {
-	Disenchanting = "Entzaubern",
 	Scrolls = "Rollen",
 	Weapon = "Waffe",
-	["Elixirs (BC)"] = "Elixire (BC)",
-	["Elixirs (Wrath)"] = "Elixire (WotLK)",
+
+	["All Cat"] = "Alles (Cata)",
+	["All Wrath"] = "Alles (WotLK)",
+	["Enchant Boots"] = "Stiefel verzaubern",
 	["Enchant Bracer"] = "Armschiene verzaubern",
+	["Enchant Chest"] = "Brust verzaubern",
 	["Enchant Cloak"] = "Umhang verzaubern",
+	["Enchant Gloves"] = "Handschuhe verzaubern",
 	["Enchant Shield"] = "Schild verzaubern",
 	["Enchant Weapon"] = "Waffe verzaubern",
-	["Gem Cutting (BC Epic/Meta)"] = "Sockel (BC Epic/Meta)",
-	["Gem Cutting (BC Unc/Rare)"] = "Sockel (BC Selten/Rar)",
-	["Gem Cutting (Wrath Meta)"] = "Sockel (WotLK Meta)",
-	["Gem Cutting (Wrath Rare)"] = "Sockel (WotLK Rar)",
-	["Gem Cutting (Wrath Unc)"] = "Sockel (WotLK Selten)",
+	["Scroll of (.-)"] = "Rolle der (.-)n?verzauberung",
+
+	["Cat Uncommon"] = "Cata Selten",
+	["Cat Rare"] = "Cata Rar",
+	["Cat Epic"] = "Cata Episch",
+	["Cat Meta & JC-only"] = "Cata Meta/Juwelier",
+	["Cat Meta"] = "WotLK Meta",
+	["Wrath Uncommon"] = "WotLK Selten",
+	["Wrath Rare"] = "WotLK Rar",
+	["Wrath Epic"] = "WotLK Episch",
+	["Wrath Meta"] = "WotLK Meta",
+	["BC Epic/Meta"] = "BC Epic/Meta",
+	["BC Unc/Rare"] = "BC Selten/Rar",
+
 	["Minor Glyphs (by class)"] = "Geringe Glyphen (-> Klasse)",
 	["Minor Glyphs (by ink)"] = "Geringe Glyphen (-> Tinte)",
 	["Minor Inscription Research"] = "Schwache Inschriftenforschung",
 	["Northrend Inscription Research"] = "Inschriftenforschung von Nordend",
-	["Scroll of (.+)$"] = "Rolle der (.+)$",
+
+	["Flasks (Cat)"] = "Fläschchen (Cata)",
+	["Elixirs (Cat)"] = "Elixire (Cata)",
+	["Flasks"] = "Fläschchen (pre Cata)",
+	["Battle Elixirs (Wrath)"] = "Kampfelixiere (WotLK)",
+	["Guardian Elixirs (Wrath)"] = "Wächterelixiere (WotLK)",
+	["Battle Elixirs (BC)"] = "Kampfelixiere (BC)",
+	["Guardian Elixirs (BC)"] = "Wächterelixiere (BC)",
+	["Transmutes (Elemental)"] = "Transmutieren (Elementar)",
+	["Transmutes (Gems)"] = "Transmutieren (Edelsteine)",
+	["Transmutes (Metals)"] = "Transmutieren (Metalle)",
+
+	["Food"] = "Essen",
+	["Feasts"] = "Festmahl",
+	["Emo food"] = "Lebt Eure Gefühle",
 } or {}, {__index=function(t,i) return i end})
 
 
@@ -31,43 +60,9 @@ local L = setmetatable(locale == "deDE" and {
 --      Addon Namespace      --
 -------------------------------
 
---~ Panda = DongleStub("Dongle-1.0"):New("Panda")
---~ if tekDebug then Panda:EnableDebug(1, tekDebug:GetFrame("Panda")) end
-
-
-local panel = LibStub("tekPanel-Auction").new("PandaPanel", "Panda", true)
+local panel = ns.tekPanelAuction("PandaPanel", "Panda", true)
 Panda = {panel = panel, locale = L}
-
-UIErrorsFrame:SetFrameStrata("FULLSCREEN")
-
---~ function Panda:Initialize()
---~ 	local _, title = GetAddOnInfo("Panda")
---~ 	local author, version = GetAddOnMetadata("Panda", "Author"), GetAddOnMetadata("Panda", "Version")
---~ 	local oh = LibStub("OptionHouse-1.1"):RegisterAddOn("Panda", title, author, version)
---~ 	oh:RegisterCategory("Disenchanting", self, "CreateDisenchantingPanel")
---~ 	oh:RegisterCategory("Prospecting", self, "CreateProspectingPanel")
---~ 	oh:RegisterCategory("Prices", self, "CreateDisenchantingPricePanel")
---~ 	oh:RegisterCategory("Gem Cutting", self, "CreateCutGreenBluePanel")
---~ 	oh:RegisterCategory("Gem Cutting (Meta)", self, "CreateCutMetaPanel")
---~ 	oh:RegisterCategory("Gem Cutting (Epic)", self, "CreateCutPurplePanel")
-
---~ 	self:RegisterEvent("LOOT_OPENED")
---~ end
-
-
---~ function Panda:Enable()
---~ 	local i, spellname = 1
---~ 	repeat
---~ 		spellname = GetSpellName(i, BOOKTYPE_SPELL)
---~ 		if spellname == "Disenchant" then self.canDisenchant = true end
---~ 		if spellname == "Prospecting" then self.canProspect = true end
---~ 		if spellname == "Jewelcrafting" then self.canJC = true end
---~ 		i = i + 1
---~ 	until (self.canDisenchant and self.canProspect and self.canJC) or not spellname
-
---~ 	self:RegisterEvent("ADDON_LOADED")
---~ 	self:RegisterEvent("TRADE_SKILL_SHOW")
---~ end
+local butts, lastbutt = {}
 
 
 ------------------------------
@@ -76,24 +71,17 @@ UIErrorsFrame:SetFrameStrata("FULLSCREEN")
 
 function Panda:HideTooltip() GameTooltip:Hide() end
 function Panda:ShowTooltip()
-	if self.link then
+	if self.tiplink then
 		GameTooltip:SetOwner(self, "ANCHOR_NONE")
-		GameTooltip:SetPoint("TOPLEFT", self, "TOPRIGHT")
-		GameTooltip:SetHyperlink(self.link)
-	elseif IsShiftKeyDown() and self.id then
-		GameTooltip:SetOwner(self, "ANCHOR_NONE")
-		GameTooltip:SetPoint("TOPLEFT", self, "TOPRIGHT")
-		GameTooltip:SetHyperlink("item:"..self.id)
+		GameTooltip:SetPoint("TOPLEFT", self, self.anchor or "TOPRIGHT")
+		GameTooltip:SetHyperlink(self.tiplink)
 	elseif self.id then
 		GameTooltip:SetOwner(self, "ANCHOR_NONE")
-		GameTooltip:SetPoint("TOPLEFT", self, "TOPRIGHT")
-		GameTooltip:AddLine("Hold shift to force a server query for this tooltip.")
-		GameTooltip:AddLine("This may cause the server to disconnect you!")
-		GameTooltip:AddLine("Use with caution.")
-		GameTooltip:Show()
+		GameTooltip:SetPoint("TOPLEFT", self, self.anchor or "TOPRIGHT")
+		GameTooltip:SetHyperlink("item:"..self.id)
 	elseif self.tiptext then
 		GameTooltip:SetOwner(self, "ANCHOR_NONE")
-		GameTooltip:SetPoint("TOPLEFT", self, "TOPRIGHT")
+		GameTooltip:SetPoint("TOPLEFT", self, self.anchor or "TOPRIGHT")
 		GameTooltip:SetText(self.tiptext)
 		GameTooltip:Show()
 	end
@@ -118,38 +106,162 @@ function Panda.G(cash)
 end
 
 
--------------------------
---      Constants      --
--------------------------
+--------------------------
+--      Initialize      --
+--------------------------
 
---~ Panda.BC_GREEN_GEMS = {24478, 23077, 21929, 23112, 23079, 23117, 23107}
---~ Panda.BC_BLUE_GEMS = {24479, 23436, 23439, 23440, 23437, 23438, 23441}
---~ Panda.BC_EPIC_GEMS = {32227, 32231, 32229, 32249, 32228, 32230}
---~ Panda.BC_META_GEMS = {25867, 25868}
---~ Panda.CUTS = {
---~ 	[23077] = {23094, 23095, 23097, 23096, 28595},
---~ 	[21929] = {23098, 23099, 23100, 23101, 31866, 31869},
---~ 	[23112] = {23113, 23114, 23115, 23116, 28290, 31860},
---~ 	[23079] = {23103, 23104, 23105, 23106},
---~ 	[23117] = {23118, 23119, 23120, 23121},
---~ 	[23107] = {23108, 23109, 23110, 23111, 31862, 31864},
---~ 	[23436] = {24027, 24028, 24029, 24030, 24031, 24032, 24036},
---~ 	[23439] = {24058, 24059, 24060, 24061, 31867, 31868, 35316},
---~ 	[23440] = {24047, 24048, 24050, 24051, 24052, 24053, 31861, 35315},
---~ 	[23437] = {24062, 24065, 24066, 24067, 33782, 35318},
---~ 	[23438] = {24033, 24035, 24037, 24039},
---~ 	[23441] = {24054, 24055, 24056, 24057, 31863, 31865, 35707},
---~ 	[24478] = {32833},
---~ 	[24479] = {32836},
---~ 	[25867] = {25896, 25897, 25898, 25899, 25901, 32409, 35501},
---~ 	[25868] = {25890, 25893, 25894, 25895, 32410, 34220, 35503},
---~ 	[32227] = {32193, 32194, 32195, 32196, 32197, 32198, 32199},
---~ 	[32231] = {32217, 32218, 32219, 32220, 32221, 32222, 35760},
---~ 	[32229] = {32204, 32205, 32206, 32207, 32208, 32209, 32210, 35761},
---~ 	[32249] = {32223, 32224, 32225, 32226, 35758, 35759},
---~ 	[32228] = {32200, 32201, 32202, 32203},
---~ 	[32230] = {32211, 32212, 32213, 32214, 32215, 32216},
---~ }
+panel:SetScript("OnEvent", function(self, event, addon)
+	if addon ~= myname then return end
+
+	PandaDBPC = PandaDBPC or {knowns = {}}
+
+	-- Upgrade from old format
+	if not PandaDBPC.knowns then PandaDBPC = {knowns = (PandaDBPC or {})} end
+
+	ns.db = PandaDBPC
+
+	self:UnregisterEvent("ADDON_LOADED")
+	self.ADDON_LOADED = nil
+
+	if IsLoggedIn() then
+		ns.CheckAlchy()
+		ns.CheckAlchy = nil
+		self:SetScript("OnEvent", nil)
+	else
+		self:RegisterEvent("PLAYER_LOGIN")
+		self:SetScript("OnEvent", function()
+			ns.CheckAlchy()
+			ns.CheckAlchy = nil
+			self:UnregisterEvent("PLAYER_LOGIN")
+			self:SetScript("OnEvent", nil)
+		end)
+	end
+end)
+panel:RegisterEvent("ADDON_LOADED")
+
+
+panel:SetScript("OnShow", function(self)
+	local opentab = ns.db.lasttab or 1
+	butts[opentab]:SetChecked(true)
+	for i,f in pairs(panel.panels) do f:Hide() end
+
+	if ns.db.lastsubtab then panel.panels[opentab]:ShowPanel(ns.db.lastsubtab) end
+
+	panel.panels[opentab]:Show()
+
+	self:SetScript("OnShow", nil)
+end)
+
+
+panel:SetScript("OnHide", function(self)
+	ns.db.lastsubtab = nil
+
+	for i,f in pairs(panel.panels) do if f:IsShown() then ns.db.lasttab = i end end
+	for name,f in pairs(panel.panels[ns.db.lasttab].frames) do if f:IsShown() then ns.db.lastsubtab = name end end
+end)
+
+
+--------------------------
+--      Main panel      --
+--------------------------
+
+local function OnClick(self)
+	for i,f in pairs(panel.panels) do f:Hide() end
+	for i,b in pairs(butts) do b:SetChecked(false) end
+	panel.panels[self.i]:Show()
+	self:SetChecked(true)
+end
+
+for i,spellid in ipairs{7411, 25229, 45357, 2259, 2550} do
+	local name, _, icon = GetSpellInfo(spellid)
+	local butt = CreateFrame("CheckButton", nil, panel)
+	butt:SetWidth(32) butt:SetHeight(32)
+	butt:SetPoint("TOPLEFT", lastbutt or panel, lastbutt and "BOTTOMLEFT" or "TOPRIGHT", lastbutt and 0 or 2, lastbutt and -17 or -65)
+	butt:SetNormalTexture(icon)
+	butt:SetCheckedTexture("Interface\\Buttons\\CheckButtonHilight")
+
+	local tex = butt:CreateTexture(nil, "BACKGROUND")
+	tex:SetWidth(64) tex:SetHeight(64)
+	tex:SetPoint("TOPLEFT", -3, 11)
+	tex:SetTexture("Interface\\SpellBook\\SpellBook-SkillLineTab")
+
+	butt.tiptext, butt.i, butt.anchor = name, i
+	butt:SetScript("OnClick", OnClick)
+	butt:SetScript("OnEnter", Panda.ShowTooltip)
+	butt:SetScript("OnLeave", Panda.HideTooltip)
+
+	butts[i], lastbutt = butt, butt
+end
+
+
+-----------------------
+--      Castbar      --
+-----------------------
+
+local castbar = CreateFrame("StatusBar", nil, panel)
+castbar:SetSize(153, 14)
+castbar:SetPoint('BOTTOMLEFT', 21, 19)
+castbar:SetStatusBarTexture("Interface\\TargetingFrame\\UI-StatusBar")
+castbar:SetStatusBarColor(1, 1, 0, 0.35)
+castbar:Hide()
+
+local width = castbar:GetWidth()
+
+local spark = castbar:CreateTexture(nil, "OVERLAY")
+spark:SetSize(20, 20)
+spark:SetBlendMode("ADD")
+spark:SetTexture("Interface\\CastingBar\\UI-CastingBar-Spark")
+
+local time = castbar:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+time:SetPoint("RIGHT", castbar, -5, 0)
+
+local text = castbar:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
+text:SetPoint("LEFT", castbar, 5, 0)
+text:SetPoint("RIGHT", time, "LEFT", -5, 0)
+text:SetJustifyH("LEFT")
+
+castbar:SetScript('OnEvent', function(self, event, unit)
+	if unit ~= 'player' then return end
+	local name, _, title, texture, starttime, endtime = UnitCastingInfo('player')
+	if not name then return self:Hide() end
+
+	text:SetText(title)
+
+	self:Show()
+end)
+castbar:RegisterEvent('UNIT_SPELLCAST_START')
+castbar:RegisterEvent('UNIT_SPELLCAST_STOP')
+castbar:RegisterEvent('UNIT_SPELLCAST_INTERRUPTED')
+castbar:RegisterEvent('UNIT_SPELLCAST_FAILED')
+
+
+castbar:SetScript('OnShow', function(self)
+	local name, _, title, texture, starttime, endtime = UnitCastingInfo('player')
+	endtime = endtime/1000
+	starttime = starttime/1000
+	local max = endtime - starttime
+
+	self:SetMinMaxValues(0, max)
+	self:SetValue(0)
+	spark:SetPoint("CENTER", self, "LEFT")
+	text:SetText(title)
+end)
+
+
+castbar:SetScript('OnUpdate', function(self)
+	local name, _, text, texture, starttime, endtime = UnitCastingInfo('player')
+	if not name then return self:Hide() end
+
+	endtime = endtime/1000
+	starttime = starttime/1000
+	local max = endtime - starttime
+	local duration = GetTime() - starttime
+
+	self:SetValue(duration)
+	spark:SetPoint("CENTER", self, "LEFT", (duration / max) * width, 0)
+	time:SetFormattedText("%.1f", duration)
+end)
+
 
 -----------------------------
 --      Slash Handler      --

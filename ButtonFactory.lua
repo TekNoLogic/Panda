@@ -3,20 +3,48 @@ local HideTooltip, ShowTooltip, GS, G = Panda.HideTooltip, Panda.ShowTooltip, Pa
 local auc = LibStub("tekAucQuery")
 
 
-local UNK = "Interface\\Icons\\INV_Misc_QuestionMark"
 local server = GetRealmName().." "..UnitFactionGroup("player")
+local UNK, ICONS = "Interface\\Icons\\INV_Misc_QuestionMark", {
+	STA = "Spell_Nature_UnyeildingStamina", RES = "Spell_Holy_ChampionsGrace",
+	AGI = "Spell_Holy_BlessingOfAgility", AP = "Spell_Holy_FistOfJustice", STR = "Spell_Nature_Strength", DAM = "Ability_Gouge",
+	ARM = "INV_Misc_ArmorKit_25", BLKR = "Ability_Warrior_DefensiveStance", BLKV = "INV_Shield_04", DEF = "Ability_Defend", DOD = "Spell_Nature_Invisibilty",
+	INT = "Spell_Holy_MagicalSentry", SPI = "Spell_Holy_DivineSpirit", SP = "Spell_Holy_MindVision",
+	BEAST = "Ability_Druid_FerociousBite", ELEM = "Spell_Frost_SummonWaterElemental", DEMON = "Spell_Shadow_DemonicTactics",
+	RALL = "Spell_Frost_WizardMark", RFR = "Spell_Frost_FrostWard", RSH = "Spell_Shadow_AntiShadow", RFI = "Spell_Fire_FireArmor", RAR = "Spell_Nature_StarFall", RNA = "Spell_Nature_ResistNature",
+	FIP = "Spell_Fire_FireBolt02", FRP = "Spell_Frost_FrostBolt02", SHP = "Spell_Shadow_ShadowBolt",
+	HP = "INV_Potion_51", MP = "INV_Potion_72", HMP = "INV_Potion_79", MPR = "Spell_Magic_ManaGain",
+	STAT = "Spell_ChargePositive", EXP = "Spell_Holy_BlessingOfStrength", SPE = "Spell_Fire_BurningSpeed", MAS = "Spell_Holy_ChampionsBond",
+	HIT = "Ability_Marksmanship", CRIT = "Ability_Rogue_KidneyShot",
+	MONGOOSE = "Spell_Nature_UnrelentingStorm", BERSERK = "Spell_Shadow_DeathPact", FROST = "Spell_Frost_FrostShock", UNHOLY = "Spell_Shadow_CurseOfMannoroth", CRUSADER = "Spell_Holy_WeaponMastery",
+	FIERY = "Spell_Fire_Immolation", WINTER = "Spell_Frost_FrostNova", LIFESTEAL = "Spell_Shadow_LifeDrain", SOULFROST = "Spell_Holy_ConsumeMagic", SUNFIRE = "Ability_Mage_FireStarter",
+	FISH = "INV_Misc_Fish_09", HERB = "INV_Misc_Flower_02", MINE = "Trade_Mining", SKIN = "INV_Misc_Pelt_Wolf_01", MOUNT = "INV_Misc_Crop_02", THREAT = "Spell_Nature_Reincarnation",
+	GATHER = "Trade_Herbalism", HASTE = "Ability_Hunter_RunningShot", STL = "Ability_Stealth", FADE = "Spell_Magic_LesserInvisibilty", NAT = "Spell_Nature_AbolishMagic",
+	SPEN = "Spell_Nature_StormReach", APEN = "Ability_Rogue_Rupture", PARRY = "Ability_Parry", GIANT = "Ability_Racial_Avatar", UNDEAD = "Spell_Shadow_DarkSummoning"
+}
 
 
 local function OnEvent(self)
 	if not self.id then return end
 	local count = GetItemCount(self.id)
-	self.count:SetText(count > 0 and count or "")
-	if self.text then self.text:SetText(GS(auc[self.id])) end
+	if self.craftqty then
+		self.count:SetText(count .. "/".. self.craftqty)
+	else
+		self.count:SetText(count > 0 and count or "")
+	end
+	if self.text then
+		local auc_price = auc[self.id]
+		local craft_price = not self.notcrafted and GetReagentCost and GetReagentCost(self.id)
+		local price = auc_price and craft_price and Panda.showprofit and (auc_price - craft_price) or auc_price
+		if price and price < 100 then price = nil end
+		self.text:SetText(GS(price))
+	end
 
 
 	if ForSaleByOwnerDB then
-		local count, name = 0, GetItemInfo(self.id)
-		for char,vals in pairs(ForSaleByOwnerDB[server]) do count = count + (vals[name] or 0) end
+		local count = 0
+		for char,vals in pairs(ForSaleByOwnerDB[server]) do
+			count = count + (vals[self.id] or 0)
+		end
 		self.ahcount:SetText(count ~= 0 and count or "")
 	end
 end
@@ -29,19 +57,26 @@ local function OnShow(self)
 end
 
 
-function Panda.CraftMacro(name, id)
-	return "/run if IsShiftKeyDown() then ChatEdit_InsertLink('"..select(2, GetItemInfo(id)).."') end\n"..
+function Panda.CraftMacro(name, id, extra)
+	local linkfunc, linktoken = extra and "GetTradeSkillRecipeLink" or "GetTradeSkillItemLink", extra and "enchant:" or "item:"
+	return "/run if IsShiftKeyDown() then ChatEdit_InsertLink(select(2, GetItemInfo("..id.."))) end\n"..
 		"/stopmacro [mod:shift]\n"..
 		"/run CloseTradeSkill()\n/cast "..name.."\n"..
-		"/run for i=1,GetNumTradeSkills() do local l = GetTradeSkillItemLink(i) if l and l:match('item:"..id..":') then TradeSkillFrame_SetSelection(i); DoTradeSkill(i, IsAltKeyDown() and select(3, GetTradeSkillInfo(i)) or 1) end end\n"..
+		"/run for i=1,GetNumTradeSkills() do local l = "..linkfunc.."(i) if l and l:match('"..linktoken..(extra or id)..(extra and "" or ":").."') then "..
+			"TradeSkillFrame_SetSelection(i); DoTradeSkill(i, IsAltKeyDown() and select(3, GetTradeSkillInfo(i)) or 1) end end\n"..
 		"/run if not IsAltKeyDown() then CloseTradeSkill() end"
 end
 
 
-function Panda.ButtonFactory(parent, id, secure, notext, ...)
+function Panda.ButtonFactory(parent, id, secure, notext, extra, ...)
+	local craftqty = (extra or ""):match("^x(%d*)")
+	local extraid, extraicon = (not craftqty and extra or ""):match("(%d*):?(%S*)")
+	local customicon = extraicon ~= "" and extraicon
+
 	local f = CreateFrame(secure and "CheckButton" or "Frame", id == 6948 and "MassMill" or nil, parent, secure and "SecureActionButtonTemplate")
-	local name, link, _, _, _, _, _, _, _, texture = GetItemInfo(id)
-	f.link, f.id, f.name = link, id, name or ""
+	local texture = GetItemIcon(id)
+	f.id = id
+	if extraid and extraid ~= "" then f.extra, f.tiplink = extraid, "spell:"..extraid end
 
 	f:SetHeight(32)
 	f:SetWidth(32)
@@ -55,7 +90,7 @@ function Panda.ButtonFactory(parent, id, secure, notext, ...)
 
 	local icon = f:CreateTexture(nil, "ARTWORK")
 	icon:SetAllPoints(f)
-	icon:SetTexture(texture or UNK)
+	icon:SetTexture(texture and (customicon and ("Interface\\Icons\\".. ICONS[customicon]) or texture) or UNK)
 	f.icon = icon
 
 	if not notext then
@@ -70,24 +105,13 @@ function Panda.ButtonFactory(parent, id, secure, notext, ...)
 	f.ahcount = f:CreateFontString(nil, "ARTWORK", "NumberFontNormalSmall")
 	f.ahcount:SetPoint("TOPRIGHT", icon, "TOPRIGHT", -2, -2)
 
-	-- Thanks to oglow for this method
-	local border = f:CreateTexture(nil, "OVERLAY")
-	border:SetTexture("Interface\\Buttons\\UI-ActionButton-Border")
-	border:SetBlendMode("ADD")
-	border:SetAlpha(.5)
-	border:Hide()
-
-	border:SetPoint('CENTER', f, 'CENTER', 0, 1)
-	border:SetWidth(f:GetWidth() * 2 - 5)
-	border:SetHeight(f:GetHeight() * 2 - 5)
-	f.border = border
-
-	if secure and name then
+	f.craftqty = craftqty
+	if secure then
 		if type(secure) == "function" then
 			secure(f)
 		else
 			f:SetAttribute("type", "macro")
-			f:SetAttribute("macrotext", Panda.CraftMacro(secure, id))
+			f:SetAttribute("macrotext", Panda.CraftMacro(secure, id, f.extra))
 		end
 	end
 
