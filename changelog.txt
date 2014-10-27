@@ -1,3 +1,8 @@
+6.0.0.47-Beta
+    New glyphs!
+    Show bank counts for reagentbank
+    Fix DE panel for folks with a single profession
+
 5.2.0.46-Beta
     Add reagents to the enchanting panda panel
 
