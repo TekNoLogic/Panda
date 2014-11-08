@@ -25,7 +25,7 @@ local UNK, ICONS = "Interface\\Icons\\INV_Misc_QuestionMark", {
 
 local function OnEvent(self)
 	if not self.id then return end
-	local count = GetItemCount(self.id)
+	local count = GetItemCount(self.id, true)
 	if self.craftqty then
 		self.count:SetText(count .. "/".. self.craftqty)
 	else
