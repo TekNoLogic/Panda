@@ -1,3 +1,7 @@
+6.0.0.48-Beta
+    6.0 glyph cleanup
+    More panel updates for 6.0
+
 6.0.0.47-Beta
     New glyphs!
     Show bank counts for reagentbank
