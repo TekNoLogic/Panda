@@ -4,7 +4,7 @@ local NAME, _, MILLICON = GetSpellInfo(51005)
 local NAME2 = GetSpellInfo(45357)
 local _, _, _, _, _, HERB = GetAuctionItemSubClasses(6)
 local inks = "113111 79254 79255 39469 39774 43115 43116 43117 43118 43118 43119 43120 43121 43122 43123 43124 43125 43126 43127 61978 61981"
-local blacklist_herbs = {[72238] = true}
+local blacklist_herbs = {[72238] = true, [116053] = true}
 local whitelist_herbs = {[87821] = true, [89639] = true, [39969] = true}
 panel:RegisterFrame(NAME, Panda.PanelFactory(45357,
 [[114931 113111   0     0     0  109124 109125 109126 109127 109129 109128   0     0   0 0 6948
