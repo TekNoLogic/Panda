@@ -1,4 +1,4 @@
-﻿
+
 
 -- I am lazy, so I "borrowed" these constants from Enchantrix ^^
 local VOID, NEXUS, ABYSS = 22450, 20725, 34057

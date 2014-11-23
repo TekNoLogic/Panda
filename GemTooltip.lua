@@ -1,4 +1,4 @@
-﻿
+
 local Panda = Panda
 local GS = Panda.GS
 local BC_GREEN_GEMS, BC_BLUE_GEMS, CUTS = Panda.BC_GREEN_GEMS, Panda.BC_BLUE_GEMS, Panda.CUTS

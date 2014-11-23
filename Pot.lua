@@ -1,4 +1,4 @@
-﻿
+
 local L = Panda.locale
 local panel = Panda.panel:NewPanel(true)
 

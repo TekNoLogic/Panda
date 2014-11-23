@@ -1,4 +1,4 @@
-﻿
+
 local HideTooltip, ShowTooltip, GS, G = Panda.HideTooltip, Panda.ShowTooltip, Panda.GS, Panda.G
 local auc = LibStub("tekAucQuery")
 
