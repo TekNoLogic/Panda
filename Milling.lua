@@ -1,4 +1,4 @@
-﻿
+
 local panel = Panda.panel:NewPanel(true)
 local NAME, _, MILLICON = GetSpellInfo(51005)
 local NAME2 = GetSpellInfo(45357)

@@ -1,4 +1,4 @@
-﻿
+
 local myname, ns = ...
 
 
@@ -223,5 +223,3 @@ function Panda.PanelFactory(spellid, itemids, func, securefunc, firstshowfunc)
 
 	return scroll
 end
-
-
