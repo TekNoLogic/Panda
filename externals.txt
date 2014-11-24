@@ -1,2 +1,0 @@
-disenchant_probability.lua
-itemid.lua
