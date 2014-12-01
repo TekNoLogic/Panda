@@ -11,6 +11,7 @@ local UNK, ICONS = "Interface\\Icons\\INV_Misc_QuestionMark", {
 	ARM = "INV_Misc_ArmorKit_25",
 	BEAST = "Ability_Druid_FerociousBite",
 	BERSERK = "Spell_Shadow_DeathPact",
+	BLD = "spell_shadow_lifedrain",
 	BLKR = "Ability_Warrior_DefensiveStance",
 	BLKV = "INV_Shield_04",
 	CRIT = "Ability_Rogue_KidneyShot",
@@ -42,6 +43,7 @@ local UNK, ICONS = "Interface\\Icons\\INV_Misc_QuestionMark", {
 	MOUNT = "INV_Misc_Crop_02",
 	MP = "INV_Potion_72",
 	MPR = "Spell_Magic_ManaGain",
+	MULT = "ability_monk_palmstrike",
 	NAT = "Spell_Nature_AbolishMagic",
 	PARRY = "Ability_Parry",
 	RALL = "Spell_Frost_WizardMark",
@@ -64,8 +66,9 @@ local UNK, ICONS = "Interface\\Icons\\INV_Misc_QuestionMark", {
 	STR = "Spell_Nature_Strength",
 	SUNFIRE = "Ability_Mage_FireStarter",
 	THREAT = "Spell_Nature_Reincarnation",
-	UNDEAD = "Spell_Shadow_DarkSummoning"
+	UNDEAD = "Spell_Shadow_DarkSummoning",
 	UNHOLY = "Spell_Shadow_CurseOfMannoroth",
+	VERS = "ability_monk_roll",
 	WINTER = "Spell_Frost_FrostNova",
 }
 
