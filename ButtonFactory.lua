@@ -77,7 +77,7 @@ local function OnEvent(self)
 	if not self.id then return end
 	local count = GetItemCount(self.id, true)
 	if self.craftqty then
-		self.count:SetText(count .. "/".. self.craftqty)
+		self.count:SetText("*".. self.craftqty)
 	else
 		self.count:SetText(count > 0 and count or "")
 	end
