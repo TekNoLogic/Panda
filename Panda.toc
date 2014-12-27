@@ -43,3 +43,4 @@ Glyphs.lua
 Pot.lua
 Transmutes.lua
 Cooking.lua
+WoD.lua

@@ -172,7 +172,7 @@ local function OnClick(self)
 	self:SetChecked(true)
 end
 
-for i,spellid in ipairs{7411, 25229, 45357, 2259, 2550} do
+for i,spellid in ipairs{7411, 25229, 45357, 2259, 2550, 76250} do
 	local name, _, icon = GetSpellInfo(spellid)
 	local butt = CreateFrame("CheckButton", nil, panel)
 	butt:SetWidth(32) butt:SetHeight(32)
@@ -192,6 +192,9 @@ for i,spellid in ipairs{7411, 25229, 45357, 2259, 2550} do
 
 	butts[i], lastbutt = butt, butt
 end
+
+lastbutt:SetNormalTexture("Interface\\ICONS\\Achievement_Character_Orc_Male_BRN")
+lastbutt.tiptext = "Warlords of Draenor"
 
 
 -----------------------
