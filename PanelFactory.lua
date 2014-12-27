@@ -94,23 +94,6 @@ end
 
 local function noop() end
 
-local function AddToData(name)
-	if GetLocale() == "deDE" then -- inconsistent naming up to Cataclysm enchants
-		local target, enchant = string.split("-", name)
-		target, enchant = string.trim(target), string.trim(enchant)
-		if target == "Handschuhe" then
-			knowncombines["Rolle der Handschuhverzauberung - "..enchant] = true
-		elseif target == "Waffe" or target == "Armschiene" or target == "Zweihandwaffe" then
-			knowncombines["Rolle der "..target.."nverzauberung - "..enchant] = true
-		else
-			knowncombines["Rolle der "..target.."verzauberung - "..enchant] = true
-		end
-	else
-		knowncombines["Scroll of "..name] = true
-	end
-	knowncombines[name] = true
-end
-
 function Panda:PanelFiller()
 	knowncombines = ns.db.knowns
 	local buttons = {}
@@ -186,15 +169,17 @@ function Panda:PanelFiller()
 	if canCraft and not tracker and next(unknown) then
 		self:SetScript("OnEvent", function()
 			if IsTradeSkillLinked() or IsTradeSkillGuild() then return end
+			local lasttitle = ""
 			for i=1,GetNumTradeSkills() do
 				local name, rowtype, _, _, skilltype = GetTradeSkillInfo(i)
 				local spelllink = GetTradeSkillRecipeLink(i)
 				local link = GetTradeSkillItemLink(i)
-				if rowtype ~= "header" and link then
+				if rowtype == "header" or rowtype == "subheader" then
+					lasttitle = name
+				elseif link then
 					local spellid = spelllink:match("enchant:(%d+)")
 					knowncombines[tonumber(spellid) + 0.1] = true
-					if skilltype == ENSCRIBE then AddToData(name)
-					elseif ns.ids[link] then knowncombines[ns.ids[link]] = true end
+					if ns.ids[link] then knowncombines[ns.ids[link]] = true end
 				end
 			end
 			for f in pairs(unknown) do f:SetAlpha(known[f] and 1 or 0.25) end
