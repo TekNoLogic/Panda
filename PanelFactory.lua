@@ -167,6 +167,7 @@ function Panda:PanelFiller()
 
 	if canCraft then Panda.RefreshButtonFactory(scroll or self, canCraft, "TOPRIGHT", scroll or self, "BOTTOMRIGHT", 4, -3) end
 
+	--[=[ -- All the tradeskill functions changed so this code doesn't work
 	if canCraft and not tracker and next(unknown) then
 		self:SetScript("OnEvent", function()
 			if IsTradeSkillLinked() or IsTradeSkillGuild() then return end
@@ -188,6 +189,7 @@ function Panda:PanelFiller()
 		self:RegisterEvent("TRADE_SKILL_SHOW")
 		tracker = true
 	end
+	]=]
 
 	if self.firstshowfunc then
 		self:firstshowfunc()
