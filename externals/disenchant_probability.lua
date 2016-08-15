@@ -1,8 +1,8 @@
 
 local myname, ns = ...
 local GetItemInfo = GetItemInfo
-local WEAPON, ARMOR = GetAuctionItemClasses() -- returns localized strings
-
+local WEAPON = GetItemClassInfo(LE_ITEM_CLASS_WEAPON) -- returns localized strings
+local ARMOR = GetItemClassInfo(LE_ITEM_CLASS_ARMOR)
 
 -- I am lazy, so I "borrowed" these constants from Enchantrix ^^
 local VOID, NEXUS, ABYSS, MAELSTROM = 22450, 20725, 34057, 52722
