@@ -53,7 +53,7 @@ end
 
 
 -- Hooks the Set* methods to force a full erase beforehand
-local methods = {"SetMerchantCostItem", "SetBagItem", "SetAction", "SetAuctionItem", "SetAuctionSellItem", "SetBuybackItem",
+local methods = {"SetMerchantCostItem", "SetBagItem", "SetAction", "SetBuybackItem",
 	"SetCraftItem", "SetCraftSpell", "SetHyperlink", "SetInboxItem", "SetInventoryItem", "SetLootItem", "SetLootRollItem",
 	"SetMerchantItem", "SetPetAction", "SetPlayerBuff", "SetQuestItem", "SetQuestLogItem", "SetQuestRewardSpell",
 	"SetSendMailItem", "SetShapeshift", "SetSpell", "SetTalent", "SetTrackingSpell", "SetTradePlayerItem", "SetTradeSkillItem",
@@ -65,4 +65,3 @@ for _,m in pairs(methods) do
 		return orig(self, ...)
 	end
 end
-

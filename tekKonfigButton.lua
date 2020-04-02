@@ -28,10 +28,10 @@ if oldminor < 5 then
 		butt:SetNormalFontObject(GameFontNormal)
 
 		-- Textures --
-		butt:SetNormalTexture("Interface\\Buttons\\UI-Panel-Button-Up")
-		butt:SetPushedTexture("Interface\\Buttons\\UI-Panel-Button-Down")
-		butt:SetHighlightTexture("Interface\\Buttons\\UI-Panel-Button-Highlight")
-		butt:SetDisabledTexture("Interface\\Buttons\\UI-Panel-Button-Disabled")
+		butt:SetNormalTexture(130838)--("Interface\\Buttons\\UI-Panel-Button-Up")
+		butt:SetPushedTexture(130836)--("Interface\\Buttons\\UI-Panel-Button-Down")
+		butt:SetHighlightTexture(130821)--("Interface\\Buttons\\UI-Panel-Button-Highlight")
+		butt:SetDisabledTexture(130820)--("Interface\\Buttons\\UI-Panel-Button-Disabled")
 		butt:GetNormalTexture():SetTexCoord(0, 0.625, 0, 0.6875)
 		butt:GetPushedTexture():SetTexCoord(0, 0.625, 0, 0.6875)
 		butt:GetHighlightTexture():SetTexCoord(0, 0.625, 0, 0.6875)
