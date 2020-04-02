@@ -9,14 +9,14 @@ local function MakeMacro(frame)
 	local id, extra = frame.id, frame.extra
 
 	return "/run if IsShiftKeyDown() then "..
-	  "            ChatEdit_InsertLink(select(2, GetItemInfo("..id.."))) "..
-	  "          end\n"..
+		"            ChatEdit_InsertLink(select(2, GetItemInfo("..id.."))) "..
+		"          end\n"..
 		"/stopmacro [mod:shift]\n"..
 		"/run CloseTradeSkill()\n"..
 		"/cast "..NAME.."\n"..
-		"/run for i=1,GetNumTradeSkills() do "..
-		  "     local l = GetTradeSkillRecipeLink(i) "..
-		  "     if l and l:match('enchant:"..extra.."') then "..
+		"/run for i=1,C_TradeSkillUI.CraftRecipe() do "..
+			"     local l = C_TradeSkillUI.GetRecipeItemLink(i) "..
+			"     if l and l:match('enchant:"..extra.."') then "..
 			"       TradeSkillFrame_SetSelection(i) "..
 			"       if not IsAltKeyDown() then DoTradeSkill(i) end "..
 			"     end "..

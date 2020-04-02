@@ -239,30 +239,36 @@ castbar:RegisterEvent('UNIT_SPELLCAST_FAILED')
 
 
 castbar:SetScript('OnShow', function(self)
-	local name, _, title, texture, starttime, endtime = UnitCastingInfo('player')
-	endtime = endtime/1000
-	starttime = starttime/1000
-	local max = endtime - starttime
-
-	self:SetMinMaxValues(0, max)
-	self:SetValue(0)
-	spark:SetPoint("CENTER", self, "LEFT")
-	text:SetText(title)
+	if ( self.unit ) then
+		if ( self.casting ) then
+			local _, _, _, startTime = UnitCastingInfo(self.unit);
+			if ( startTime ) then
+				self.value = (GetTime() - (startTime / 1000));
+			end
+		else
+			local _, _, _, _, endTime = UnitChannelInfo(self.unit);
+			if ( endTime ) then
+				self.value = ((endTime / 1000) - GetTime());
+			end
+		end
+	end
 end)
 
 
 castbar:SetScript('OnUpdate', function(self)
-	local name, _, text, texture, starttime, endtime = UnitCastingInfo('player')
-	if not name then return self:Hide() end
-
-	endtime = endtime/1000
-	starttime = starttime/1000
-	local max = endtime - starttime
-	local duration = GetTime() - starttime
-
-	self:SetValue(duration)
-	spark:SetPoint("CENTER", self, "LEFT", (duration / max) * width, 0)
-	time:SetFormattedText("%.1f", duration)
+	if ( self.unit ) then
+		if ( self.casting ) then
+			local _, _, _, startTime = UnitCastingInfo(self.unit);
+			if ( startTime ) then
+				self.value = (GetTime() - (startTime / 1000));
+			end
+		else
+			local _, _, _, _, endTime = UnitChannelInfo(self.unit);
+			if ( endTime ) then
+				self.value = ((endTime / 1000) - GetTime());
+			end
+		end
+	end
 end)
 
 
